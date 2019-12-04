@@ -36,15 +36,16 @@
             android:layout_width="100pt"
             android:layout_height="25pt"
             android:layout_gravity="center"
-            android:onClick="onClick"
             app:srcCompat="@drawable/zaloguj" />
 
         <TextView
             android:id="@+id/errortxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:width="20dp"
             android:gravity="center"
             android:text=""
+            android:visibility="visible"
             android:textColor="#ff0000"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>

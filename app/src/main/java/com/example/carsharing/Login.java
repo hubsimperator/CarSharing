@@ -2,58 +2,43 @@ package com.example.carsharing;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.os.Bundle;
-import android.view.View;
-import android.webkit.WebView;
 import android.widget.ImageView;
 
-public class Login extends AppCompatActivity implements View.OnClickListener{
-    View view;
-    Context con;
+public class Login extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ImageView im = (ImageView) findViewById(R.id.Loginbtn);
 
-        con = getApplicationContext();
-        LayoutInflater inflater=(LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view=inflater.inflate(R.layout.activity_login,null);
-
-        ImageView Zaloguj = (ImageView) view.findViewById(R.id.Loginbtn);
-        Zaloguj.setOnClickListener(new View.OnClickListener() {
+        im.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Tag","klik");
-
+                String Logi = ((EditText) findViewById(R.id.Logintxt)).getText().toString();
+                String Haslo = ((EditText) findViewById(R.id.Passwordtxt)).getText().toString();
+                if(Logi.equals("") || Haslo.equals(""))
+                {
+                    TextView error = (TextView)findViewById(R.id.errortxt);
+                    error.setText("Login i Hasło nie mogą być puste");
+                }
+                else
+                {
+                    Log.d("Tag",Logi);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
 
             }
         });
 
-    }
 
-    @Override
-    public void onClick(View v) {
-        final TextView Login = (TextView) view.findViewById(R.id.Logintxt);
-        final TextView Haslo = (TextView) view.findViewById(R.id.Logintxt);
-        if(Login.getText().equals(null) || Haslo.getText().equals(null))
-        {
-            TextView error = (TextView)view.findViewById(R.id.errortxt);
-            error.setText("Login i Hasło nie mogą być puste");
         }
-        else
-        {
-            Intent intent = new Intent(con, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            con.startActivity(intent);
-        }
-    }
 }
