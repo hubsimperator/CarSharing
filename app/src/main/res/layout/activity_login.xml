@@ -36,7 +36,6 @@
             android:layout_width="100pt"
             android:layout_height="25pt"
             android:layout_gravity="center"
-            android:clickable="true"
             android:onClick="onClick"
             app:srcCompat="@drawable/zaloguj" />
 
