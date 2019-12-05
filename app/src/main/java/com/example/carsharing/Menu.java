@@ -16,6 +16,7 @@ public class Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
+
         ImageView mojerezerwacje_bt = (ImageView) findViewById(R.id.moje_rezerwacje_bt);
         mojerezerwacje_bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -25,6 +26,17 @@ public class Menu extends AppCompatActivity {
                     startActivity(intent);
                 }
     });
+
+        ImageView rezerwacja_bt = (ImageView) findViewById(R.id.zarezerwuj_bt);
+        rezerwacja_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Rezerwacja.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
 }}
 
 
