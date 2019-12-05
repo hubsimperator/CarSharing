@@ -17,12 +17,6 @@ public class MojeRezerwacje extends AppCompatActivity {
         back_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Intent intent = new Intent(getApplicationContext(), MojeRezerwacje.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-
-                 */
                 finish();
             }
         });

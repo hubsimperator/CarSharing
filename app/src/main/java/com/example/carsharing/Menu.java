@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,9 +22,13 @@ public class Menu extends AppCompatActivity {
         mojerezerwacje_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(Menu.this,"Brak zaplanowanych rezerwacji",Toast.LENGTH_LONG).show();
+                /*
                     Intent intent = new Intent(getApplicationContext(), MojeRezerwacje.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+
+                 */
                 }
     });
 
