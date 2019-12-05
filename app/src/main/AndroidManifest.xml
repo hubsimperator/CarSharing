@@ -18,7 +18,6 @@
         </activity>
         <activity android:name=".Menu"/>
         <activity android:name=".MojeRezerwacje"/>
-        <activity android:name=".Rezerwacja"/>
     </application>
 
 </manifest>

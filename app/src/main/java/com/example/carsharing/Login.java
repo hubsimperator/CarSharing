@@ -27,13 +27,14 @@ public class Login extends AppCompatActivity {
                 {
                     TextView error = (TextView)findViewById(R.id.errortxt);
                     error.setText("Login i Hasło nie mogą być puste");
-                }
-                else
-                {
-                    Log.d("Tag",Logi);
                     Intent intent = new Intent(getApplicationContext(), Menu.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                }
+                else
+                {
+                    LoginJson logowanie = new LoginJson();
+                    logowanie.StartUpdate(Logi,Haslo,getApplicationContext());
                 }
             }
         });
