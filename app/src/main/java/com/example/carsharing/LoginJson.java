@@ -39,7 +39,6 @@ public class LoginJson {
             JSONObject jsonObject = new JSONObject();
             jsonObject.accumulate("User",User);
             jsonObject.accumulate("Password",Pass);
-
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
