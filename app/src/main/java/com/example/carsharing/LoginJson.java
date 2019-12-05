@@ -1,6 +1,9 @@
 package com.example.carsharing;
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
@@ -14,6 +17,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import androidx.core.app.ActivityCompat;
+
 public class LoginJson {
 
     Context con = null;
