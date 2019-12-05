@@ -1,12 +1,10 @@
 package com.example.carsharing;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-
+import android.widget.TextView;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,11 +18,12 @@ public class LoginJson {
 
     Context con = null;
     String User ="",Pass="";
-
-    public void StartUpdate(String Login, String Password, Context context) {
+    TextView er=null;
+    public void StartUpdate(String Login, String Password, Context context,TextView error) {
         con = context;
         User=Login;
         Pass=Password;
+        er=error;
 
         new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/GetUsercs");
     }
@@ -66,11 +65,17 @@ public class LoginJson {
     protected void onPostExecute(String result) {
             if(result.contains("true"))
             {
+
+
+
                 Intent intent = new Intent(con, Menu.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 con.startActivity(intent);
             }
-            result.toString();
+            else
+            {
+                er.setText("Błędny Login lub Hasło");
+            }
     }
     }
 
