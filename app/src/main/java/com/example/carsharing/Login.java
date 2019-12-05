@@ -31,11 +31,10 @@ public class Login extends AppCompatActivity {
                 else
                 {
                     Log.d("Tag",Logi);
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), Menu.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
-
             }
         });
 
