@@ -70,8 +70,6 @@ public class LoginJson {
     protected void onPostExecute(String result) {
             if(result.contains("true"))
             {
-
-
                 Intent intent = new Intent(con, Menu.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 con.startActivity(intent);

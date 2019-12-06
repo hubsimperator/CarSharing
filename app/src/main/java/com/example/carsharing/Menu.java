@@ -26,12 +26,12 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(Menu.this,"Brak zaplanowanych rezerwacji",Toast.LENGTH_LONG).show();
-                /*
+
                     Intent intent = new Intent(getApplicationContext(), MojeRezerwacje.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
 
-                 */
+
                 }
     });
 

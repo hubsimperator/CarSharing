@@ -17,7 +17,7 @@
 
         <ImageView
             android:id="@+id/zarezerwuj_bt"
-            android:layout_marginTop="100sp"
+            android:layout_marginTop="50sp"
             android:layout_width="match_parent"
             android:layout_height="139dp"
             app:srcCompat="@drawable/zarezerwuj" />
@@ -25,9 +25,15 @@
         <ImageView
             android:id="@+id/moje_rezerwacje_bt"
             android:layout_width="match_parent"
-            android:layout_marginTop="100sp"
+            android:layout_marginTop="30sp"
             android:layout_height="139dp"
             app:srcCompat="@drawable/mojerezerwacje1" />
 
+        <ImageView
+            android:id="@+id/koszty_bt"
+            android:layout_width="match_parent"
+            android:layout_marginTop="30sp"
+            android:layout_height="139dp"
+            app:srcCompat="@drawable/koszty" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

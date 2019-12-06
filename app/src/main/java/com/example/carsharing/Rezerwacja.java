@@ -125,6 +125,14 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             }
         });
 
+        rezerwuj_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSON_potwierdzenie_rezerwacji json_potwierdzenie_rezerwacji=new JSON_potwierdzenie_rezerwacji();
+                json_potwierdzenie_rezerwacji.StartUpdate("a","a",Rezerwacja.this);
+            }
+        });
+
 
         ImageView back_bt = (ImageView) findViewById(R.id.back_bt);
         back_bt.setOnClickListener(new View.OnClickListener() {
