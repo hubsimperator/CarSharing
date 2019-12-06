@@ -11,6 +11,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+
         android:gravity="top"
         android:orientation="vertical">
 
@@ -19,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Login"
+            android:hint="login"
             android:layout_marginTop="50sp"
             android:inputType="textPersonName" />
 
@@ -28,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Hasło"
+            android:hint="hasło"
             android:inputType="textPassword" />
 
         <ImageView
