@@ -1,6 +1,8 @@
 package com.example.carsharing;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -60,17 +62,36 @@ public class JSON_lista_samochodow {
         return result;
     }
     private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
+        AlertDialog alertDialog;
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+
+            alertDialog=new AlertDialog.Builder(con)
+                    .setTitle("Proszę czekać ")
+                    .setMessage("Pobieranie danych ...")
+                    .setIcon(android.R.drawable.ic_input_add)
+                    .setCancelable(false)
+                    .show();
+        }
+
         @Override
         protected String doInBackground(String... urls) {
-            return POST(urls[0]);
+            String post_result=POST(urls[0]);
+            deserialize_json(post_result);
+
+            return null;
         }
 
 
     @Override
     protected void onPostExecute(String result) {
-        deserialize_json(result);
-            Log.d("RESULT",result);
-        Log.d("RESULT lis",lista_samochodow.toString());
+      //  deserialize_json(result);
+            //Log.d("RESULT",result);
+        //Log.d("RESULT lis",lista_samochodow.toString());
+        alertDialog.dismiss();
+
         Rezerwacja res=new Rezerwacja();
         res.wyswietl_liste(con,lista_samochodow);
 

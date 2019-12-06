@@ -42,6 +42,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
 
     public static TextView label_samochod_tv;
     public static TextView wybrany_samochod_tv;
+    public static TextView label_minuty_tv;
 
     public static ImageView rezerwuj_bt;
 
@@ -58,6 +59,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rezerwacja);
 
+        label_minuty_tv=(TextView) findViewById(R.id.label_przypomnienie_tv);
         label_samochod_tv=(TextView) findViewById(R.id.label_wybrany_tv);
         wybrany_samochod_tv=(TextView) findViewById(R.id.wybor_samochodu_tv);
         rezerwuj_bt=(ImageView) findViewById(R.id.rezerwuj_bt);
@@ -155,6 +157,8 @@ public void wyswietl_liste(Context con, final ArrayList<String> lista){
             label_samochod_tv.setVisibility(View.VISIBLE);
            wybrany_samochod_tv.setText(lista.get(position));
            rezerwuj_bt.setVisibility(View.VISIBLE);
+           minuty_sp.setVisibility(View.VISIBLE);
+           label_minuty_tv.setVisibility(View.VISIBLE);
 
         }
     });
