@@ -10,6 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/textView3"
@@ -23,12 +25,12 @@
             android:id="@+id/tytul_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tytuł"
+            android:hint="Tytuł"
           />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50sp"
+        android:layout_marginTop="20sp"
         android:orientation="horizontal">
 
         <TextView
@@ -118,13 +120,63 @@
                 android:text="[km]"
                 android:textSize="15dp" />
 
+
+
         </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30sp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/label_wybrany_tv"
+                android:layout_width="166dp"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:text="Wybrany samochód"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/wybor_samochodu_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="15dp" />
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0sp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/label_przypomnienie_tv"
+                android:layout_width="166dp"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:text="Ustaw przypomnienie"
+                android:textSize="15dp" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
 
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50sp"
+            android:layout_marginTop="30sp"
             android:layout_gravity="center"
             android:orientation="horizontal">
 
@@ -137,7 +189,7 @@
                 app:srcCompat="@drawable/back" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/search_bt"
                 android:layout_width="107dp"
                 android:layout_height="82dp"
                 android:layout_gravity="center"
@@ -146,6 +198,13 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/rezerwuj_bt"
+            android:layout_width="280dp"
+            android:layout_height="74dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/rezerwuj_pasek2" />
 
 
     </LinearLayout>

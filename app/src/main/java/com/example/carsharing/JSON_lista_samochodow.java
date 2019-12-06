@@ -1,37 +1,37 @@
 package com.example.carsharing;
-import android.Manifest;
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import androidx.core.app.ActivityCompat;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
-public class LoginJson {
+public class JSON_lista_samochodow {
 
     Context con = null;
-    String User ="",Pass="";
-    TextView er=null;
-    public void StartUpdate(String Login, String Password, Context context,TextView error) {
-        con = context;
-        User=Login;
-        Pass=Password;
-        er=error;
 
-        new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/GetUsercs");
+    public static ArrayList<String> lista_samochodow;
+
+    public void StartUpdate(String Login, String Password, Context context) {
+        con = context;
+     //   er=error;
+        lista_samochodow=new ArrayList<>();
+        new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppGetAutos");
     }
 
     public String POST(String url) {
@@ -43,8 +43,8 @@ public class LoginJson {
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("User",User);
-            jsonObject.accumulate("Password",Pass);
+            jsonObject.accumulate("DateFrom","2019-11-05 14:41:00");
+            jsonObject.accumulate("DateTo","2019-11-05 15:41:00");
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
@@ -68,18 +68,12 @@ public class LoginJson {
 
     @Override
     protected void onPostExecute(String result) {
-            if(result.contains("true"))
-            {
+        deserialize_json(result);
+            Log.d("RESULT",result);
+        Log.d("RESULT lis",lista_samochodow.toString());
+        Rezerwacja res=new Rezerwacja();
+        res.wyswietl_liste(con,lista_samochodow);
 
-
-                Intent intent = new Intent(con, Menu.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                con.startActivity(intent);
-            }
-            else
-            {
-                er.setText("Błędny Login lub Hasło");
-            }
     }
     }
 
@@ -90,5 +84,29 @@ public class LoginJson {
         while ((line = bufferedReader.readLine()) != null) result += line;
         inputStream.close();
         return result;
+    }
+
+    public void deserialize_json(String input)
+    {
+        JSONArray array = null;
+        String dataname;
+
+        try {
+            array = new JSONArray(input);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            for (int i = 0; i <array.length(); i++) {
+                JSONObject row = array.getJSONObject(i);
+                dataname = row.getString("Name");
+                lista_samochodow.add(dataname);
+            }
+        }
+        catch (JSONException e) {                e.printStackTrace();
+        }
+
     }
 }

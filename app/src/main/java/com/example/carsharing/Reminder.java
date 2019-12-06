@@ -5,32 +5,25 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.text.format.DateFormat;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class Reminder extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     public int year,month,day,hour,minute;
     public String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
@@ -45,7 +38,6 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
 
     public static ImageView rezerwuj_bt;
 
-    public static Spinner minuty_sp;
 
     public boolean start_date=false;
     public boolean end_date=false;
@@ -62,16 +54,6 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         wybrany_samochod_tv=(TextView) findViewById(R.id.wybor_samochodu_tv);
         rezerwuj_bt=(ImageView) findViewById(R.id.rezerwuj_bt);
 
-        minuty_sp=(Spinner) findViewById(R.id.spinner);
-
-        String[] arraySpinner = new String[] {
-                "brak","15 min", "30 min", "1h", "1,5h", "2h", "2,5h"
-        };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, arraySpinner);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        minuty_sp.setAdapter(adapter);
-
         ImageView search_bt = (ImageView) findViewById(R.id.search_bt);
         search_bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +62,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
                 //    Log.d("Data",data_poczatkowa);
                   //  Log.d("Data",data_koncowa);
                 JSON_lista_samochodow json_lista_samochodow = new JSON_lista_samochodow();
-                json_lista_samochodow.StartUpdate("a","b",Rezerwacja.this);
+                json_lista_samochodow.StartUpdate("a","b", Reminder.this);
 
 
               //  }
@@ -103,7 +85,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
                 year=c.get(Calendar.YEAR);
                 month=c.get(Calendar.MONTH);
                 day=c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(Rezerwacja.this,Rezerwacja.this,year,month,day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Reminder.this, Reminder.this,year,month,day);
                 datePickerDialog.show();
             }
         });
@@ -118,7 +100,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
                 year=c.get(Calendar.YEAR);
                 month=c.get(Calendar.MONTH);
                 day=c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(Rezerwacja.this,Rezerwacja.this,year,month,day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Reminder.this, Reminder.this,year,month,day);
                 datePickerDialog.show();
             }
         });
@@ -188,7 +170,7 @@ public void wyswietl_liste(Context con, final ArrayList<String> lista){
      hour=c.get(Calendar.HOUR_OF_DAY);
      minute=c.get(Calendar.MINUTE);
 
-     TimePickerDialog timePickerDialog = new TimePickerDialog(Rezerwacja.this,Rezerwacja.this,hour,minute,DateFormat.is24HourFormat(this));
+     TimePickerDialog timePickerDialog = new TimePickerDialog(Reminder.this, Reminder.this,hour,minute,DateFormat.is24HourFormat(this));
      timePickerDialog.show();
     }
 
