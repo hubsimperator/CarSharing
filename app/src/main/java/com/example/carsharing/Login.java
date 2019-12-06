@@ -29,11 +29,10 @@ public class Login extends AppCompatActivity {
             LoginDataHandler LDH = new LoginDataHandler(this);
             Cursor getdata = LDH.getData();
             while (getdata.moveToNext()) {
-                ((EditText) findViewById(R.id.Logintxt)).setText(getdata.getString(1));
-                ((EditText) findViewById(R.id.Passwordtxt)).setText(getdata.getString(2));
-
                 if(getdata.getString(3).matches("true"))
                 {
+                    ((EditText) findViewById(R.id.Logintxt)).setText(getdata.getString(1));
+                    ((EditText) findViewById(R.id.Passwordtxt)).setText(getdata.getString(2));
                     ((CheckBox) findViewById(R.id.zapamietajchbox)).setChecked(true);
                 }
             }
@@ -61,9 +60,7 @@ public class Login extends AppCompatActivity {
 
                         LoginDataHandler LDH = new LoginDataHandler(getApplicationContext());
                         LDH.dropdatabase();
-                    if(((CheckBox) findViewById(R.id.zapamietajchbox)).isChecked()) {
-                        LDH.inputDataTime(true, Logi, Haslo);
-                    }
+                        LDH.inputDataTime(((CheckBox) findViewById(R.id.zapamietajchbox)).isChecked(), Logi, Haslo);
                         LDH.close();
 
                     LoginJson logowanie = new LoginJson();
