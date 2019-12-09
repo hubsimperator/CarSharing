@@ -17,6 +17,7 @@ public class MojeRezerwacjeDataHandler extends SQLiteOpenHelper {
 
     public MojeRezerwacjeDataHandler(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        getReadableDatabase();
     }
 
     @Override
@@ -33,31 +34,23 @@ public class MojeRezerwacjeDataHandler extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
         return res;
     }
+
+
+
     public void dropdatabase(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("drop table if exists "+TABLE_NAME);
         onCreate(db);
     }
-    /*
-    public boolean inputDataTime(Boolean Renember, String Login, String Password) {
+
+    public void inputData(String subject, String start_data,String car) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SUBJECT,Login);
-        contentValues.put(START_DATA,Password);
-        if(Renember){
-        contentValues.put(REN,"true");
-        }
-        else{
-            contentValues.put(REN,"False");
-        }
+        contentValues.put(SUBJECT,subject);
+        contentValues.put(START_DATA,start_data);
+        contentValues.put(CAR,car);
         long result = db.insert(TABLE_NAME,null,contentValues);
-        if(result == -1){
-            return false;
-        }
-        else{
-            return true;
-        }
     }
 
-     */
+
 }

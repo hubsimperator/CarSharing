@@ -21,6 +21,8 @@
         <activity android:name=".Menu"/>
         <activity android:name=".MojeRezerwacje"/>
         <activity android:name=".Rezerwacja"/>
+        <activity android:name=".ListaRezerwacji"/>
+
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
     </application>
 
