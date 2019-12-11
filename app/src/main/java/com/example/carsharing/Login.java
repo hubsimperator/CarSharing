@@ -1,11 +1,9 @@
 package com.example.carsharing;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.util.Log;
@@ -15,10 +13,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.widget.ImageView;
-
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+
 
 public class Login extends AppCompatActivity {
 
@@ -57,31 +57,38 @@ public class Login extends AppCompatActivity {
         im.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Logi = ((EditText) findViewById(R.id.Logintxt)).getText().toString();
-                String Haslo = ((EditText) findViewById(R.id.Passwordtxt)).getText().toString();
+                final String Logi = ((EditText) findViewById(R.id.Logintxt)).getText().toString();
+                final String Haslo = ((EditText) findViewById(R.id.Passwordtxt)).getText().toString();
                 if(Logi.equals("") || Haslo.equals(""))
                 {
-
                     error.setText("Login i Hasło nie mogą być puste");
-                    Intent intent = new Intent(getApplicationContext(), Menu.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
                 }
                 else
                 {
-
                         LoginDataHandler LDH = new LoginDataHandler(getApplicationContext());
                         LDH.dropdatabase();
                         LDH.inputDataTime(((CheckBox) findViewById(R.id.zapamietajchbox)).isChecked(), Logi, Haslo);
                         LDH.close();
 
-                    LoginJson logowanie = new LoginJson();
-                    logowanie.StartUpdate(Logi,Haslo,getApplicationContext(),error);
+                    FirebaseInstanceId.getInstance().getInstanceId()
+                            .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                    if(task.isSuccessful()){
+                                        String token = task.getResult().getToken();
+                                        error.setText(token);
+                                        JSON_Login logowanie = new JSON_Login();
+                                        logowanie.StartUpdate(Logi,Haslo,getApplicationContext(),error,token);
+                                    }else
+                                    {
+                                        JSON_Login logowanie = new JSON_Login();
+                                        logowanie.StartUpdate(Logi,Haslo,getApplicationContext(),error,null);
+                                    }
+                                }
+                            });
                 }
             }
         });
-
-
         }
 
 
@@ -103,13 +110,15 @@ public class Login extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             return false;
         }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.VIBRATE) != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }
         return true;
     }
 
-
-
     private void setPermissions() {
         ActivityCompat.requestPermissions((Activity) this, new String[]{
-                Manifest.permission.INTERNET , Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE  }, 1);
+                Manifest.permission.INTERNET , Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.VIBRATE  }, 1);
     }
 }

@@ -1,37 +1,34 @@
 package com.example.carsharing;
-import android.Manifest;
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
 
-import androidx.core.app.ActivityCompat;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
-public class LoginJson {
+public class JSON_SendToken {
+
 
     Context con = null;
-    String User ="",Pass="";
+    String User ="",Token="";
     TextView er=null;
-    public void StartUpdate(String Login, String Password, Context context,TextView error) {
+    public void StartUpdate(String Login, String Password, Context context) {
         con = context;
         User=Login;
-        Pass=Password;
-        er=error;
-
-        new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/GetUsercs");
+        Token=Password;
+        new JSON_SendToken.HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppSendToken");
     }
 
     public String POST(String url) {
@@ -43,8 +40,9 @@ public class LoginJson {
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("User",User);
-            jsonObject.accumulate("Password",Pass);
+            jsonObject.accumulate("Username",User);
+            jsonObject.accumulate("Token",Token);
+            jsonObject.accumulate("Typ",0);
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
@@ -65,20 +63,12 @@ public class LoginJson {
             return POST(urls[0]);
         }
 
-
-    @Override
-    protected void onPostExecute(String result) {
-            if(result.contains("true"))
-            {
+        @Override
+        protected void onPostExecute(String result) {
                 Intent intent = new Intent(con, Menu.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 con.startActivity(intent);
-            }
-            else
-            {
-                er.setText("Błędny Login lub Hasło");
-            }
-    }
+        }
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
