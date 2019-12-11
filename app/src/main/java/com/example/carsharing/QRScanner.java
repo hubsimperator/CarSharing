@@ -2,10 +2,17 @@ package com.example.carsharing;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.google.zxing.Result;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -15,6 +22,24 @@ public class QRScanner extends AppCompatActivity implements ZXingScannerView.Res
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.CAMERA)
+                .withListener(new PermissionListener(){
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                    }
+                })
+                .check();
         ScannerView = new ZXingScannerView(this);
         setContentView(ScannerView);
     }
