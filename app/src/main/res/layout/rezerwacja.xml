@@ -183,16 +183,16 @@
 
             <ImageView
                 android:id="@+id/back_bt"
-                android:layout_width="107dp"
-                android:layout_height="82dp"
+                android:layout_width="73dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="0sp"
                 app:srcCompat="@drawable/back" />
 
             <ImageView
                 android:id="@+id/search_bt"
-                android:layout_width="107dp"
-                android:layout_height="82dp"
+                android:layout_width="73dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="0sp"
                 app:srcCompat="@drawable/search" />

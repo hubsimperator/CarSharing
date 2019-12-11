@@ -122,7 +122,7 @@ public class JSON_lista_samochodow {
         try {
             for (int i = 0; i <array.length(); i++) {
                 JSONObject row = array.getJSONObject(i);
-                dataname = row.getString("Name");
+                dataname = row.getString("ResourceName");
                 lista_samochodow.add(dataname);
             }
         }

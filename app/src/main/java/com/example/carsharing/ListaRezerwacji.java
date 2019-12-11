@@ -20,10 +20,7 @@ import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
 public class ListaRezerwacji extends AppCompatActivity {
 
-    private static final String[][] SPACESHIPS = { { "Casini", "Chemical", "NASA" },
-            { "Spitzer", "Nuclear", "NASA" } };
-
-public static String[] headers={"Temat","Start","Samochód"};
+public static String[] headers={"Temat","Data","Samochód"};
     public static String[][] dane = new String[3][3];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +55,10 @@ public static String[] headers={"Temat","Start","Samochód"};
             Cursor getdata = RezerwacjeDH.getData();
             Log.d("Dane z tabeli","Proba pobrania");
             while (getdata.moveToNext()) {
-                Log.d("Dane z tabeli",getdata.getString(1)+" "+getdata.getString(2)+" "+getdata.getString(3));
+                Log.d("Dane z tabeli",getdata.getString(1)+"\n"+getdata.getString(2)+" "+getdata.getString(3));
                 dane[table_length][0]=getdata.getString(1);
-                dane[table_length][1]=getdata.getString(2);
+                dane[table_length][1]=getdata.getString(2)+" "+getdata.getString(2);
                 dane[table_length][2]=getdata.getString(3);
-
-
 
             table_length++;
             }
