@@ -53,7 +53,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0 , intent, PendingIntent.FLAG_ONE_SHOT);
 
-        Uri nottificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Uri nottificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Context context = this;
         if(Build.VERSION.SDK_INT< Build.VERSION_CODES.O) {
             NotificationCompat.Builder notifiBuilder = new NotificationCompat.Builder(context, FirebaseMessagingService.class.getSimpleName())//NotificationCompat.Builder(this)
