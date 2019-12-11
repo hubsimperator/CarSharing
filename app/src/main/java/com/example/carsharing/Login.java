@@ -76,7 +76,6 @@ public class Login extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<InstanceIdResult> task) {
                                     if(task.isSuccessful()){
                                         String token = task.getResult().getToken();
-                                        error.setText(token);
                                         JSON_Login logowanie = new JSON_Login();
                                         logowanie.StartUpdate(Logi,Haslo,getApplicationContext(),error,token);
                                     }else
