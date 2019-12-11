@@ -26,6 +26,7 @@ public class Menu extends AppCompatActivity {
         koszty_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 try {
 
                     Intent intent = new Intent("com.google.zxing.client.android.SCAN");
@@ -40,6 +41,10 @@ public class Menu extends AppCompatActivity {
                     startActivity(marketIntent);
 
                 }
+
+                 */
+
+                startActivity(new Intent(getApplicationContext(),QRScanner.class));
             }
         });
 
