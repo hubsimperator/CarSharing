@@ -52,9 +52,11 @@ public class Menu extends AppCompatActivity {
         mojerezerwacje_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), ListaRezerwacji.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                   // Intent intent = new Intent(getApplicationContext(), ListaRezerwacji.class);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //startActivity(intent);
+                JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+                json_moje_rezerwacje.StartUpdate("","",Menu.this);
                 }
     });
 

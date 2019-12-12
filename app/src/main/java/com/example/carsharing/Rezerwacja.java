@@ -36,6 +36,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
     public static EditText poczatek_et;
     public static EditText koniec_et;
+    public static EditText projekt_et;
 
     public static String data_poczatkowa;
     public static String data_koncowa;
@@ -63,6 +64,8 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         label_samochod_tv=(TextView) findViewById(R.id.label_wybrany_tv);
         wybrany_samochod_tv=(TextView) findViewById(R.id.wybor_samochodu_tv);
         rezerwuj_bt=(ImageView) findViewById(R.id.rezerwuj_bt);
+        projekt_et=(EditText) findViewById(R.id.projekt_et);
+
 
         minuty_sp=(Spinner) findViewById(R.id.spinner);
 
@@ -91,6 +94,17 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
              //   }
             }
         });
+
+        projekt_et.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSON_lista_projektow json_lista_projektow=new JSON_lista_projektow();
+                json_lista_projektow.StartUpdate("","",Rezerwacja.this);
+
+
+            }
+        });
+
 
         poczatek_et=(EditText) findViewById(R.id.poczatek_et);
         poczatek_et.setOnClickListener(new View.OnClickListener() {
@@ -220,11 +234,13 @@ public void wyswietl_liste(Context con, final ArrayList<String> lista){
         String data=(dayFinal)+"-"+(monthFinal)+"-"+(yearFinal);
         String godzina=(hourFinal)+":"+(minute);
        if(start_date) {
-           poczatek_et.setText(data + "  " + godzina);
            data_poczatkowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minute)+":00";
+           poczatek_et.setText(data_poczatkowa);
+
        }else{
-           koniec_et.setText(data + "  " + godzina);
+
            data_koncowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minute)+":00";
+           koniec_et.setText(data_koncowa);
        }
 
 

@@ -1,12 +1,14 @@
 package com.example.carsharing;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -22,10 +24,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
-public class JSON_lista_samochodow {
 
-    Context con = null;
+public class JSON_moje_rezerwacje extends AppCompatActivity {
+
+    Obiekt_Rezerwacja rezerwacja;
+    ArrayList<HashMap<String, String>> lista_rezerwacji;
+    HashMap<String, String> lista_pola_rezerwacji;
+
+    Context con ;
 
     public static ArrayList<String> lista_samochodow;
 
@@ -33,18 +42,18 @@ public class JSON_lista_samochodow {
         con = context;
      //   er=error;
         lista_samochodow=new ArrayList<>();
-        new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppGetAutos");
+        new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppGetMyBookings");
     }
 
     public String POST(String url) {
         InputStream inputStream = null;
         String result = "";
         try {
-
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
+            jsonObject.accumulate("UserName","Admin");
             jsonObject.accumulate("DateFrom","2019-11-05 14:41:00");
             jsonObject.accumulate("DateTo","2019-11-05 15:41:00");
             json = jsonObject.toString();
@@ -75,10 +84,10 @@ public class JSON_lista_samochodow {
                     .setCancelable(false)
                     .show();
         }
-
+        String post_result;
         @Override
         protected String doInBackground(String... urls) {
-            String post_result=POST(urls[0]);
+            post_result=POST(urls[0]);
             deserialize_json(post_result);
 
             return null;
@@ -87,14 +96,16 @@ public class JSON_lista_samochodow {
 
     @Override
     protected void onPostExecute(String result) {
-      //  deserialize_json(result);
-            //Log.d("RESULT",result);
-        //Log.d("RESULT lis",lista_samochodow.toString());
+        if(post_result.equals("[]")){
+                Toast.makeText(con,"Brak rezerwacji",Toast.LENGTH_LONG).show();
+            }
         alertDialog.dismiss();
 
-        Rezerwacja res=new Rezerwacja();
-        res.wyswietl_liste(con,lista_samochodow);
-
+        ListaRezerwacji listaRezerwacji;
+//        listaRezerwacji=new ListaRezerwacji(lista_rezerwacji);
+        Intent intent= new Intent(con,ListaRezerwacji.class);
+        intent.putExtra("lista_rezerwacji",lista_rezerwacji);
+        con.startActivity(intent);
     }
     }
 
@@ -107,8 +118,12 @@ public class JSON_lista_samochodow {
         return result;
     }
 
+
     public void deserialize_json(String input)
     {
+        Log.d("output",input);
+
+
         JSONArray array = null;
         String dataname;
 
@@ -120,14 +135,48 @@ public class JSON_lista_samochodow {
         }
 
         try {
+            rezerwacja=new Obiekt_Rezerwacja();
+            lista_rezerwacji=new ArrayList<>();
+
+
             for (int i = 0; i <array.length(); i++) {
+
+                lista_pola_rezerwacji=new HashMap<>();
+
+
                 JSONObject row = array.getJSONObject(i);
-                dataname = row.getString("ResourceName");
-                lista_samochodow.add(dataname);
+                rezerwacja.setBookingId(row.getString("BookingId"));
+                rezerwacja.setStartDate(row.getString("StartDate"));
+                rezerwacja.setEndDate(row.getString("EndDate"));
+                rezerwacja.setAllDay(row.getString("AllDay"));
+                rezerwacja.setSubject(row.getString("Subject"));
+                rezerwacja.setEit_Resource(row.getString("Eit_Resource"));
+                rezerwacja.setEit_ResourceName(row.getString("Eit_ResourceName"));
+                rezerwacja.setEit_Uzytkownik(row.getString("Eit_Uzytkownik"));
+                rezerwacja.setReminderId(row.getString("ReminderId"));
+                rezerwacja.setLocation(row.getString("Location"));
+                rezerwacja.setDescription(row.getString("Description"));
+                rezerwacja.setStatus(row.getString("Status"));
 
 
+                lista_pola_rezerwacji.put("BookingId",rezerwacja.getBookingId());
+                lista_pola_rezerwacji.put("StartDate",rezerwacja.getStartDate());
+                lista_pola_rezerwacji.put("EndDate",rezerwacja.getEndDate());
+                lista_pola_rezerwacji.put("AllDay",rezerwacja.getAllDay());
+                lista_pola_rezerwacji.put("Subject",rezerwacja.getSubject());
+                lista_pola_rezerwacji.put("Eit_Resource",rezerwacja.getEit_Resource());
+                lista_pola_rezerwacji.put("Eit_ResourceName",rezerwacja.getEit_ResourceName());
+                lista_pola_rezerwacji.put("Eit_Uzytkownik",rezerwacja.getEit_Uzytkownik());
+                lista_pola_rezerwacji.put("ReminderId",rezerwacja.getReminderId());
+                lista_pola_rezerwacji.put("Location",rezerwacja.getLocation());
+                lista_pola_rezerwacji.put("Description",rezerwacja.getDescription());
+                lista_pola_rezerwacji.put("Status",rezerwacja.getStatus());
+
+                lista_rezerwacji.add(lista_pola_rezerwacji);
+
+                Log.d("rezerwacja",     rezerwacja.getStartDate());
             }
-
+            Log.d("rezerwacja",lista_rezerwacji.toString());
         }
         catch (JSONException e) {                e.printStackTrace();
         }

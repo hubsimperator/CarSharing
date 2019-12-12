@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.listeners.TableDataClickListener;
@@ -18,14 +19,40 @@ import de.codecrafters.tableview.model.TableColumnWeightModel;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
+
 public class ListaRezerwacji extends AppCompatActivity {
+    ArrayList<HashMap<String, String>> lista_rezerwacji;
+
+    /*
+    ListaRezerwacji (ArrayList<HashMap<String, String>> _lista_rezerwacji) {
+        lista_rezerwacji = new ArrayList<>();
+        lista_rezerwacji = _lista_rezerwacji;
+    }
+
+
+     */
 
 public static String[] headers={"Temat","Data","Samochód"};
-    public static String[][] dane = new String[3][3];
+    public static String[][] dane;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.lista_rezerwacji);
+    protected void onCreate(Bundle savedInstanceState){
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.lista_rezerwacji);
+            lista_rezerwacji = new ArrayList<>();
+
+        Intent intent = getIntent();
+
+     lista_rezerwacji= ( ArrayList<HashMap<String, String>>) intent.getSerializableExtra("lista_rezerwacji");
+
+     dane=new String[lista_rezerwacji.size()][3];
+     for(int i=0;i<lista_rezerwacji.size();i++){
+         dane[i][0]=lista_rezerwacji.get(i).get("Subject");
+         dane[i][1]=lista_rezerwacji.get(i).get("StartDate");
+         dane[i][2]=lista_rezerwacji.get(i).get("Eit_Resource");
+     }
+
 /*
         TableView tableView = (TableView) findViewById(R.id.lista_rezerwacji_tabela);
         tableView.setColumnCount(4);
@@ -37,18 +64,18 @@ public static String[] headers={"Temat","Data","Samochód"};
 
 
  */
-        ArrayList<String> lista_rezerwacji=new ArrayList<>();
 
+/*
         try {
             MojeRezerwacjeDataHandler RezerwacjeDH = new MojeRezerwacjeDataHandler(ListaRezerwacji.this);
             Log.d("BAZA","UDALO SIE");
-/*
+
             RezerwacjeDH.inputData("Test 1","2019-12-06 12:00:00","Moja tojota");
             RezerwacjeDH.inputData("Test 2","2019-12-07 12:00:00","Daniela mazda");
             RezerwacjeDH.inputData("Test 3","2019-12-08 12:00:00","Jacka rower");
 
 
- */
+
 
 
             Integer table_length=0;
@@ -71,6 +98,7 @@ public static String[] headers={"Temat","Data","Samochód"};
             e.printStackTrace();
         }
 
+ */
 
 
         TableView<String[]> tableView2 = (TableView<String[]>) findViewById(R.id.lista_rezerwacji_tabela);
