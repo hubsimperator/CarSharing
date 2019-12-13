@@ -7,9 +7,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".QRScanner"></activity>
+        <activity android:name=".ZmianaCzasu"></activity>
+        <activity android:name=".QRScanner" />
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,10 +29,9 @@
         </activity>
         <activity android:name=".Menu" />
         <activity android:name=".MojeRezerwacje" />
-        <activity android:name=".Rezerwacja"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            />
-
+        <activity
+            android:name=".Rezerwacja"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity android:name=".ListaRezerwacji" />
 
         <uses-library

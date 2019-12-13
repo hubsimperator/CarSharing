@@ -54,7 +54,17 @@ public class MojeRezerwacje extends AppCompatActivity {
             }
         });
 
-
+        ImageView potwierdz = (ImageView) findViewById(R.id.moje_rezerwacje_bt);
+        potwierdz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(),ZmianaCzasu.class);
+               // intent.putExtra();
+               // intent.putExtra();
+               // intent.putExtra();
+            startActivity(intent);
+            }
+        });
 
     }
 }
