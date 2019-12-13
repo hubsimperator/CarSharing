@@ -79,6 +79,8 @@ public class JSON_potwierdzenie_rezerwacji {
             jsonObject.accumulate("Description",Description);
             jsonObject.accumulate("Status",Status);
             jsonObject.accumulate("UserName",UserName);
+            jsonObject.accumulate("GrupaProjektu","PZ");
+            jsonObject.accumulate("NrProjektu","K0000001");
 
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);

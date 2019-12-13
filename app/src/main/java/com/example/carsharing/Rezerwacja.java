@@ -32,16 +32,16 @@ import java.util.Calendar;
 
 public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    public int year,month,day,hour,minute;
-    public String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
+     int year,month,day,hour,minute;
+     String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
     public static EditText poczatek_et;
     public static EditText koniec_et;
     public static EditText projekt_et;
     public static EditText subject_et;
 
-    public static String data_poczatkowa;
-    public static String data_koncowa;
-    public static String eit_Resource;
+     String data_poczatkowa;
+     String data_koncowa;
+     String eit_Resource;
 
     public static TextView label_samochod_tv;
     public static TextView wybrany_samochod_tv;
@@ -51,8 +51,8 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
 
     public static Spinner minuty_sp;
 
-    public boolean start_date=false;
-    public boolean end_date=false;
+    boolean start_date=false;
+     boolean end_date=false;
 
     View view;
     AlertDialog alertDialog;
@@ -181,6 +181,10 @@ public void wyswietl_liste(Context con, final ArrayList<String> lista, final Arr
     alertDialog =dialogBuilder.create();
     alertDialog.show();
 
+}
+
+public void wyswietl_projekt(Context con,String _proj){
+        projekt_et.setText(_proj);
 }
 
     @Override

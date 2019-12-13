@@ -57,7 +57,7 @@ public class Obiekt_Rezerwacja {
 		return Eit_Resource;
 	}
 
-	public void setEit_ResourceName(String AllDay) {
+	public void setEit_ResourceName(String Eit_ResourceName) {
 		this.Eit_ResourceName = Eit_ResourceName;
 	}
 	public String getEit_ResourceName() {

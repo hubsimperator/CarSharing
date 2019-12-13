@@ -111,6 +111,7 @@ public class JSON_lista_projektow {
             return null;
         }
 
+        String nazwa_projektu;
 
         private People selectedPerson;
         List<People> mList;
@@ -124,6 +125,8 @@ public class JSON_lista_projektow {
                 .setNeutralButton("Wybierz", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Rezerwacja rez=new Rezerwacja();
+                        rez.wyswietl_projekt(con,nazwa_projektu.toString());
                         alertDialog.dismiss();
 
                     }
@@ -155,6 +158,7 @@ public class JSON_lista_projektow {
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                 //this is the way to find selected object/item
                 selectedPerson = (People) adapterView.getItemAtPosition(pos);
+              //  nazwa_projektu=(String) adapterView.getItemAtPosition(pos);
             }
         });
 

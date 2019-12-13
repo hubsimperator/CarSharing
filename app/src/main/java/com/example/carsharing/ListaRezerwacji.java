@@ -13,11 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.codecrafters.tableview.TableDataAdapter;
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.listeners.TableDataClickListener;
 import de.codecrafters.tableview.model.TableColumnDpWidthModel;
 import de.codecrafters.tableview.model.TableColumnWeightModel;
-import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import de.codecrafters.tableview.toolkit.TableDataRowBackgroundProviders;
 
@@ -51,8 +51,8 @@ public static String[] headers={"Temat","Data","Samochód"};
      dane=new String[lista_rezerwacji.size()][3];
      for(int i=0;i<lista_rezerwacji.size();i++){
          dane[i][0]=lista_rezerwacji.get(i).get("Subject");
-         dane[i][1]=lista_rezerwacji.get(i).get("StartDate");
-         dane[i][2]=lista_rezerwacji.get(i).get("Eit_Resource");
+         dane[i][1]=lista_rezerwacji.get(i).get("StartDate")+"  "+lista_rezerwacji.get(i).get("EndDate");
+         dane[i][2]=lista_rezerwacji.get(i).get("Eit_ResourceName");
      }
 
 /*
@@ -106,7 +106,7 @@ public static String[] headers={"Temat","Data","Samochód"};
         TableView<String[]> tableView2 = (TableView<String[]>) findViewById(R.id.lista_rezerwacji_tabela);
         tableView2.setHeaderAdapter(new SimpleTableHeaderAdapter(this,headers));
         SimpleTableDataAdapter adapter=new SimpleTableDataAdapter(this,dane);
-        adapter.setTextSize(14);
+        //Simpl adapter=new SimpleTableDataAdapter(this,dane);
         tableView2.setDataAdapter(adapter);
 
 
