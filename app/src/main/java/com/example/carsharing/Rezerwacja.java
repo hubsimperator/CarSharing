@@ -37,9 +37,11 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public static EditText poczatek_et;
     public static EditText koniec_et;
     public static EditText projekt_et;
+    public static EditText subject_et;
 
     public static String data_poczatkowa;
     public static String data_koncowa;
+    public static String eit_Resource;
 
     public static TextView label_samochod_tv;
     public static TextView wybrany_samochod_tv;
@@ -65,6 +67,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         wybrany_samochod_tv=(TextView) findViewById(R.id.wybor_samochodu_tv);
         rezerwuj_bt=(ImageView) findViewById(R.id.rezerwuj_bt);
         projekt_et=(EditText) findViewById(R.id.projekt_et);
+        subject_et=(EditText) findViewById(R.id.tytul_et);
 
 
         minuty_sp=(Spinner) findViewById(R.id.spinner);
@@ -81,17 +84,8 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         search_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //    try{
-                //    Log.d("Data",data_poczatkowa);
-                  //  Log.d("Data",data_koncowa);
                 JSON_lista_samochodow json_lista_samochodow = new JSON_lista_samochodow();
-                json_lista_samochodow.StartUpdate("a","b",Rezerwacja.this);
-
-
-              //  }
-             //   catch (NullPointerException ne){
-             //       Toast.makeText(Rezerwacja.this,"Wprowadź wszystkie dane !",Toast.LENGTH_SHORT).show();
-             //   }
+                json_lista_samochodow.StartUpdate(data_poczatkowa,data_koncowa,Rezerwacja.this);
             }
         });
 
@@ -100,8 +94,6 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             public void onClick(View v) {
                 JSON_lista_projektow json_lista_projektow=new JSON_lista_projektow();
                 json_lista_projektow.StartUpdate("","",Rezerwacja.this);
-
-
             }
         });
 
@@ -143,7 +135,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             @Override
             public void onClick(View v) {
                 JSON_potwierdzenie_rezerwacji json_potwierdzenie_rezerwacji=new JSON_potwierdzenie_rezerwacji();
-                json_potwierdzenie_rezerwacji.StartUpdate("a","a",Rezerwacja.this);
+                json_potwierdzenie_rezerwacji.StartUpdate(data_poczatkowa,data_koncowa,"0",subject_et.getText().toString(),eit_Resource,"","4","","","","",Rezerwacja.this);
             }
         });
 
@@ -156,7 +148,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             }
         });
 }
-public void wyswietl_liste(Context con, final ArrayList<String> lista){
+public void wyswietl_liste(Context con, final ArrayList<String> lista, final ArrayList<String> lista_id){
 
     final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con).setPositiveButton("Zamknij", new DialogInterface.OnClickListener() {
         @Override
@@ -176,6 +168,7 @@ public void wyswietl_liste(Context con, final ArrayList<String> lista){
     ch1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            eit_Resource=lista_id.get(position);
             label_samochod_tv.setVisibility(View.VISIBLE);
            wybrany_samochod_tv.setText(lista.get(position));
            rezerwuj_bt.setVisibility(View.VISIBLE);
@@ -192,6 +185,7 @@ public void wyswietl_liste(Context con, final ArrayList<String> lista){
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        month=month+1;
         if(year<10){
             yearFinal="0"+Integer.toString(year);
         }else{
@@ -232,14 +226,14 @@ public void wyswietl_liste(Context con, final ArrayList<String> lista){
         }
 
         String data=(dayFinal)+"-"+(monthFinal)+"-"+(yearFinal);
-        String godzina=(hourFinal)+":"+(minute);
+        String godzina=(hourFinal)+":"+(minuteFinal);
        if(start_date) {
-           data_poczatkowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minute)+":00";
+           data_poczatkowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minuteFinal)+":00";
            poczatek_et.setText(data_poczatkowa);
 
        }else{
 
-           data_koncowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minute)+":00";
+           data_koncowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minuteFinal)+":00";
            koniec_et.setText(data_koncowa);
        }
 

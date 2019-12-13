@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
@@ -47,6 +48,7 @@ public class QRScanner extends AppCompatActivity implements ZXingScannerView.Res
     @Override
     public void handleResult(Result result) {
         Log.d("QRCODe",result.toString());
+        Toast.makeText(QRScanner.this,result.toString(),Toast.LENGTH_LONG).show();
         onBackPressed();
     }
 

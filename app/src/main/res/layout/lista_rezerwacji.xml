@@ -19,13 +19,14 @@
             android_layout_width="match_parent"
             table_tableView_columnCount="3"
             android:layout_width="wrap_content"
-            android:layout_height="419dp"
+            android:layout_height="wrap_content"
             app:tableView_columnCount="3" />
 
         <ImageView
             android:id="@+id/back_bt"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/back" />
 
 

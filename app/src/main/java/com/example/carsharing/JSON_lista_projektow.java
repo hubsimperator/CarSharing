@@ -140,7 +140,6 @@ public class JSON_lista_projektow {
 
 
 
-
         View view = inflater.inflate(R.layout.projekty,null);
         Spinner projekt_sp=(Spinner) view.findViewById(R.id.spinner2);
 

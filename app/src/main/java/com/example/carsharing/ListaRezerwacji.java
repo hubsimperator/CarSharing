@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TableRow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +19,7 @@ import de.codecrafters.tableview.model.TableColumnDpWidthModel;
 import de.codecrafters.tableview.model.TableColumnWeightModel;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
+import de.codecrafters.tableview.toolkit.TableDataRowBackgroundProviders;
 
 
 public class ListaRezerwacji extends AppCompatActivity {
@@ -106,6 +108,8 @@ public static String[] headers={"Temat","Data","Samochód"};
         SimpleTableDataAdapter adapter=new SimpleTableDataAdapter(this,dane);
         adapter.setTextSize(14);
         tableView2.setDataAdapter(adapter);
+
+
         TableColumnWeightModel columnModel = new TableColumnWeightModel(3);
         columnModel.setColumnWeight(0, 2);
         columnModel.setColumnWeight(1, 4);

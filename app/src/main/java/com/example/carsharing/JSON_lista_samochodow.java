@@ -28,11 +28,16 @@ public class JSON_lista_samochodow {
     Context con = null;
 
     public static ArrayList<String> lista_samochodow;
+    public static ArrayList<String> lista_samochodow_id;
 
-    public void StartUpdate(String Login, String Password, Context context) {
+    String StartDate,EndDate;
+
+    public void StartUpdate(String _StartDate, String _EndDate, Context context) {
         con = context;
-     //   er=error;
+        StartDate=_StartDate;
+        EndDate=_EndDate;
         lista_samochodow=new ArrayList<>();
+        lista_samochodow_id=new ArrayList<>();
         new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppGetAutos");
     }
 
@@ -40,13 +45,12 @@ public class JSON_lista_samochodow {
         InputStream inputStream = null;
         String result = "";
         try {
-
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("DateFrom","2019-11-05 14:41:00");
-            jsonObject.accumulate("DateTo","2019-11-05 15:41:00");
+            jsonObject.accumulate("DateFrom",StartDate);
+            jsonObject.accumulate("DateTo",EndDate);
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
@@ -80,20 +84,14 @@ public class JSON_lista_samochodow {
         protected String doInBackground(String... urls) {
             String post_result=POST(urls[0]);
             deserialize_json(post_result);
-
             return null;
         }
 
-
     @Override
     protected void onPostExecute(String result) {
-      //  deserialize_json(result);
-            //Log.d("RESULT",result);
-        //Log.d("RESULT lis",lista_samochodow.toString());
         alertDialog.dismiss();
-
         Rezerwacja res=new Rezerwacja();
-        res.wyswietl_liste(con,lista_samochodow);
+        res.wyswietl_liste(con,lista_samochodow,lista_samochodow_id);
 
     }
     }
@@ -124,10 +122,8 @@ public class JSON_lista_samochodow {
                 JSONObject row = array.getJSONObject(i);
                 dataname = row.getString("ResourceName");
                 lista_samochodow.add(dataname);
-
-
+                lista_samochodow_id.add(row.getString("ResourceId"));
             }
-
         }
         catch (JSONException e) {                e.printStackTrace();
         }

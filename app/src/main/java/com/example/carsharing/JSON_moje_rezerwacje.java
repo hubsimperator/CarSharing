@@ -54,8 +54,6 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
             String json = "";
             JSONObject jsonObject = new JSONObject();
             jsonObject.accumulate("UserName","Admin");
-            jsonObject.accumulate("DateFrom","2019-11-05 14:41:00");
-            jsonObject.accumulate("DateTo","2019-11-05 15:41:00");
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
@@ -84,12 +82,16 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
                     .setCancelable(false)
                     .show();
         }
+
+
+
         String post_result;
+
+
         @Override
         protected String doInBackground(String... urls) {
             post_result=POST(urls[0]);
             deserialize_json(post_result);
-
             return null;
         }
 

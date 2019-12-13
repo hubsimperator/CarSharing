@@ -2,8 +2,11 @@ package com.example.carsharing;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -25,11 +28,35 @@ public class JSON_potwierdzenie_rezerwacji {
     Context con = null;
 
     public static ArrayList<String> lista_samochodow;
+    String StartDate,EndDate,AllDay,Subject,Eit_Resource,Eit_Użytkownik,ReminderID,Location,Description,Status,UserName;
 
-    public void StartUpdate(String Login, String Password, Context context) {
+    public void StartUpdate(String _StartDate, String _EndDate,String _AllDay,String _Subject, String _Eit_Resource,String _Eit_Użytkownik,String _ReminderID,String _Location, String _Description,String _Status,String _UserName, Context context) {
         con = context;
-     //   er=error;
         lista_samochodow=new ArrayList<>();
+        StartDate=_StartDate;
+        EndDate=_EndDate;
+        AllDay=_AllDay;
+        Subject=_Subject;
+        Eit_Resource=_Eit_Resource;
+        Eit_Użytkownik=_Eit_Użytkownik;
+        ReminderID=_ReminderID;
+        Location=_Location;
+        Description=_Description;
+        Status=_Status;
+        UserName=_UserName;
+
+        try {
+            LoginDataHandler LDH = new LoginDataHandler(con);
+            Cursor getdata = LDH.getData();
+            while (getdata.moveToNext()) {
+                UserName=(getdata.getString(1));
+            }
+            LDH.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
         new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppSendBooking");
     }
 
@@ -37,22 +64,21 @@ public class JSON_potwierdzenie_rezerwacji {
         InputStream inputStream = null;
         String result = "";
         try {
-
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("StartDate","2019-11-07 14:41:00");
-            jsonObject.accumulate("EndDate","2019-11-07 15:41:00");
-            jsonObject.accumulate("AllDay","1");
-            jsonObject.accumulate("Subject","test");
-            jsonObject.accumulate("Eit_Resource","4190");
-            jsonObject.accumulate("Eit_Użytkownik","");
-            jsonObject.accumulate("ReminderID","2");
-            jsonObject.accumulate("Location","");
-            jsonObject.accumulate("Description","");
-            jsonObject.accumulate("Status","");
-            jsonObject.accumulate("UserName","Admin");
+            jsonObject.accumulate("StartDate",StartDate);
+            jsonObject.accumulate("EndDate",EndDate);
+            jsonObject.accumulate("AllDay",AllDay);
+            jsonObject.accumulate("Subject",Subject);
+            jsonObject.accumulate("Eit_Resource",Eit_Resource);
+            jsonObject.accumulate("Eit_Użytkownik",Eit_Użytkownik);
+            jsonObject.accumulate("ReminderID",ReminderID);
+            jsonObject.accumulate("Location",Location);
+            jsonObject.accumulate("Description",Description);
+            jsonObject.accumulate("Status",Status);
+            jsonObject.accumulate("UserName",UserName);
 
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
@@ -84,23 +110,29 @@ public class JSON_potwierdzenie_rezerwacji {
 
         @Override
         protected String doInBackground(String... urls) {
-            String post_result=POST(urls[0]);
-            deserialize_json(post_result);
-
-            return null;
+            return POST(urls[0]);
         }
 
 
     @Override
     protected void onPostExecute(String result) {
-
-      //  deserialize_json(result);
-            //Log.d("RESULT",result);
-        Log.d("RESULT lis",lista_samochodow.toString());
         alertDialog.dismiss();
-        Rezerwacja res=new Rezerwacja();
-      //  res.wyswietl_liste(con,lista_samochodow);
-
+        if (result.contains("False")) {
+            alertDialog = new AlertDialog.Builder(con)
+                    .setTitle("Błąd")
+                    .setMessage("Nie można dokonać rezerwacji")
+                    .setIcon(R.drawable.cancel)
+                    .setCancelable(true)
+                    .show();
+        }
+        else if (result.contains("True")) {
+            alertDialog = new AlertDialog.Builder(con)
+                    .setTitle("Potwierdzenie ")
+                    .setMessage("Rezerwacja przebiegła pomyślnie")
+                    .setIcon(R.drawable.confirm)
+                    .setCancelable(true)
+                    .show();
+        }
     }
     }
 
