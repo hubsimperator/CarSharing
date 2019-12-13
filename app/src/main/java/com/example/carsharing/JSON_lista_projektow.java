@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -44,6 +45,8 @@ public class JSON_lista_projektow {
     ArrayList<HashMap<String, String>> lista_projekt;
     HashMap<String, String> lista_pola_projekt;
     ArrayList<String> lista_grupa_projektowa;
+
+    public static String selected_item;
 
     public static ArrayList<String> lista_samochodow;
     String currentDate;
@@ -117,7 +120,15 @@ public class JSON_lista_projektow {
     protected void onPostExecute(String result) {
         alertDialog.dismiss();
 
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con).setPositiveButton("Zamknij", new DialogInterface.OnClickListener() {
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con)
+                .setNeutralButton("Wybierz", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+
+                    }
+                })
+                .setNegativeButton("Zamknij", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alertDialog.dismiss();
@@ -132,7 +143,6 @@ public class JSON_lista_projektow {
 
         View view = inflater.inflate(R.layout.projekty,null);
         Spinner projekt_sp=(Spinner) view.findViewById(R.id.spinner2);
-        Spinner projekt_nazwa_sp=(Spinner) view.findViewById(R.id.spinner3);
 
         mList = retrievePeople();
         final AutoCompleteTextView actv = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
@@ -150,13 +160,8 @@ public class JSON_lista_projektow {
         });
 
 
-
-
-        /*
-        actv.setThreshold(1);//will start working from first character
-        actv.setAdapter(adapter3);//setting the adapter data into the AutoCompleteTextView
-        actv.setTextColor(Color.RED);
-        actv.setOnClickListener(new View.OnClickListener() {
+        ImageView dropdown=(ImageView) view.findViewById(R.id.dropdown);
+        dropdown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 actv.showDropDown();
@@ -164,17 +169,13 @@ public class JSON_lista_projektow {
         });
 
 
-         */
-
 
         ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(con,
                 android.R.layout.simple_spinner_item,lista_grupa_projektowa);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         projekt_sp.setAdapter(adapter4);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(con,
-                android.R.layout.simple_spinner_item,lista_nazwa_proj);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        projekt_nazwa_sp.setAdapter(adapter2);
+        selected_item=projekt_sp.getSelectedItem().toString();
+
         dialogBuilder.setView(view);
 
         alertDialog =dialogBuilder.create();
@@ -226,8 +227,6 @@ public class JSON_lista_projektow {
             Obiekt_Projekt obiekt_projekt=new Obiekt_Projekt();
             lista_projekt=new ArrayList<>();
 
-            Log.d("lista",Integer.toString(lista_projekt.size()));
-
             for (int i = 0; i <array.length(); i++) {
 
             lista_pola_projekt=new HashMap<>();
@@ -248,10 +247,8 @@ public class JSON_lista_projektow {
 
             lista_projekt.add(lista_pola_projekt);
             }
-
             set_grupa_projektowa = new HashSet(lista_grupa_projektowa);
             lista_grupa_projektowa=new ArrayList<>(set_grupa_projektowa);
-
             lista_nazwa_proj=new ArrayList<>();
 
             for(int i =0;i<lista_projekt.size();i++){

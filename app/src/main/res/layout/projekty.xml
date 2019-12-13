@@ -60,29 +60,31 @@
 
                 android:text="Numer Projektu" />
 
-            <Spinner
-                android:id="@+id/spinner3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView"
+
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@+id/textView"
+                android:layout_alignParentLeft="true"
+                android:dropDownHorizontalOffset="100dp"
+                android:dropDownVerticalOffset="-250dp"
+                android:ems="10"
+                android:hint="Wpisz projekt"
+                android:text="">
+
+                <requestFocus />
+            </AutoCompleteTextView>
+
+            <ImageView
+                android:id="@+id/dropdown"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/dropdown" />
+
         </LinearLayout>
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView"
-
-            android:dropDownVerticalOffset="-250dp"
-            android:dropDownHorizontalOffset="100dp"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="36dp"
-            android:layout_marginTop="17dp"
-            android:hint="projekty"
-            android:ems="10"
-            android:text="">
-
-            <requestFocus />
-        </AutoCompleteTextView>
 
     </LinearLayout>
 
