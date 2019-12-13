@@ -41,7 +41,9 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
 
      String data_poczatkowa;
      String data_koncowa;
-     String eit_Resource;
+     public static String eit_Resource;
+    public static String grupa_projektu;
+    public static String nazwa_projektu;
 
     public static TextView label_samochod_tv;
     public static TextView wybrany_samochod_tv;
@@ -134,8 +136,11 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         rezerwuj_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("pr",grupa_projektu);
+
+                Log.d("pr",nazwa_projektu);
                 JSON_potwierdzenie_rezerwacji json_potwierdzenie_rezerwacji=new JSON_potwierdzenie_rezerwacji();
-                json_potwierdzenie_rezerwacji.StartUpdate(data_poczatkowa,data_koncowa,"0",subject_et.getText().toString(),eit_Resource,"","4","","","","",Rezerwacja.this);
+                json_potwierdzenie_rezerwacji.StartUpdate(data_poczatkowa,data_koncowa,"0",subject_et.getText().toString(),eit_Resource,"","4","","","","",grupa_projektu,nazwa_projektu,Rezerwacja.this);
             }
         });
 
@@ -183,8 +188,10 @@ public void wyswietl_liste(Context con, final ArrayList<String> lista, final Arr
 
 }
 
-public void wyswietl_projekt(Context con,String _proj){
+public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
         projekt_et.setText(_proj);
+        nazwa_projektu=_proj;
+        grupa_projektu=_grupa_projektu;
 }
 
     @Override

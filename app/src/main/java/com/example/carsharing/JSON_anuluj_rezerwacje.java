@@ -2,11 +2,12 @@ package com.example.carsharing;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.database.Cursor;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.CheckBox;
-import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -22,44 +23,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class JSON_potwierdzenie_rezerwacji {
 
-    Context con = null;
+public class JSON_anuluj_rezerwacje extends AppCompatActivity {
+
+    Obiekt_Rezerwacja rezerwacja;
+    ArrayList<HashMap<String, String>> lista_rezerwacji;
+    HashMap<String, String> lista_pola_rezerwacji;
+
+    Context con ;
 
     public static ArrayList<String> lista_samochodow;
-    String StartDate,EndDate,AllDay,Subject,Eit_Resource,Eit_Użytkownik,ReminderID,Location,Description,Status,UserName,GrupaProjektu,NazwaProjektu;
 
-    public void StartUpdate(String _StartDate, String _EndDate,String _AllDay,String _Subject, String _Eit_Resource,String _Eit_Użytkownik,String _ReminderID,String _Location, String _Description,String _Status,String _UserName,String _grupa_projektu,String _nazwa_projektu, Context context) {
+    public void StartUpdate(String Login, String Password, Context context) {
         con = context;
+     //   er=error;
         lista_samochodow=new ArrayList<>();
-        StartDate=_StartDate;
-        EndDate=_EndDate;
-        AllDay=_AllDay;
-        Subject=_Subject;
-        Eit_Resource=_Eit_Resource;
-        Eit_Użytkownik=_Eit_Użytkownik;
-        ReminderID=_ReminderID;
-        Location=_Location;
-        Description=_Description;
-        Status=_Status;
-        UserName=_UserName;
-        GrupaProjektu=_grupa_projektu;
-        NazwaProjektu=_nazwa_projektu;
-
-        try {
-            LoginDataHandler LDH = new LoginDataHandler(con);
-            Cursor getdata = LDH.getData();
-            while (getdata.moveToNext()) {
-                UserName=(getdata.getString(1));
-            }
-            LDH.close();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-        new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppSendBooking");
+        new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppInsertCancelBooking");
     }
 
     public String POST(String url) {
@@ -70,20 +51,7 @@ public class JSON_potwierdzenie_rezerwacji {
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("StartDate",StartDate);
-            jsonObject.accumulate("EndDate",EndDate);
-            jsonObject.accumulate("AllDay",AllDay);
-            jsonObject.accumulate("Subject",Subject);
-            jsonObject.accumulate("Eit_Resource",Eit_Resource);
-            jsonObject.accumulate("Eit_Użytkownik",Eit_Użytkownik);
-            jsonObject.accumulate("ReminderID",ReminderID);
-            jsonObject.accumulate("Location",Location);
-            jsonObject.accumulate("Description",Description);
-            jsonObject.accumulate("Status",Status);
-            jsonObject.accumulate("UserName",UserName);
-            jsonObject.accumulate("GrupaProjektu",GrupaProjektu);
-            jsonObject.accumulate("NrProjektu",NazwaProjektu);
-
+            jsonObject.accumulate("UserName","Admin");
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
@@ -104,6 +72,7 @@ public class JSON_potwierdzenie_rezerwacji {
         protected void onPreExecute() {
 
             super.onPreExecute();
+
             alertDialog=new AlertDialog.Builder(con)
                     .setTitle("Proszę czekać ")
                     .setMessage("Pobieranie danych ...")
@@ -114,7 +83,7 @@ public class JSON_potwierdzenie_rezerwacji {
 
         @Override
         protected String doInBackground(String... urls) {
-            return POST(urls[0]);
+            return  POST(urls[0]);
         }
 
 
@@ -124,7 +93,7 @@ public class JSON_potwierdzenie_rezerwacji {
         if (result.contains("False")) {
             alertDialog = new AlertDialog.Builder(con)
                     .setTitle("Błąd")
-                    .setMessage("Nie można dokonać rezerwacji")
+                    .setMessage("Nie można anulować rezerwacji")
                     .setIcon(R.drawable.cancel)
                     .setCancelable(true)
                     .show();
@@ -132,7 +101,7 @@ public class JSON_potwierdzenie_rezerwacji {
         else if (result.contains("True")) {
             alertDialog = new AlertDialog.Builder(con)
                     .setTitle("Potwierdzenie ")
-                    .setMessage("Rezerwacja przebiegła pomyślnie")
+                    .setMessage("Rezerwacja została anulowana")
                     .setIcon(R.drawable.confirm)
                     .setCancelable(true)
                     .show();

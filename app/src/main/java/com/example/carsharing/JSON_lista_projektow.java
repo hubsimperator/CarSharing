@@ -126,7 +126,7 @@ public class JSON_lista_projektow {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Rezerwacja rez=new Rezerwacja();
-                        rez.wyswietl_projekt(con,nazwa_projektu.toString());
+                        rez.wyswietl_projekt(con,nazwa_projektu.toString(),selected_item);
                         alertDialog.dismiss();
 
                     }
@@ -159,6 +159,7 @@ public class JSON_lista_projektow {
                 //this is the way to find selected object/item
                 selectedPerson = (People) adapterView.getItemAtPosition(pos);
               //  nazwa_projektu=(String) adapterView.getItemAtPosition(pos);
+                nazwa_projektu=selectedPerson.getName();
             }
         });
 
