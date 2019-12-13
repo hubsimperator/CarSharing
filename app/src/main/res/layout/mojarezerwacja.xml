@@ -25,7 +25,7 @@
             app:srcCompat="@drawable/przedluz" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/anuluj_bt"
             android:layout_width="wrap_content"
             android:layout_height="63dp"
             app:srcCompat="@drawable/anuluj" />

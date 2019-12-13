@@ -119,16 +119,16 @@ public static String[] headers={"Temat","Data","Samochód"};
         tableView2.addDataClickListener(new TableDataClickListener() {
             @Override
             public void onDataClicked(int rowIndex, Object clickedData) {
-                //Toast.makeText(MainActivity.this, ((String[])clickedData)[1], Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(getApplicationContext(), MojeRezerwacje.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("BookingId",lista_rezerwacji.get(rowIndex).get("BookingId"));
+                intent.putExtra("StartDate",lista_rezerwacji.get(rowIndex).get("StartDate"));
+                intent.putExtra("EndDate",lista_rezerwacji.get(rowIndex).get("EndDate"));
+                intent.putExtra("Status",lista_rezerwacji.get(rowIndex).get("Status"));
                 startActivity(intent);
             }
         });
-      //  tableView2.setDataAdapter(new SimpleTableDataAdapter(this, SPACESHIPS));
-
-
-
 
         ImageView back_bt = (ImageView) findViewById(R.id.back_bt);
 

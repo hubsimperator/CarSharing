@@ -13,44 +13,38 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MojeRezerwacje extends AppCompatActivity {
+    public static String BookingId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mojarezerwacja);
 
-        try {
-            MojeRezerwacjeDataHandler RezerwacjeDH = new MojeRezerwacjeDataHandler(MojeRezerwacje.this);
-            Log.d("BAZA","UDALO SIE");
-           /*
-            RezerwacjeDH.inputData("Test 1","2019-12-06 12:00:00","Moja tojota");
-            RezerwacjeDH.inputData("Test 2","2019-12-07 12:00:00","Daniela mazda");
-            RezerwacjeDH.inputData("Test 3","2019-12-08 12:00:00","Jacka rower");
-*/
+       Bundle extras= getIntent().getExtras();
+       BookingId=extras.getString("BookingId");
 
+       String s1=extras.getString("BookingId");
+        String s21= extras.getString("StartDate");
+        String s31= extras.getString("EndDate");
+        String s14=extras.getString("Status");
 
-            Cursor getdata = RezerwacjeDH.getData();
-          Log.d("Dane z tabeli","Proba pobrania");
-            while (getdata.moveToNext()) {
-                Log.d("Dane z tabeli",getdata.getString(1)+" "+getdata.getString(2)+" "+getdata.getString(3));
-                   // ((EditText) findViewById(R.id.Logintxt)).setText(getdata.getString(1));
-                    //((EditText) findViewById(R.id.Passwordtxt)).setText(getdata.getString(2));
-                    //((CheckBox) findViewById(R.id.zapamietajchbox)).setChecked(true);
-
-            }
-            RezerwacjeDH.close();
-
-
-        } catch (Exception e){
-            Log.d("BAZA","NIE UDALO SIE");
-
-            e.printStackTrace();
-        }
 
         ImageView back_bt = (ImageView) findViewById(R.id.back_bt);
         back_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+                JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+                json_moje_rezerwacje.StartUpdate("","",MojeRezerwacje.this);
+              //  finish();
+            }
+        });
+
+        ImageView anuluj_rezerwacje_bt=(ImageView) findViewById(R.id.anuluj_bt);
+        anuluj_rezerwacje_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSON_anuluj_rezerwacje json_anuluj_rezerwacje=new JSON_anuluj_rezerwacje();
+                json_anuluj_rezerwacje.StartUpdate(BookingId,MojeRezerwacje.this);
             }
         });
 
@@ -59,9 +53,8 @@ public class MojeRezerwacje extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(),ZmianaCzasu.class);
-               // intent.putExtra();
-               // intent.putExtra();
-               // intent.putExtra();
+
+
             startActivity(intent);
             }
         });

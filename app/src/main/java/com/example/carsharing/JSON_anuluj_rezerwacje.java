@@ -33,13 +33,12 @@ public class JSON_anuluj_rezerwacje extends AppCompatActivity {
     HashMap<String, String> lista_pola_rezerwacji;
 
     Context con ;
+    public static String BookingId;
 
-    public static ArrayList<String> lista_samochodow;
-
-    public void StartUpdate(String Login, String Password, Context context) {
+    public void StartUpdate(String _BookingId, Context context) {
         con = context;
+        BookingId=_BookingId;
      //   er=error;
-        lista_samochodow=new ArrayList<>();
         new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppInsertCancelBooking");
     }
 
@@ -51,7 +50,7 @@ public class JSON_anuluj_rezerwacje extends AppCompatActivity {
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("UserName","Admin");
+            jsonObject.accumulate("BookingID",BookingId);
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
@@ -70,9 +69,7 @@ public class JSON_anuluj_rezerwacje extends AppCompatActivity {
         AlertDialog alertDialog;
         @Override
         protected void onPreExecute() {
-
             super.onPreExecute();
-
             alertDialog=new AlertDialog.Builder(con)
                     .setTitle("Proszę czekać ")
                     .setMessage("Pobieranie danych ...")
@@ -90,7 +87,7 @@ public class JSON_anuluj_rezerwacje extends AppCompatActivity {
     @Override
     protected void onPostExecute(String result) {
         alertDialog.dismiss();
-        if (result.contains("False")) {
+        if (result.contains("false")) {
             alertDialog = new AlertDialog.Builder(con)
                     .setTitle("Błąd")
                     .setMessage("Nie można anulować rezerwacji")
@@ -98,7 +95,7 @@ public class JSON_anuluj_rezerwacje extends AppCompatActivity {
                     .setCancelable(true)
                     .show();
         }
-        else if (result.contains("True")) {
+        else if (result.contains("true")) {
             alertDialog = new AlertDialog.Builder(con)
                     .setTitle("Potwierdzenie ")
                     .setMessage("Rezerwacja została anulowana")
