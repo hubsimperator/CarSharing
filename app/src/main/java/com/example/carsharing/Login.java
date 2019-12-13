@@ -113,12 +113,15 @@ public class Login extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.VIBRATE) != PackageManager.PERMISSION_GRANTED) {
             return false;
+        }if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            return false;
         }
         return true;
     }
 
     private void setPermissions() {
         ActivityCompat.requestPermissions((Activity) this, new String[]{
-                Manifest.permission.INTERNET , Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.VIBRATE  }, 1);
+                Manifest.permission.INTERNET , Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.VIBRATE ,Manifest.permission.CAMERA }, 1);
     }
 }
