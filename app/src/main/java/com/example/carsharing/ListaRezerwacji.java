@@ -119,7 +119,7 @@ public static String[] headers={"Temat","Data","Samochód"};
         tableView2.addDataClickListener(new TableDataClickListener() {
             @Override
             public void onDataClicked(int rowIndex, Object clickedData) {
-
+                finish();
                 Intent intent = new Intent(getApplicationContext(), MojeRezerwacje.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("BookingId",lista_rezerwacji.get(rowIndex).get("BookingId"));
