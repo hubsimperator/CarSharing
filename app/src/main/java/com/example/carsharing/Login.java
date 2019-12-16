@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +34,7 @@ public class Login extends AppCompatActivity {
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            setContentView(R.layout.activity_login);
+            //setContentView(R.layout.activity_login);
             final TextView error = (TextView)findViewById(R.id.errortxt);
             if(isConnected()){
                 error.setTextColor(0xFF00CC00);
@@ -42,6 +43,7 @@ public class Login extends AppCompatActivity {
                 error.setText("sieć: "+ gnt.getNetworkType(getApplicationContext()).toString());
             }
             else{
+                error.setTextColor(0xFFFF0000);
                 error.setText("Błąd połączenia, sprawdź połączenie z internetem");
             }
         }
@@ -68,7 +70,7 @@ public class Login extends AppCompatActivity {
             setPermissions();
         }
         final TextView error = (TextView)findViewById(R.id.errortxt);
-        Context context = this;
+        final Context context = this;
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if(isConnected()){
@@ -78,6 +80,7 @@ public class Login extends AppCompatActivity {
             error.setText("sieć: "+ gnt.getNetworkType(this).toString());
         }
         else{
+            error.setTextColor(0xFFFF0000);
             error.setText("Błąd połączenia, sprawdź połączenie z internetem");
         }
 
@@ -109,6 +112,11 @@ public class Login extends AppCompatActivity {
         im.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ProgressDialog pg = new ProgressDialog(context);
+                pg.setMessage("Wczytywanie...");
+                pg.show();
+
                 final String Logi = ((EditText) findViewById(R.id.Logintxt)).getText().toString();
                 final String Haslo = ((EditText) findViewById(R.id.Passwordtxt)).getText().toString();
                 if(Logi.equals("") || Haslo.equals(""))
