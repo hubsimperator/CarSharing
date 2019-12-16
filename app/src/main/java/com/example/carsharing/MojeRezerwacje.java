@@ -43,6 +43,18 @@ public class MojeRezerwacje extends AppCompatActivity {
        PoczatekRezerwacji=extras.getString("StartDate");
        KoniecRezerwacji=extras.getString("EndDate");
 
+       ImageView rozpocznij_jazde_bt=(ImageView) findViewById(R.id.potwierdz_bt);
+       rozpocznij_jazde_bt.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
+               intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+               intent.putExtra("StartDate",PoczatekRezerwacji);
+               intent.putExtra("EndDate",KoniecRezerwacji);
+               intent.putExtra("BookingId",BookingId);
+               startActivity(intent);
+           }
+       });
 
 
        ImageView zmien_czas_bt=(ImageView) findViewById(R.id.zmiana_czasu_bt);
