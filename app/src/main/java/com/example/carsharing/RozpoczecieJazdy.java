@@ -3,28 +3,19 @@ package com.example.carsharing;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class RozpoczecieJazdy extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
      int year,month,day,hour,minute;
      String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
@@ -71,7 +62,7 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
                 data_koncowa=koniec_et.getText().toString();
 
                 JSON_zmien_czas_rezerwacji json_zmien_czas_rezerwacji=new JSON_zmien_czas_rezerwacji();
-                json_zmien_czas_rezerwacji.StartUpdate(data_poczatkowa,data_koncowa,BookingId,ZmienCzasRezerwacji.this);
+                json_zmien_czas_rezerwacji.StartUpdate(data_poczatkowa,data_koncowa,BookingId, RozpoczecieJazdy.this);
             }
         });
 
@@ -87,7 +78,7 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
                 year=c.get(Calendar.YEAR);
                 month=c.get(Calendar.MONTH);
                 day=c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(ZmienCzasRezerwacji.this, ZmienCzasRezerwacji.this,year,month,day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(RozpoczecieJazdy.this, RozpoczecieJazdy.this,year,month,day);
                 datePickerDialog.show();
             }
         });
@@ -103,7 +94,7 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
                 year=c.get(Calendar.YEAR);
                 month=c.get(Calendar.MONTH);
                 day=c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(ZmienCzasRezerwacji.this, ZmienCzasRezerwacji.this,year,month,day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(RozpoczecieJazdy.this, RozpoczecieJazdy.this,year,month,day);
                 datePickerDialog.show();
             }
         });
@@ -135,7 +126,7 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
      hour=c.get(Calendar.HOUR_OF_DAY);
      minute=c.get(Calendar.MINUTE);
 
-     TimePickerDialog timePickerDialog = new TimePickerDialog(ZmienCzasRezerwacji.this, ZmienCzasRezerwacji.this,hour,minute,DateFormat.is24HourFormat(this));
+     TimePickerDialog timePickerDialog = new TimePickerDialog(RozpoczecieJazdy.this, RozpoczecieJazdy.this,hour,minute,DateFormat.is24HourFormat(this));
      timePickerDialog.show();
     }
 

@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -27,8 +30,36 @@ import com.google.firebase.iid.InstanceIdResult;
 
 
 public class Login extends AppCompatActivity {
+    private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setContentView(R.layout.activity_login);
+            final TextView error = (TextView)findViewById(R.id.errortxt);
+            if(isConnected()){
+                error.setTextColor(0xFF00CC00);
+                getNetworkType gnt = new getNetworkType();
+                error.setGravity(Gravity.RIGHT);
+                error.setText("sieć: "+ gnt.getNetworkType(getApplicationContext()).toString());
+            }
+            else{
+                error.setText("Błąd połączenia, sprawdź połączenie z internetem");
+            }
+        }
+    };
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeReceiver, intentFilter);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+        unregisterReceiver(networkChangeReceiver);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
