@@ -44,6 +44,7 @@ public class MojeRezerwacje extends AppCompatActivity {
        KoniecRezerwacji=extras.getString("EndDate");
 
 
+
        ImageView zmien_czas_bt=(ImageView) findViewById(R.id.zmiana_czasu_bt);
        zmien_czas_bt.setOnClickListener(new View.OnClickListener() {
            @Override

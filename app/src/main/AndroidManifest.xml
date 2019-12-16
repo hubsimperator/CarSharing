@@ -18,9 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".ZmianaCzasu"></activity>
+        <activity android:name=".ZmienCzasRezerwacji"></activity>
         <activity android:name=".QRScanner" />
-        <activity android:name=".ZmienCzasRezerwacji" />
+        <activity android:name=".RozpoczecieJazdy" />
 
         <activity android:name=".Login">
             <intent-filter>
