@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.TextView;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -82,6 +83,8 @@ public class JSON_Login {
             }
             else
             {
+                er.setTextColor(0xFFCC0000);
+                er.setGravity(Gravity.CENTER);
                 er.setText("Błędny Login lub Hasło");
             }
     }
