@@ -67,6 +67,9 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
         potwierdz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                data_poczatkowa=poczatek_et.getText().toString();
+                data_koncowa=koniec_et.getText().toString();
+
                 JSON_zmien_czas_rezerwacji json_zmien_czas_rezerwacji=new JSON_zmien_czas_rezerwacji();
                 json_zmien_czas_rezerwacji.StartUpdate(data_poczatkowa,data_koncowa,BookingId,ZmienCzasRezerwacji.this);
             }
