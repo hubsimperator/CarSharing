@@ -1,11 +1,13 @@
 package com.example.carsharing;
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.TextView;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -21,7 +23,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import androidx.core.app.ActivityCompat;
 
 public class JSON_Login {
-
     Context con = null;
     String User ="",Pass="",Token="";
     TextView er=null;
@@ -31,7 +32,6 @@ public class JSON_Login {
         Pass=Password;
         er=error;
         Token=Tok;
-
         new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/GetUsercs");
     }
 
@@ -69,6 +69,7 @@ public class JSON_Login {
 
     @Override
     protected void onPostExecute(String result) {
+
             if(result.contains("true"))
             {
                 if(Token.matches("")){
@@ -82,6 +83,8 @@ public class JSON_Login {
             }
             else
             {
+                er.setTextColor(0xFFCC0000);
+                er.setGravity(Gravity.CENTER);
                 er.setText("Błędny Login lub Hasło");
             }
     }

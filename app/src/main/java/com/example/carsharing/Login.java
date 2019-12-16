@@ -4,9 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.p2p.WifiP2pInfo;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -21,7 +31,37 @@ import com.google.firebase.iid.InstanceIdResult;
 
 
 public class Login extends AppCompatActivity {
+    private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //setContentView(R.layout.activity_login);
+            final TextView error = (TextView)findViewById(R.id.errortxt);
+            if(isConnected()){
+                error.setTextColor(0xFF00CC00);
+                getNetworkType gnt = new getNetworkType();
+                error.setGravity(Gravity.RIGHT);
+                error.setText("sieć: "+ gnt.getNetworkType(getApplicationContext()).toString());
+            }
+            else{
+                error.setTextColor(0xFFFF0000);
+                error.setText("Błąd połączenia, sprawdź połączenie z internetem");
+            }
+        }
+    };
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeReceiver, intentFilter);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        unregisterReceiver(networkChangeReceiver);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +69,21 @@ public class Login extends AppCompatActivity {
         if(!checkPermissions()){
             setPermissions();
         }
+        final TextView error = (TextView)findViewById(R.id.errortxt);
+        final Context context = this;
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if(isConnected()){
+            error.setTextColor(0xFF00CC00);
+            getNetworkType gnt = new getNetworkType();
+            error.setGravity(Gravity.RIGHT);
+            error.setText("sieć: "+ gnt.getNetworkType(this).toString());
+        }
+        else{
+            error.setTextColor(0xFFFF0000);
+            error.setText("Błąd połączenia, sprawdź połączenie z internetem");
+        }
+
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( Login.this,  new OnSuccessListener<InstanceIdResult>() {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
@@ -53,14 +108,21 @@ public class Login extends AppCompatActivity {
             e.printStackTrace();
         }
         ImageView im = (ImageView) findViewById(R.id.Loginbtn);
-        final TextView error = (TextView)findViewById(R.id.errortxt);
+
         im.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ProgressDialog pg = new ProgressDialog(context);
+                pg.setMessage("Wczytywanie...");
+                pg.show();
+
                 final String Logi = ((EditText) findViewById(R.id.Logintxt)).getText().toString();
                 final String Haslo = ((EditText) findViewById(R.id.Passwordtxt)).getText().toString();
                 if(Logi.equals("") || Haslo.equals(""))
                 {
+                    error.setTextColor(0xFFCC0000);
+                    error.setGravity(Gravity.CENTER);
                     error.setText("Login i Hasło nie mogą być puste");
                 }
                 else
@@ -124,4 +186,14 @@ public class Login extends AppCompatActivity {
         ActivityCompat.requestPermissions((Activity) this, new String[]{
                 Manifest.permission.INTERNET , Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.VIBRATE ,Manifest.permission.CAMERA }, 1);
     }
+    public boolean isConnected(){
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected())
+            return true;
+        else
+            return false;
+    }
 }
+
+
