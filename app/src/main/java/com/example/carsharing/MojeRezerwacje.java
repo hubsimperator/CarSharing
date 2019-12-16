@@ -1,19 +1,38 @@
 package com.example.carsharing;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
+import java.util.Calendar;
 
 public class MojeRezerwacje extends AppCompatActivity {
     public static String BookingId;
+    public static String PoczatekRezerwacji;
+    public static String KoniecRezerwacji;
+
+
+    AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,11 +40,26 @@ public class MojeRezerwacje extends AppCompatActivity {
 
        Bundle extras= getIntent().getExtras();
        BookingId=extras.getString("BookingId");
+       PoczatekRezerwacji=extras.getString("StartDate");
+       KoniecRezerwacji=extras.getString("EndDate");
 
-       String s1=extras.getString("BookingId");
-        String s21= extras.getString("StartDate");
-        String s31= extras.getString("EndDate");
-        String s14=extras.getString("Status");
+
+       ImageView zmien_czas_bt=(ImageView) findViewById(R.id.zmiana_czasu_bt);
+       zmien_czas_bt.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+               Intent intent = new Intent(getApplicationContext(), ZmienCzasRezerwacji.class);
+               intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+               intent.putExtra("StartDate",PoczatekRezerwacji);
+               intent.putExtra("EndDate",KoniecRezerwacji);
+               intent.putExtra("BookingId",BookingId);
+               startActivity(intent);
+
+           }
+
+
+       });
 
 
         ImageView back_bt = (ImageView) findViewById(R.id.back_bt);
@@ -48,16 +82,9 @@ public class MojeRezerwacje extends AppCompatActivity {
             }
         });
 
-        ImageView potwierdz = (ImageView) findViewById(R.id.moje_rezerwacje_bt);
-        potwierdz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(),ZmianaCzasu.class);
 
 
-            startActivity(intent);
-            }
-        });
 
     }
+
 }

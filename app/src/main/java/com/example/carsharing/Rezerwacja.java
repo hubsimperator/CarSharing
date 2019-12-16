@@ -136,9 +136,6 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         rezerwuj_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("pr",grupa_projektu);
-
-                Log.d("pr",nazwa_projektu);
                 JSON_potwierdzenie_rezerwacji json_potwierdzenie_rezerwacji=new JSON_potwierdzenie_rezerwacji();
                 json_potwierdzenie_rezerwacji.StartUpdate(data_poczatkowa,data_koncowa,"0",subject_et.getText().toString(),eit_Resource,"","4","","","","",grupa_projektu,nazwa_projektu,Rezerwacja.this);
             }

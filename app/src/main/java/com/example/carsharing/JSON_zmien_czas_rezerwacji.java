@@ -21,13 +21,11 @@ public class JSON_zmien_czas_rezerwacji {
 
     Context con = null;
 
-    public static ArrayList<String> lista_samochodow;
     String StartDate=null,EndDate=null;
-    int BookingID = 0;
+    String BookingID = null;
 
-    public void StartUpdate(String _StartDate, String _EndDate, int _BookingID, Context context) {
+    public void StartUpdate(String _StartDate, String _EndDate, String _BookingID, Context context) {
         con = context;
-        lista_samochodow=new ArrayList<>();
         StartDate=_StartDate;
         EndDate=_EndDate;
         BookingID=_BookingID;
