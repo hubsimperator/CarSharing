@@ -125,9 +125,14 @@ public class JSON_lista_projektow {
                 .setNeutralButton("Wybierz", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Rezerwacja rez=new Rezerwacja();
-                        rez.wyswietl_projekt(con,nazwa_projektu.toString(),selected_item);
-                        alertDialog.dismiss();
+                        try {
+                            Rezerwacja rez = new Rezerwacja();
+                            rez.wyswietl_projekt(con, nazwa_projektu.toString(), selected_item);
+                            alertDialog.dismiss();
+                        }catch (NullPointerException ne){
+                            alertDialog.dismiss();
+
+                        }
 
                     }
                 })

@@ -23,7 +23,7 @@
             app:srcCompat="@drawable/zarezerwuj" />
 
         <ImageView
-            android:id="@+id/moje_rezerwacje_bt"
+            android:id="@+id/zmien_czas_bt"
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:layout_marginTop="30sp"

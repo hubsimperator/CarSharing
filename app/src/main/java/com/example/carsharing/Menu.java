@@ -1,15 +1,12 @@
 package com.example.carsharing;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -48,7 +45,7 @@ public class Menu extends AppCompatActivity {
             }
         });
 
-        ImageView mojerezerwacje_bt = (ImageView) findViewById(R.id.moje_rezerwacje_bt);
+        ImageView mojerezerwacje_bt = (ImageView) findViewById(R.id.zmien_czas_bt);
         mojerezerwacje_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
