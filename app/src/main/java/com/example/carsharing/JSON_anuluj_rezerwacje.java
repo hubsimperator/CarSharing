@@ -90,7 +90,7 @@ public class JSON_anuluj_rezerwacje extends AppCompatActivity {
         if (result.contains("false")) {
             alertDialog = new AlertDialog.Builder(con)
                     .setTitle("Błąd")
-                    .setMessage("Nie można anulować rezerwacji")
+                    .setMessage("Nie można anulować rezerwacji. Rezerwacja w toku ...")
                     .setIcon(R.drawable.cancel)
                     .setCancelable(true)
                     .show();

@@ -155,7 +155,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
 }
 public void wyswietl_liste(Context con, final ArrayList<String> lista, final ArrayList<String> lista_id){
 
-    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con).setPositiveButton("Zamknij", new DialogInterface.OnClickListener() {
+    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con).setPositiveButton("Potwierdź", new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             alertDialog.dismiss();
