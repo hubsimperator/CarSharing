@@ -45,12 +45,14 @@ public class JSON_lista_projektow {
     ArrayList<HashMap<String, String>> lista_projekt;
     HashMap<String, String> lista_pola_projekt;
     ArrayList<String> lista_grupa_projektowa;
+    Integer projekt;
 
     public static String selected_item;
 
     public static ArrayList<String> lista_samochodow;
     String currentDate;
-    public void StartUpdate(String Login, String Password, Context context) {
+    public void StartUpdate(Integer _projekt, Context context) {
+        projekt=_projekt;
         Date todayDate = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
         currentDate = formatter.format(todayDate);
@@ -126,8 +128,14 @@ public class JSON_lista_projektow {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            Rezerwacja rez = new Rezerwacja();
-                            rez.wyswietl_projekt(con, nazwa_projektu.toString(), selected_item);
+                            if(projekt==0) {
+                                Rezerwacja rez = new Rezerwacja();
+                                rez.wyswietl_projekt(con, nazwa_projektu.toString(), selected_item);
+                            }
+                            else {
+                                RozpoczecieJazdy rez = new RozpoczecieJazdy();
+                                rez.wyswietl_projekt(con, nazwa_projektu.toString(), selected_item);
+                            }
                             alertDialog.dismiss();
                         }catch (NullPointerException ne){
                             alertDialog.dismiss();

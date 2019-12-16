@@ -25,15 +25,6 @@ import de.codecrafters.tableview.toolkit.TableDataRowBackgroundProviders;
 public class ListaRezerwacji extends AppCompatActivity {
     ArrayList<HashMap<String, String>> lista_rezerwacji;
 
-    /*
-    ListaRezerwacji (ArrayList<HashMap<String, String>> _lista_rezerwacji) {
-        lista_rezerwacji = new ArrayList<>();
-        lista_rezerwacji = _lista_rezerwacji;
-    }
-
-
-     */
-
 public static String[] headers={"Temat","Data","Samochód"};
     public static String[][] dane;
 
@@ -55,61 +46,10 @@ public static String[] headers={"Temat","Data","Samochód"};
          dane[i][2]=lista_rezerwacji.get(i).get("Eit_ResourceName");
      }
 
-/*
-        TableView tableView = (TableView) findViewById(R.id.lista_rezerwacji_tabela);
-        tableView.setColumnCount(4);
-
-        TableColumnDpWidthModel columnModel = new TableColumnDpWidthModel(ListaRezerwacji.this, 4, 200);
-        columnModel.setColumnWidth(1, 300);
-        columnModel.setColumnWidth(2, 250);
-        tableView.setColumnModel(columnModel);
-
-
- */
-
-/*
-        try {
-            MojeRezerwacjeDataHandler RezerwacjeDH = new MojeRezerwacjeDataHandler(ListaRezerwacji.this);
-            Log.d("BAZA","UDALO SIE");
-
-            RezerwacjeDH.inputData("Test 1","2019-12-06 12:00:00","Moja tojota");
-            RezerwacjeDH.inputData("Test 2","2019-12-07 12:00:00","Daniela mazda");
-            RezerwacjeDH.inputData("Test 3","2019-12-08 12:00:00","Jacka rower");
-
-
-
-
-
-            Integer table_length=0;
-            Cursor getdata = RezerwacjeDH.getData();
-            Log.d("Dane z tabeli","Proba pobrania");
-            while (getdata.moveToNext()) {
-                Log.d("Dane z tabeli",getdata.getString(1)+"\n"+getdata.getString(2)+" "+getdata.getString(3));
-                dane[table_length][0]=getdata.getString(1);
-                dane[table_length][1]=getdata.getString(2)+" "+getdata.getString(2);
-                dane[table_length][2]=getdata.getString(3);
-
-            table_length++;
-            }
-            RezerwacjeDH.close();
-            String s=dane[0][0];
-
-        } catch (Exception e){
-            Log.d("BAZA","NIE UDALO SIE");
-
-            e.printStackTrace();
-        }
-
- */
-
-
         TableView<String[]> tableView2 = (TableView<String[]>) findViewById(R.id.lista_rezerwacji_tabela);
         tableView2.setHeaderAdapter(new SimpleTableHeaderAdapter(this,headers));
         SimpleTableDataAdapter adapter=new SimpleTableDataAdapter(this,dane);
-        //Simpl adapter=new SimpleTableDataAdapter(this,dane);
         tableView2.setDataAdapter(adapter);
-
-
         TableColumnWeightModel columnModel = new TableColumnWeightModel(3);
         columnModel.setColumnWeight(0, 2);
         columnModel.setColumnWeight(1, 4);

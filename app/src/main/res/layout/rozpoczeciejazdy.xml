@@ -51,6 +51,13 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/potwierdz_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="63dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/potwierdz" />
+
 
         <ImageView
             android:id="@+id/back_bt"

@@ -36,7 +36,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
      String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
     public static EditText poczatek_et;
     public static EditText koniec_et;
-    public static EditText projekt_et;
+   public static EditText projekt_et;
     public static EditText subject_et;
 
      String data_poczatkowa;
@@ -95,7 +95,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             @Override
             public void onClick(View v) {
                 JSON_lista_projektow json_lista_projektow=new JSON_lista_projektow();
-                json_lista_projektow.StartUpdate("","",Rezerwacja.this);
+                json_lista_projektow.StartUpdate(0,Rezerwacja.this);
             }
         });
 

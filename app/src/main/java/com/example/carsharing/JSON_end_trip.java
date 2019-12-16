@@ -16,22 +16,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
-public class JSON_start_trip {
+public class JSON_end_trip {
 
     Context con = null;
 
     String BookingID;
-    String GrupaProjektu;
-    String NrProjektu;
 
-    public void StartUpdate(String _BookingID,String _GrupaProjektu,String _NrProjektu, Context context) {
+
+    public void StartUpdate(String _BookingID, Context context) {
         con = context;
         BookingID=_BookingID;
-        GrupaProjektu = _GrupaProjektu;
-        NrProjektu=_NrProjektu;
-        new JSON_start_trip.HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppInsertStartTrip");
+        new JSON_end_trip.HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppInsertEndTrip");
     }
 
     public String POST(String url) {
@@ -43,8 +39,6 @@ public class JSON_start_trip {
             String json = "";
             JSONObject jsonObject = new JSONObject();
             jsonObject.accumulate("BookingID",BookingID);
-            jsonObject.accumulate("GrupaProjektu",GrupaProjektu);
-            jsonObject.accumulate("NrProjektu",NrProjektu);
 
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
@@ -86,7 +80,7 @@ public class JSON_start_trip {
             if (result.contains("false")) {
                 alertDialog = new AlertDialog.Builder(con)
                         .setTitle("Błąd")
-                        .setMessage("Nie można rozpocząć jazdy")
+                        .setMessage("Nie można zakończyć jazdy")
                         .setIcon(R.drawable.cancel)
                         .setCancelable(true)
                         .show();
@@ -94,7 +88,7 @@ public class JSON_start_trip {
             else if (result.contains("true")) {
                 alertDialog = new AlertDialog.Builder(con)
                         .setTitle("Potwierdzenie ")
-                        .setMessage("Rozpoczęto jazdę")
+                        .setMessage("Zakończono jazdę")
                         .setIcon(R.drawable.confirm)
                         .setCancelable(true)
                         .show();

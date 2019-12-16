@@ -12,6 +12,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -30,7 +31,7 @@ public class MojeRezerwacje extends AppCompatActivity {
     public static String BookingId;
     public static String PoczatekRezerwacji;
     public static String KoniecRezerwacji;
-
+    public static String Status;
 
     AlertDialog alertDialog;
     @Override
@@ -42,17 +43,34 @@ public class MojeRezerwacje extends AppCompatActivity {
        BookingId=extras.getString("BookingId");
        PoczatekRezerwacji=extras.getString("StartDate");
        KoniecRezerwacji=extras.getString("EndDate");
+       Status=extras.getString("Status");
+
+
 
        ImageView rozpocznij_jazde_bt=(ImageView) findViewById(R.id.potwierdz_bt);
+        if(Status.equals("0")|| Status.equals("2")){
+            rozpocznij_jazde_bt.setBackgroundResource(R.drawable.potwierdz);
+
+        }else
+        {
+            rozpocznij_jazde_bt.setBackgroundResource(R.drawable.pasek);
+
+        }
        rozpocznij_jazde_bt.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
-               intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-               intent.putExtra("StartDate",PoczatekRezerwacji);
-               intent.putExtra("EndDate",KoniecRezerwacji);
-               intent.putExtra("BookingId",BookingId);
-               startActivity(intent);
+               if(Status.equals("0") || Status.equals("2")) {
+                   Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
+                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                   intent.putExtra("StartDate", PoczatekRezerwacji);
+                   intent.putExtra("EndDate", KoniecRezerwacji);
+                   intent.putExtra("BookingId", BookingId);
+                   startActivity(intent);
+               }
+               else if(Status.equals("1")) {
+                   JSON_end_trip json_end_trip=new JSON_end_trip();
+                   json_end_trip.StartUpdate(BookingId,MojeRezerwacje.this);
+               }
            }
        });
 

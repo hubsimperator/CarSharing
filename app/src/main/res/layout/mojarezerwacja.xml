@@ -17,7 +17,7 @@
             android:id="@+id/potwierdz_bt"
             android:layout_width="wrap_content"
             android:layout_height="63dp"
-            app:srcCompat="@drawable/potwierdz" />
+            />
 
         <ImageView
             android:id="@+id/zmiana_czasu_bt"
