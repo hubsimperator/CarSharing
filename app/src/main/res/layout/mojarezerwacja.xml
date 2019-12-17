@@ -16,19 +16,18 @@
         <ImageView
             android:id="@+id/potwierdz_bt"
             android:layout_width="wrap_content"
-            android:layout_height="63dp"
-            />
+            android:layout_height="90dp" />
 
         <ImageView
             android:id="@+id/zmiana_czasu_bt"
             android:layout_width="wrap_content"
-            android:layout_height="63dp"
-            app:srcCompat="@drawable/przedluz" />
+            android:layout_height="90dp"
+            app:srcCompat="@drawable/zmien_czas" />
 
         <ImageView
             android:id="@+id/anuluj_bt"
             android:layout_width="wrap_content"
-            android:layout_height="63dp"
+            android:layout_height="90dp"
             app:srcCompat="@drawable/anuluj" />
 
         <ImageView
