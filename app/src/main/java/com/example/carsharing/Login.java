@@ -144,7 +144,6 @@ public class Login extends AppCompatActivity {
                                     }else
                                     {
                                         JSON_Login logowanie = new JSON_Login();
-                                        logowanie.StartUpdate(Logi,Haslo,getApplicationContext(),error,null);
                                     }
                                 }
                             });
