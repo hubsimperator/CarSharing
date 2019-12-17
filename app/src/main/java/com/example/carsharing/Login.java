@@ -74,6 +74,20 @@ public class Login extends AppCompatActivity {
         final TextView error = (TextView)findViewById(R.id.errortxt);
         final Context context = this;
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        String tit = null;
+        String bod = null;
+        if(getIntent().getExtras()!=null)
+        {
+            for(String key : getIntent().getExtras().keySet())
+            {
+                if(key.equals("t1")){
+                   tit = getIntent().getExtras().getString(key);
+                }
+                else if(key.equals("b1")){
+                    bod = getIntent().getExtras().getString(key);
+                }
+            }
+        }
 
         if(isConnected()){
             error.setTextColor(0xFF00CC00);
@@ -86,20 +100,21 @@ public class Login extends AppCompatActivity {
             error.setText("Błąd połączenia, sprawdź połączenie z internetem");
         }
         try {
-            PowiadomieniaDataHandler ph = new PowiadomieniaDataHandler(this);
-            Cursor getdata = ph.getData();
+            PowiadomieniaDataHandler ph = new PowiadomieniaDataHandler(getApplicationContext());
+ /**           Cursor getdata = ph.getData();
+
             while (getdata.moveToNext()) {
-                if(getdata.getString(3).matches("true"))
-                {
-                    alertDialog = new AlertDialog.Builder(this)
-                            .setTitle(getdata.getString(1))
-                            .setMessage(getdata.getString(2))
-                            .setIcon(R.drawable.confirm)
-                            .setCancelable(true)
-                            .show();
-                }
+                tit=getdata.getString(1);
+                bod=getdata.getString(2);
+            }*/
+            if(!tit.equals(null)) {
+                alertDialog = new AlertDialog.Builder(this)
+                        .setTitle(tit)
+                        .setMessage(bod)
+                        .setIcon(R.drawable.confirm)
+                        .setCancelable(true)
+                        .show();
             }
-            ph.dropdatabase();
             ph.close();
         } catch (Exception e){
             e.printStackTrace();
@@ -136,7 +151,9 @@ public class Login extends AppCompatActivity {
                 ProgressDialog pg = new ProgressDialog(context);
                 pg.setMessage("Wczytywanie...");
                 pg.show();
-
+                PowiadomieniaDataHandler ph = new PowiadomieniaDataHandler(context);
+                ph.dropdatabase();
+                ph.close();
                 final String Logi = ((EditText) findViewById(R.id.Logintxt)).getText().toString();
                 final String Haslo = ((EditText) findViewById(R.id.Passwordtxt)).getText().toString();
                 if(Logi.equals("") || Haslo.equals(""))
