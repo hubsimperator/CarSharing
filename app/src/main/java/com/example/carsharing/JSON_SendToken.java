@@ -42,7 +42,6 @@ public class JSON_SendToken {
             JSONObject jsonObject = new JSONObject();
             jsonObject.accumulate("Username",User);
             jsonObject.accumulate("Token",Token);
-            jsonObject.accumulate("Typ",0);
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);

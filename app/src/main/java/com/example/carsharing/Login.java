@@ -132,14 +132,16 @@ public class Login extends AppCompatActivity {
             }
         } catch (Exception e){
             e.printStackTrace();
-        }*/
+
+
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( Login.this,  new OnSuccessListener<InstanceIdResult>() {
+
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 String mToken = instanceIdResult.getToken();
                 Log.e("Token",mToken);
             }
-        });
+        });}*/
 
         try {
             LoginDataHandler LDH = new LoginDataHandler(this);
@@ -187,7 +189,7 @@ public class Login extends AppCompatActivity {
                                     if(task.isSuccessful()){
                                         String token = task.getResult().getToken();
                                         JSON_Login logowanie = new JSON_Login();
-                                        Log.d("token",token);
+                                        Log.d("token",token + " 2");
                                         logowanie.StartUpdate(Logi,Haslo,getApplicationContext(),error,token);
                                     }else
                                     {
