@@ -48,12 +48,14 @@ public class MojeRezerwacje extends AppCompatActivity {
 
 
        ImageView rozpocznij_jazde_bt=(ImageView) findViewById(R.id.potwierdz_bt);
+
         if(Status.equals("0")|| Status.equals("2")){
-            rozpocznij_jazde_bt.setBackgroundResource(R.drawable.potwierdz);
+            rozpocznij_jazde_bt.setImageResource(R.drawable.rozpocznijjazde);
+
 
         }else
         {
-            rozpocznij_jazde_bt.setBackgroundResource(R.drawable.pasek);
+            rozpocznij_jazde_bt.setImageResource(R.drawable.zatrzymajjazd);
 
         }
        rozpocznij_jazde_bt.setOnClickListener(new View.OnClickListener() {
