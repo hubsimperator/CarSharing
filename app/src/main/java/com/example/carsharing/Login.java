@@ -99,14 +99,7 @@ public class Login extends AppCompatActivity {
             error.setTextColor(0xFFFF0000);
             error.setText("Błąd połączenia, sprawdź połączenie z internetem");
         }
-        try {
-            PowiadomieniaDataHandler ph = new PowiadomieniaDataHandler(getApplicationContext());
- /**           Cursor getdata = ph.getData();
-
-            while (getdata.moveToNext()) {
-                tit=getdata.getString(1);
-                bod=getdata.getString(2);
-            }*/
+     /**   try {
             if(!tit.equals(null)) {
                 alertDialog = new AlertDialog.Builder(this)
                         .setTitle(tit)
@@ -115,10 +108,9 @@ public class Login extends AppCompatActivity {
                         .setCancelable(true)
                         .show();
             }
-            ph.close();
         } catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( Login.this,  new OnSuccessListener<InstanceIdResult>() {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
@@ -151,9 +143,6 @@ public class Login extends AppCompatActivity {
                 ProgressDialog pg = new ProgressDialog(context);
                 pg.setMessage("Wczytywanie...");
                 pg.show();
-                PowiadomieniaDataHandler ph = new PowiadomieniaDataHandler(context);
-                ph.dropdatabase();
-                ph.close();
                 final String Logi = ((EditText) findViewById(R.id.Logintxt)).getText().toString();
                 final String Haslo = ((EditText) findViewById(R.id.Passwordtxt)).getText().toString();
                 if(Logi.equals("") || Haslo.equals(""))

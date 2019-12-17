@@ -22,20 +22,29 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        Log.d("test","każda dupa");
         if (remoteMessage.getData().size() > 0) {
             try {
                 JSONObject data = new JSONObject(remoteMessage.getData());
                 String jsonMessage  = data.getString("extra_information");
-                //sendNotification(data.getString("title"), data.getString("body"),data.getString("click_action"));
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
 
+        if(remoteMessage.getData() != null){
+
+                String title = remoteMessage.getNotification().getTitle();
+
+                String message = remoteMessage.getNotification().getBody();
+                String click_action = remoteMessage.getNotification().getClickAction();
+                sendNotification(title, message, click_action);
+                Log.d("test","data");
+        }
+
         if(remoteMessage.getNotification() != null){
-            PowiadomieniaDataHandler pdh = new PowiadomieniaDataHandler(this);
-            if(pdh.inputDataTime(remoteMessage.getNotification().getTitle().toString(),remoteMessage.getNotification().getBody().toString())) {
-                pdh.close();
+
+
                 String title = remoteMessage.getNotification().getTitle();
 
                 String message = remoteMessage.getNotification().getBody();
@@ -45,15 +54,13 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         }
 
-    }
+   // }
 
     private void sendNotification(String title, String messageBody, String click_action) {
 
 
           Intent intent;
             intent = new Intent(this, Login.class);
-        intent.putExtra("t1",title);
-        intent.putExtra("b1",messageBody);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 
