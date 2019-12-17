@@ -2,6 +2,7 @@ package com.example.carsharing;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -99,9 +100,21 @@ public class JSON_anuluj_rezerwacje extends AppCompatActivity {
             alertDialog = new AlertDialog.Builder(con)
                     .setTitle("Potwierdzenie ")
                     .setMessage("Rezerwacja została anulowana")
+                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            //alertDialog.dismiss();
+                            MojeRezerwacje mojeRezerwacje=new MojeRezerwacje();
+                            mojeRezerwacje.finish();
+                            JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+                            json_moje_rezerwacje.StartUpdate("","",con);
+                        }
+                    })
                     .setIcon(R.drawable.confirm)
                     .setCancelable(true)
                     .show();
+           Toast.makeText(con,"Rezerwacja anulowana",Toast.LENGTH_LONG).show();
+
         }
         else{
             alertDialog = new AlertDialog.Builder(con)

@@ -86,8 +86,10 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         search_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSON_lista_samochodow json_lista_samochodow = new JSON_lista_samochodow();
-                json_lista_samochodow.StartUpdate(data_poczatkowa,data_koncowa,Rezerwacja.this);
+                if(sprawdz_czy_dane_niepuste(1)) {
+                    JSON_lista_samochodow json_lista_samochodow = new JSON_lista_samochodow();
+                    json_lista_samochodow.StartUpdate(data_poczatkowa, data_koncowa, Rezerwacja.this);
+                }
             }
         });
 
@@ -136,8 +138,25 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         rezerwuj_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSON_potwierdzenie_rezerwacji json_potwierdzenie_rezerwacji=new JSON_potwierdzenie_rezerwacji();
-                json_potwierdzenie_rezerwacji.StartUpdate(data_poczatkowa,data_koncowa,"0",subject_et.getText().toString(),eit_Resource,"","4","","","","",grupa_projektu,nazwa_projektu,Rezerwacja.this);
+                if (sprawdz_czy_dane_niepuste(0)) {
+                    alertDialog = new AlertDialog.Builder(Rezerwacja.this)
+                            .setTitle("Rezerwacja")
+                            .setMessage("Czy napewno chcesz dokonać rezerwacji?")
+                            .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    JSON_potwierdzenie_rezerwacji json_potwierdzenie_rezerwacji = new JSON_potwierdzenie_rezerwacji();
+                                    json_potwierdzenie_rezerwacji.StartUpdate(data_poczatkowa, data_koncowa, "0", subject_et.getText().toString(), eit_Resource, "", "4", "", "", "", "", grupa_projektu, nazwa_projektu, Rezerwacja.this);
+
+                                }
+                            })
+                            .setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    alertDialog.dismiss();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
             }
         });
 
@@ -150,6 +169,37 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             }
         });
 }
+
+public boolean sprawdz_czy_dane_niepuste(int param) {
+    if (param == 0) {
+        if (subject_et.length() > 1 && poczatek_et.length() > 1 && koniec_et.length() > 1 && projekt_et.length() > 1) {
+            return true;
+        } else {
+            alertDialog = new AlertDialog.Builder(Rezerwacja.this)
+                    .setTitle("Uwaga")
+                    .setMessage("Pola : 'Tytuł','Projekt','Początek','Koniec' oraz 'Wybrany samochód' nie mogą być puste !")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+            return false;
+        }
+    }
+    else{
+            if (poczatek_et.length() > 1 && koniec_et.length() > 1) {
+                return true;
+            } else {
+                alertDialog = new AlertDialog.Builder(Rezerwacja.this)
+                        .setTitle("Uwaga")
+                        .setMessage("Pola : 'Początek'i'Koniec' nie mogą być puste !")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+                return false;
+            }
+
+    }
+}
+
 public void wyswietl_liste(Context con, final ArrayList<String> lista, final ArrayList<String> lista_id){
 
     final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con).setPositiveButton("Potwierdź", new DialogInterface.OnClickListener() {

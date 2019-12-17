@@ -62,7 +62,6 @@ public class RozpoczecieJazdy extends AppCompatActivity {
             public void onClick(View v) {
                 JSON_start_trip json_start_trip=new JSON_start_trip();
                 json_start_trip.StartUpdate(BookingId,GrupaProjektu,NazwaProjektu,RozpoczecieJazdy.this);
-                finish();
             }
         });
 
