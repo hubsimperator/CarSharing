@@ -75,7 +75,9 @@ public static String[] headers={"Temat","Data","Samochód"};
         back_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(ListaRezerwacji.this, Menu.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ListaRezerwacji.this.startActivity(intent);
             }
         });
 

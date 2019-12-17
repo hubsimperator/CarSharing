@@ -110,14 +110,37 @@ public class MojeRezerwacje extends AppCompatActivity {
         anuluj_rezerwacje_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSON_anuluj_rezerwacje json_anuluj_rezerwacje=new JSON_anuluj_rezerwacje();
-                json_anuluj_rezerwacje.StartUpdate(BookingId,MojeRezerwacje.this);
+
+                alertDialog=new AlertDialog.Builder(MojeRezerwacje.this)
+                        .setTitle("Rezerwacja")
+                        .setMessage("Czy napewno chcesz anulować rezerwację?")
+                        .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                JSON_anuluj_rezerwacje json_anuluj_rezerwacje=new JSON_anuluj_rezerwacje();
+                                json_anuluj_rezerwacje.StartUpdate(BookingId,MojeRezerwacje.this);
+                            }
+                        })
+                        .setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
             }
         });
 
 
 
 
+    }
+
+    public void powrot_do_rezerwacji(){
+        //finish();
+        JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+        json_moje_rezerwacje.StartUpdate("","",MojeRezerwacje.this);
     }
 
 }

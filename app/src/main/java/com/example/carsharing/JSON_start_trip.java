@@ -2,6 +2,7 @@ package com.example.carsharing;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -93,6 +94,18 @@ public class JSON_start_trip {
             }
             else if (result.contains("true")) {
                 alertDialog = new AlertDialog.Builder(con)
+                       .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                           @Override
+                           public void onCancel(DialogInterface dialog) {
+                               //alertDialog.dismiss();
+                               MojeRezerwacje mojeRezerwacje=new MojeRezerwacje();
+                               mojeRezerwacje.finish();
+                               RozpoczecieJazdy rozpoczecieJazdy=new RozpoczecieJazdy();
+                               rozpoczecieJazdy.finish();
+                               JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+                               json_moje_rezerwacje.StartUpdate("","",con);
+                           }
+                       })
                         .setTitle("Potwierdzenie ")
                         .setMessage("Rozpoczęto jazdę")
                         .setIcon(R.drawable.confirm)
