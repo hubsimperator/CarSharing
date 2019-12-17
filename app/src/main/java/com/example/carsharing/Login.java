@@ -68,6 +68,28 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+     try {
+         Bundle b = getIntent().getExtras();
+         Log.d("Firebejz", "jest cos");
+
+         String someData = b.getString("someData");
+         String someData2 = b.getString("someData2");
+
+         Log.d("Firebejz", someData);
+
+         AlertDialog alertDialog = new AlertDialog.Builder(this)
+                 .setTitle(someData)
+                 .setMessage(someData2)
+                 .setIcon(R.drawable.confirm)
+                 .setCancelable(true)
+                 .show();
+
+
+     }catch (NullPointerException ne){
+         Log.d("Firebejz", "Nie ma nic");
+
+     }
+
         if(!checkPermissions()){
             setPermissions();
         }
