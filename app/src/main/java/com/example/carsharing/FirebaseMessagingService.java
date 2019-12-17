@@ -46,8 +46,11 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     private void sendNotification(String title, String messageBody, String click_action) {
 
+            PowiadomieniaDataHandler pdh = new PowiadomieniaDataHandler(this);
+            pdh.inputDataTime(title,messageBody);
+            pdh.close();
             Intent intent;
-            intent = new Intent(this, MainActivity.class);
+            intent = new Intent(this, Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 

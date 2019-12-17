@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -62,6 +63,7 @@ public class Login extends AppCompatActivity {
 
         unregisterReceiver(networkChangeReceiver);
     }
+    AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +85,25 @@ public class Login extends AppCompatActivity {
             error.setTextColor(0xFFFF0000);
             error.setText("Błąd połączenia, sprawdź połączenie z internetem");
         }
-
+        try {
+            PowiadomieniaDataHandler ph = new PowiadomieniaDataHandler(this);
+            Cursor getdata = ph.getData();
+            while (getdata.moveToNext()) {
+                if(getdata.getString(3).matches("true"))
+                {
+                    alertDialog = new AlertDialog.Builder(this)
+                            .setTitle(getdata.getString(1))
+                            .setMessage(getdata.getString(2))
+                            .setIcon(R.drawable.confirm)
+                            .setCancelable(true)
+                            .show();
+                }
+            }
+            ph.dropdatabase();
+            ph.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( Login.this,  new OnSuccessListener<InstanceIdResult>() {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
