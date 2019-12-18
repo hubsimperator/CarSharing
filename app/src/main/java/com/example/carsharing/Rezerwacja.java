@@ -64,23 +64,28 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rezerwacja);
 
+        JSON_lista_przypomnien json_lista_przypomnien=new JSON_lista_przypomnien();
+        json_lista_przypomnien.StartUpdate(Rezerwacja.this);
+
         label_minuty_tv=(TextView) findViewById(R.id.label_przypomnienie_tv);
         label_samochod_tv=(TextView) findViewById(R.id.label_wybrany_tv);
         wybrany_samochod_tv=(TextView) findViewById(R.id.wybor_samochodu_tv);
         rezerwuj_bt=(ImageView) findViewById(R.id.rezerwuj_bt);
         projekt_et=(EditText) findViewById(R.id.projekt_et);
         subject_et=(EditText) findViewById(R.id.tytul_et);
-
-
         minuty_sp=(Spinner) findViewById(R.id.spinner);
+
 
         String[] arraySpinner = new String[] {
                 "15 min", "30 min", "1h", "1,5h", "2h", "2,5h"
         };
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         minuty_sp.setAdapter(adapter);
+
+
 
         ImageView search_bt = (ImageView) findViewById(R.id.search_bt);
         search_bt.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +173,16 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
                 finish();
             }
         });
+}
+
+public void setSpinner(ArrayList<String> id,ArrayList<String>nazwa){
+        Log.d("list",id.toString());
+        Log.d("list",nazwa.toString());
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+            android.R.layout.simple_spinner_item, nazwa);
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    minuty_sp.setAdapter(adapter);
+
 }
 
 public boolean sprawdz_czy_dane_niepuste(int param) {

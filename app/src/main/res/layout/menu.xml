@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:layout_marginTop="130sp"
+            android:layout_gravity="center"
+
             app:srcCompat="@drawable/zarezerwuj" />
 
         <ImageView
@@ -27,6 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:layout_marginTop="30sp"
+            android:layout_gravity="center"
+
             app:srcCompat="@drawable/mojerezerwacje1" />
 
         <ImageView
@@ -34,6 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:layout_marginTop="30sp"
+            android:layout_gravity="center"
+
             app:srcCompat="@drawable/koszty" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
