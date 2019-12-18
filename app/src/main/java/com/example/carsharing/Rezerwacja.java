@@ -75,7 +75,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         minuty_sp=(Spinner) findViewById(R.id.spinner);
 
         String[] arraySpinner = new String[] {
-                "brak","15 min", "30 min", "1h", "1,5h", "2h", "2,5h"
+                "15 min", "30 min", "1h", "1,5h", "2h", "2,5h"
         };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);

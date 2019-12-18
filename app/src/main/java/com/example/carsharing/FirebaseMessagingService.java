@@ -37,9 +37,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         }
 
         if(remoteMessage.getNotification() != null){
-            PowiadomieniaDataHandler pdh = new PowiadomieniaDataHandler(this);
-            if(pdh.inputDataTime(remoteMessage.getNotification().getTitle().toString(),remoteMessage.getNotification().getBody().toString())) {
-                pdh.close();
+
                 String title = remoteMessage.getNotification().getTitle();
 
                 String message = remoteMessage.getNotification().getBody();
@@ -49,7 +47,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         }
 
-    }
+
 
     private void sendNotification(String title, String messageBody, String click_action) {
 

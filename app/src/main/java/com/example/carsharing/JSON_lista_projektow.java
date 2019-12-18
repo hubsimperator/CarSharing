@@ -189,7 +189,7 @@ public class JSON_lista_projektow {
 
         ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(con,
                 android.R.layout.simple_spinner_item,lista_grupa_projektowa);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         projekt_sp.setAdapter(adapter4);
         selected_item=projekt_sp.getSelectedItem().toString();
 
@@ -247,16 +247,13 @@ public class JSON_lista_projektow {
             for (int i = 0; i <array.length(); i++) {
 
             lista_pola_projekt=new HashMap<>();
-
             JSONObject row = array.getJSONObject(i);
-
             obiekt_projekt.setGrupa_Projektu(row.getString("GRUPA_PROJEKTU"));
             obiekt_projekt.setNr_Projektu(row.getString("NR_PROJEKTU"));
             obiekt_projekt.setNazwa(row.getString("NAZWA"));
             obiekt_projekt.setStatus(row.getString("STATUS"));
 
             lista_grupa_projektowa.add(row.getString("GRUPA_PROJEKTU"));
-
             lista_pola_projekt.put("GRUPA_PROJEKTU",obiekt_projekt.getGrupa_Projektu());
             lista_pola_projekt.put("NR_PROJEKTU",obiekt_projekt.getNr_Projektu());
             lista_pola_projekt.put("NAZWA",obiekt_projekt.getNazwa());
@@ -269,9 +266,9 @@ public class JSON_lista_projektow {
             lista_nazwa_proj=new ArrayList<>();
 
             for(int i =0;i<lista_projekt.size();i++){
-                if(lista_projekt.get(i).get("GRUPA_PROJEKTU").equals("PI")){
+               // if(lista_projekt.get(i).get("GRUPA_PROJEKTU").equals("PI")){
                     lista_nazwa_proj.add(lista_projekt.get(i).get("NR_PROJEKTU"));
-                }
+                //}
             }
 
             Log.d("nazwa",lista_nazwa_proj.toString());

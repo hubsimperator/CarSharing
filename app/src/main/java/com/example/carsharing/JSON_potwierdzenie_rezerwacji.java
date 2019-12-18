@@ -2,6 +2,8 @@ package com.example.carsharing;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -133,6 +135,17 @@ public class JSON_potwierdzenie_rezerwacji {
             alertDialog = new AlertDialog.Builder(con)
                     .setTitle("Potwierdzenie ")
                     .setMessage("Rezerwacja przebiegła pomyślnie")
+                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            //alertDialog.dismiss();
+                            Rezerwacja rezerwacja=new Rezerwacja();
+                            rezerwacja.finish();
+                            Intent intent = new Intent(con, Menu.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            con.startActivity(intent);
+                        }
+                    })
                     .setIcon(R.drawable.confirm)
                     .setCancelable(true)
                     .show();

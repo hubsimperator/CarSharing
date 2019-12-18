@@ -121,14 +121,7 @@ public class Login extends AppCompatActivity {
             error.setTextColor(0xFFFF0000);
             error.setText("Błąd połączenia, sprawdź połączenie z internetem");
         }
-        try {
-            PowiadomieniaDataHandler ph = new PowiadomieniaDataHandler(getApplicationContext());
- /**           Cursor getdata = ph.getData();
-
-            while (getdata.moveToNext()) {
-                tit=getdata.getString(1);
-                bod=getdata.getString(2);
-            }*/
+     /**   try {
             if(!tit.equals(null)) {
                 alertDialog = new AlertDialog.Builder(this)
                         .setTitle(tit)
@@ -137,17 +130,18 @@ public class Login extends AppCompatActivity {
                         .setCancelable(true)
                         .show();
             }
-            ph.close();
         } catch (Exception e){
             e.printStackTrace();
-        }
+
+
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( Login.this,  new OnSuccessListener<InstanceIdResult>() {
+
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 String mToken = instanceIdResult.getToken();
                 Log.e("Token",mToken);
             }
-        });
+        });}*/
 
         try {
             LoginDataHandler LDH = new LoginDataHandler(this);
@@ -173,9 +167,6 @@ public class Login extends AppCompatActivity {
                 ProgressDialog pg = new ProgressDialog(context);
                 pg.setMessage("Wczytywanie...");
                 pg.show();
-                PowiadomieniaDataHandler ph = new PowiadomieniaDataHandler(context);
-                ph.dropdatabase();
-                ph.close();
                 final String Logi = ((EditText) findViewById(R.id.Logintxt)).getText().toString();
                 final String Haslo = ((EditText) findViewById(R.id.Passwordtxt)).getText().toString();
                 if(Logi.equals("") || Haslo.equals(""))
@@ -183,6 +174,7 @@ public class Login extends AppCompatActivity {
                     error.setTextColor(0xFFCC0000);
                     error.setGravity(Gravity.CENTER);
                     error.setText("Login i Hasło nie mogą być puste");
+                    pg.hide();
                 }
                 else
                 {
@@ -198,7 +190,7 @@ public class Login extends AppCompatActivity {
                                     if(task.isSuccessful()){
                                         String token = task.getResult().getToken();
                                         JSON_Login logowanie = new JSON_Login();
-                                        Log.d("token",token);
+                                        Log.d("token",token + " 2");
                                         logowanie.StartUpdate(Logi,Haslo,getApplicationContext(),error,token);
                                     }else
                                     {
