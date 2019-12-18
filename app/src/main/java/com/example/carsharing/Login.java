@@ -174,6 +174,7 @@ public class Login extends AppCompatActivity {
                     error.setTextColor(0xFFCC0000);
                     error.setGravity(Gravity.CENTER);
                     error.setText("Login i Hasło nie mogą być puste");
+                    pg.hide();
                 }
                 else
                 {
