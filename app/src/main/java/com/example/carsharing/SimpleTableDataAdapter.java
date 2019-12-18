@@ -1,6 +1,7 @@
 package com.example.carsharing;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.codecrafters.tableview.TableDataAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,9 +31,13 @@ public final class SimpleTableDataAdapter extends TableDataAdapter<String[]> {
     private int typeface = Typeface.BOLD;
     private int textColor = 0x99000000;
 
+    public static ArrayList<Integer> kolory;
 
-    public SimpleTableDataAdapter(final Context context, final String[][] data) {
+
+    public SimpleTableDataAdapter(final Context context, final String[][] data,ArrayList<Integer>_kolory) {
         super(context, data);
+        kolory=new ArrayList<>();
+      kolory=_kolory;
     }
 
     public SimpleTableDataAdapter(final Context context, final List<String[]> data) {
@@ -46,6 +52,9 @@ public final class SimpleTableDataAdapter extends TableDataAdapter<String[]> {
         textView.setTextSize(textSize);
         textView.setSingleLine(false);
         textView.setTextColor(textColor);
+        textView.setBackgroundColor(kolory.get(rowIndex));
+
+
         textView.setEllipsize(TextUtils.TruncateAt.END);
 
         try {

@@ -21,8 +21,11 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -75,6 +78,8 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
             }
         });
 
+        String s[]=PoczatekRezerwacji.split(" ");
+        final String ss[]=s[0].split("-");
 
         poczatek_et=(EditText) findViewById(R.id.poczatek_et);
         poczatek_et.setText(PoczatekRezerwacji);
@@ -84,13 +89,19 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
                 start_date=true;
                 end_date=false;
                 Calendar c= Calendar.getInstance();
+                c.set(Calendar.YEAR,Integer.valueOf(ss[0]));
+                c.set(Calendar.MONTH,(Integer.valueOf(ss[1])-1));
+                c.set(Calendar.DAY_OF_MONTH,Integer.valueOf(ss[2]));
                 year=c.get(Calendar.YEAR);
                 month=c.get(Calendar.MONTH);
                 day=c.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(ZmienCzasRezerwacji.this, ZmienCzasRezerwacji.this,year,month,day);
+                datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
                 datePickerDialog.show();
             }
         });
+        String sk[]=KoniecRezerwacji.split(" ");
+        final String ssk[]=sk[0].split("-");
 
         koniec_et=(EditText) findViewById(R.id.koniec_et);
         koniec_et.setText(KoniecRezerwacji);
@@ -100,15 +111,20 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
                 start_date=false;
                 end_date=true;
                 Calendar c= Calendar.getInstance();
+                c.set(Calendar.YEAR,Integer.valueOf(ssk[0]));
+                c.set(Calendar.MONTH,(Integer.valueOf(ssk[1])-1));
+                c.set(Calendar.DAY_OF_MONTH,Integer.valueOf(ssk[2]));
                 year=c.get(Calendar.YEAR);
                 month=c.get(Calendar.MONTH);
                 day=c.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(ZmienCzasRezerwacji.this, ZmienCzasRezerwacji.this,year,month,day);
+                datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
                 datePickerDialog.show();
             }
         });
 
 }
+
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -132,6 +148,17 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
         }
 
      Calendar c= Calendar.getInstance();
+        if(start_date){
+            String s[]=PoczatekRezerwacji.split(" ");
+            final String ss[]=s[1].split(":");
+            c.set(Calendar.HOUR_OF_DAY,Integer.valueOf(ss[0]));
+            c.set(Calendar.MINUTE,Integer.valueOf(ss[1]));
+        }else if(end_date){
+            String s[]=KoniecRezerwacji.split(" ");
+            final String ss[]=s[1].split(":");
+            c.set(Calendar.HOUR_OF_DAY,Integer.valueOf(ss[0]));
+            c.set(Calendar.MINUTE,Integer.valueOf(ss[1]));
+        }
      hour=c.get(Calendar.HOUR_OF_DAY);
      minute=c.get(Calendar.MINUTE);
 

@@ -2,6 +2,7 @@ package com.example.carsharing;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,14 +47,37 @@ public static String[] headers={"Temat","Data","Samochód"};
          dane[i][2]=lista_rezerwacji.get(i).get("Eit_ResourceName");
      }
 
+        ArrayList<Integer> kolory=new ArrayList<>();
+
+        for(int i=0;i<lista_rezerwacji.size();i++){
+        String status=lista_rezerwacji.get(i).get("Status");
+        if(status.equals("0")){
+            kolory.add(Color.GRAY);
+        }else if(status.equals("1")){
+            kolory.add(Color.GREEN);
+        }else if(status.equals("2")){
+            kolory.add(Color.YELLOW);
+        }else{
+            kolory.add(Color.RED);
+        }
+        }
+
+        kolory.add(Color.MAGENTA);
+        kolory.add(Color.YELLOW);
+        kolory.add(Color.GREEN);
+        kolory.add(Color.WHITE);
+
         TableView<String[]> tableView2 = (TableView<String[]>) findViewById(R.id.lista_rezerwacji_tabela);
         tableView2.setHeaderAdapter(new SimpleTableHeaderAdapter(this,headers));
-        SimpleTableDataAdapter adapter=new SimpleTableDataAdapter(this,dane);
+        SimpleTableDataAdapter adapter=new SimpleTableDataAdapter(this,dane,kolory);
         tableView2.setDataAdapter(adapter);
         TableColumnWeightModel columnModel = new TableColumnWeightModel(3);
         columnModel.setColumnWeight(0, 2);
         columnModel.setColumnWeight(1, 4);
         columnModel.setColumnWeight(2, 3);
+
+
+
         tableView2.setColumnModel(columnModel);
 
         tableView2.addDataClickListener(new TableDataClickListener() {

@@ -27,12 +27,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-     int year,month,day,hour,minute;
+    int DEFAULT_ADDTIME_MIN=15;
+
+    int year,month,day,hour,minute;
      String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
     public static EditText poczatek_et;
     public static EditText koniec_et;
@@ -40,6 +45,8 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public static EditText subject_et;
 
      String data_poczatkowa;
+     String data_bez_godzin;
+     String godzina_poczatkowa;
      String data_koncowa;
      public static String eit_Resource;
     public static String grupa_projektu;
@@ -106,6 +113,8 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             }
         });
 
+        start_date=false;
+        end_date=false;
 
         poczatek_et=(EditText) findViewById(R.id.poczatek_et);
         poczatek_et.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +130,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
                 month=c.get(Calendar.MONTH);
                 day=c.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(Rezerwacja.this,Rezerwacja.this,year,month,day);
+                datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
                 datePickerDialog.show();
             }
         });
@@ -131,11 +141,18 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             public void onClick(View v) {
                 start_date=false;
                 end_date=true;
+               long a=0;
                 Calendar c= Calendar.getInstance();
                 year=c.get(Calendar.YEAR);
                 month=c.get(Calendar.MONTH);
                 day=c.get(Calendar.DAY_OF_MONTH);
+                a=c.getTimeInMillis();
+                if(poczatek_et.length()>3) {
+                    a = convert_epoch_date();
+                }
+
                 DatePickerDialog datePickerDialog = new DatePickerDialog(Rezerwacja.this,Rezerwacja.this,year,month,day);
+                datePickerDialog.getDatePicker().setMinDate(a);
                 datePickerDialog.show();
             }
         });
@@ -183,6 +200,19 @@ public void setSpinner(ArrayList<String> id,ArrayList<String>nazwa){
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     minuty_sp.setAdapter(adapter);
 
+}
+
+public long convert_epoch_date(){
+    String string_date = data_bez_godzin;
+    long milliseconds=0;
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+    try {
+        Date d = f.parse(string_date);
+        milliseconds = d.getTime();
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
+    return milliseconds;
 }
 
 public boolean sprawdz_czy_dane_niepuste(int param) {
@@ -282,6 +312,22 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
      minute=c.get(Calendar.MINUTE);
 
      TimePickerDialog timePickerDialog = new TimePickerDialog(Rezerwacja.this,Rezerwacja.this,hour,minute,DateFormat.is24HourFormat(this));
+    if(end_date){
+
+        try {
+            String s[]=godzina_poczatkowa.split(":");
+
+            c.set(Calendar.HOUR_OF_DAY,Integer.valueOf(s[0]));
+            c.set(Calendar.MINUTE,Integer.valueOf(s[1]));
+            c.add(Calendar.MINUTE, DEFAULT_ADDTIME_MIN);
+            hour=c.get(Calendar.HOUR_OF_DAY);
+            minute=c.get(Calendar.MINUTE);
+            timePickerDialog.updateTime(hour,minute);
+        }catch (NullPointerException ne){
+
+        }
+
+    }
      timePickerDialog.show();
     }
 
@@ -302,6 +348,8 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
         String godzina=(hourFinal)+":"+(minuteFinal);
        if(start_date) {
            data_poczatkowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minuteFinal)+":00";
+           data_bez_godzin=yearFinal+"-"+monthFinal+"-"+dayFinal;
+           godzina_poczatkowa=(hourFinal)+":"+(minuteFinal);
            poczatek_et.setText(data_poczatkowa);
 
        }else{

@@ -32,6 +32,7 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,6 +47,8 @@ public class JSON_lista_projektow {
     HashMap<String, String> lista_pola_projekt;
     ArrayList<String> lista_grupa_projektowa;
     Integer projekt;
+    String DEFAULT_GROUP_NAME="PO";
+
 
     public static String selected_item;
 
@@ -191,6 +194,8 @@ public class JSON_lista_projektow {
                 android.R.layout.simple_spinner_item,lista_grupa_projektowa);
         adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         projekt_sp.setAdapter(adapter4);
+        projekt_sp.setSelection(lista_grupa_projektowa.indexOf(DEFAULT_GROUP_NAME));
+
         selected_item=projekt_sp.getSelectedItem().toString();
 
         dialogBuilder.setView(view);
@@ -263,6 +268,7 @@ public class JSON_lista_projektow {
             }
             set_grupa_projektowa = new HashSet(lista_grupa_projektowa);
             lista_grupa_projektowa=new ArrayList<>(set_grupa_projektowa);
+            Collections.sort(lista_grupa_projektowa);
             lista_nazwa_proj=new ArrayList<>();
 
             for(int i =0;i<lista_projekt.size();i++){

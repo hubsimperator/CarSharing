@@ -101,7 +101,11 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
         if(post_result.equals("[]")){
                 Toast.makeText(con,"Brak rezerwacji",Toast.LENGTH_LONG).show();
             }
-        alertDialog.dismiss();
+        try {
+            alertDialog.dismiss();
+        }catch (IllegalArgumentException ie){
+            Log.d("Marcin","błąd");
+        }
 
         ListaRezerwacji listaRezerwacji;
 //        listaRezerwacji=new ListaRezerwacji(lista_rezerwacji);
