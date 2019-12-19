@@ -54,8 +54,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
           Intent intent;
             intent = new Intent(this, Login.class);
-        intent.putExtra("t1",title);
-        intent.putExtra("b1",messageBody);
+        intent.putExtra("title",title);
+        intent.putExtra("body",messageBody);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 
