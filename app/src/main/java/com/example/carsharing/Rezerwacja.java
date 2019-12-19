@@ -38,17 +38,17 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     int DEFAULT_ADDTIME_MIN=15;
 
     int year,month,day,hour,minute;
-     String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
+    String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
     public static EditText poczatek_et;
     public static EditText koniec_et;
-   public static EditText projekt_et;
+    public static EditText projekt_et;
     public static EditText subject_et;
 
-     String data_poczatkowa;
-     String data_bez_godzin;
-     String godzina_poczatkowa;
-     String data_koncowa;
-     public static String eit_Resource;
+    String data_poczatkowa;
+    String data_bez_godzin;
+    String godzina_poczatkowa;
+    String data_koncowa;
+    public static String eit_Resource;
     public static String grupa_projektu;
     public static String nazwa_projektu;
 
@@ -84,14 +84,12 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
 
 
         String[] arraySpinner = new String[] {
-                "15 min", "30 min", "1h", "1,5h", "2h", "2,5h"
-        };
+                "15 min", "30 min", "1h", "1,5h", "2h", "2,5h" };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         minuty_sp.setAdapter(adapter);
-
 
 
         ImageView search_bt = (ImageView) findViewById(R.id.search_bt);

@@ -33,6 +33,9 @@ public class MojeRezerwacje extends AppCompatActivity {
     public static String KoniecRezerwacji;
     public static String Status;
 
+    ImageView anuluj_rezerwacje_bt;
+    ImageView zakoncz_rezerwacje_bt;
+
     AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class MojeRezerwacje extends AppCompatActivity {
        KoniecRezerwacji=extras.getString("EndDate");
        Status=extras.getString("Status");
 
+       zakoncz_rezerwacje_bt=(ImageView) findViewById(R.id.zakoncz_bt);
 
 
        ImageView rozpocznij_jazde_bt=(ImageView) findViewById(R.id.potwierdz_bt);
@@ -58,6 +62,8 @@ public class MojeRezerwacje extends AppCompatActivity {
             rozpocznij_jazde_bt.setImageResource(R.drawable.zatrzymajjazd);
 
         }
+
+
        rozpocznij_jazde_bt.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -106,7 +112,7 @@ public class MojeRezerwacje extends AppCompatActivity {
             }
         });
 
-        ImageView anuluj_rezerwacje_bt=(ImageView) findViewById(R.id.anuluj_bt);
+        anuluj_rezerwacje_bt=(ImageView) findViewById(R.id.anuluj_bt);
         anuluj_rezerwacje_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +137,37 @@ public class MojeRezerwacje extends AppCompatActivity {
 
             }
         });
+
+        zakoncz_rezerwacje_bt=(ImageView) findViewById(R.id.zakoncz_bt);
+        zakoncz_rezerwacje_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog=new AlertDialog.Builder(MojeRezerwacje.this)
+                        .setTitle("Rezerwacja")
+                        .setMessage("Czy napewno chcesz zakończyć rezerwację?")
+                        .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                JSON_zakoncz_rezerwacje json_zakoncz_rezerwacje=new JSON_zakoncz_rezerwacje();
+                                json_zakoncz_rezerwacje.StartUpdate("test",BookingId,MojeRezerwacje.this);
+                            }
+                        })
+                        .setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                alertDialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+            }
+        });
+
+
+        if(!(Status.equals("0")))
+        {
+            anuluj_rezerwacje_bt.setVisibility(View.GONE);
+            zakoncz_rezerwacje_bt.setVisibility(View.VISIBLE);
+        }
 
 
 

@@ -34,9 +34,16 @@
             android:id="@+id/anuluj_bt"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
-
             android:layout_height="90dp"
             app:srcCompat="@drawable/anuluj" />
+
+        <ImageView
+            android:id="@+id/zakoncz_bt"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="90dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/zakonczrezerwacje" />
 
         <ImageView
             android:id="@+id/back_bt"

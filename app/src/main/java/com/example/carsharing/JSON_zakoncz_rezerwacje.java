@@ -2,6 +2,8 @@ package com.example.carsharing;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -24,9 +26,9 @@ public class JSON_zakoncz_rezerwacje {
 
     public static ArrayList<String> lista_samochodow;
     String Description=null;
-    int BookingID = 0;
+    String BookingID ;
 
-    public void StartUpdate(String _Description, int _BookingID, Context context) {
+    public void StartUpdate(String _Description, String _BookingID, Context context) {
         con = context;
         lista_samochodow=new ArrayList<>();
         Description=_Description;
@@ -91,8 +93,18 @@ public class JSON_zakoncz_rezerwacje {
                         .setCancelable(true)
                         .show();
             }
-            else if (result.contains("True")) {
+            else if (result.contains("true")) {
                 alertDialog = new AlertDialog.Builder(con)
+                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                //alertDialog.dismiss();
+                                MojeRezerwacje mojeRezerwacje=new MojeRezerwacje();
+                                mojeRezerwacje.finish();
+                                JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+                                json_moje_rezerwacje.StartUpdate("","",con);
+                            }
+                        })
                         .setTitle("Potwierdzenie ")
                         .setMessage("Zakończono rezerwację")
                         .setIcon(R.drawable.confirm)
@@ -102,7 +114,7 @@ public class JSON_zakoncz_rezerwacje {
             else{
                 alertDialog = new AlertDialog.Builder(con)
                         .setTitle("Błąd")
-                        .setMessage("Nastąpił błąd podczas wysyłania danych.")
+                        .setMessage(result)
                         .setIcon(R.drawable.cancel)
                         .setCancelable(true)
                         .show();
