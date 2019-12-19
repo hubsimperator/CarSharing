@@ -96,6 +96,7 @@ public static String[] headers={"Temat","Data","Samochód"};
         kolory.add(Color.WHITE);
 
         TableView<String[]> tableView2 = (TableView<String[]>) findViewById(R.id.lista_rezerwacji_tabela);
+        
         tableView2.setHeaderAdapter(new SimpleTableHeaderAdapter(this,headers));
         SimpleTableDataAdapter adapter=new SimpleTableDataAdapter(this,dane,kolory);
         tableView2.setDataAdapter(adapter);

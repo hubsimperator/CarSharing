@@ -107,7 +107,7 @@ public class JSON_end_trip {
             else{
                 alertDialog = new AlertDialog.Builder(con)
                         .setTitle("Błąd")
-                        .setMessage("Nastąpił błąd podczas wysyłania danych.")
+                        .setMessage(result)
                         .setIcon(R.drawable.cancel)
                         .setCancelable(true)
                         .show();

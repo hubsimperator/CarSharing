@@ -15,6 +15,7 @@
 
         <de.codecrafters.tableview.TableView
             android:id="@+id/lista_rezerwacji_tabela"
+
             android:layout_width="wrap_content"
             android:layout_height="400dp"
 
@@ -23,9 +24,9 @@
             android:id="@+id/legenda_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="20dp"
 
-
-            android:layout_marginRight="30dp"
             android:gravity="right"
             android:text="Legenda" />
         <ImageView

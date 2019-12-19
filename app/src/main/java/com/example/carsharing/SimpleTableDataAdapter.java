@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import de.codecrafters.tableview.TableDataAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.codecrafters.tableview.TableDataAdapter;
 
 /**
  * A simple {@link TableDataAdapter} that allows to display 2D-String-Arrays in a {@link de.codecrafters.tableview.TableView}.
@@ -47,15 +48,25 @@ public final class SimpleTableDataAdapter extends TableDataAdapter<String[]> {
     @Override
     public View getCellView(final int rowIndex, final int columnIndex, final ViewGroup parentView) {
         final TextView textView = new TextView(getContext());
+
+
         textView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
         textView.setTypeface(textView.getTypeface(), typeface);
         textView.setTextSize(textSize);
         textView.setSingleLine(false);
         textView.setTextColor(textColor);
+      //  textView.setHeight(180);
         textView.setBackgroundColor(kolory.get(rowIndex));
+     //   parentView.setBackgroundColor(kolory.get(rowIndex));
+
+
+        int a;
+
+        Log.d("test",Integer.toString(parentView.getChildCount()));
 
 
         textView.setEllipsize(TextUtils.TruncateAt.END);
+
 
         try {
             final String textToShow = getItem(rowIndex)[columnIndex];
