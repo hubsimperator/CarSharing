@@ -1,15 +1,25 @@
 package com.example.carsharing;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,12 +39,30 @@ public class ListaRezerwacji extends AppCompatActivity {
 public static String[] headers={"Temat","Data","Samochód"};
     public static String[][] dane;
 
+    AlertDialog alertDialog;
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
             setContentView(R.layout.lista_rezerwacji);
             lista_rezerwacji = new ArrayList<>();
+
+        TextView legenta_tv=(TextView) findViewById(R.id.legenda_tv);
+        legenta_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ListaRezerwacji.this);
+                LayoutInflater inflater = (LayoutInflater)   ListaRezerwacji.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.legenda,null);
+                dialogBuilder.setView(view);
+
+                alertDialog =dialogBuilder.create();
+                alertDialog.show();
+
+            }
+        });
+
 
         Intent intent = getIntent();
 
