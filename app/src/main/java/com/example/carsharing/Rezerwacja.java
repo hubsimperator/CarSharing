@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,7 +37,7 @@ import java.util.Date;
 
 public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    int DEFAULT_ADDTIME_MIN=15;
+    int DEFAULT_ADDTIME_MIN=60;
 
     int year,month,day,hour,minute;
     String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
@@ -127,11 +129,14 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
                 year=c.get(Calendar.YEAR);
                 month=c.get(Calendar.MONTH);
                 day=c.get(Calendar.DAY_OF_MONTH);
+
                 DatePickerDialog datePickerDialog = new DatePickerDialog(Rezerwacja.this,Rezerwacja.this,year,month,day);
                 datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
                 datePickerDialog.show();
             }
         });
+
+
 
         koniec_et=(EditText) findViewById(R.id.koniec_et);
         koniec_et.setOnClickListener(new View.OnClickListener() {
@@ -155,10 +160,28 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             }
         });
 
+        setCurrentDate();
+
+        try {
+            LoginDataHandler LDH = new LoginDataHandler(this);
+            Cursor getdata = LDH.getData();
+            while (getdata.moveToNext()) {
+                if(getdata.getString(3).matches("true"))
+                {
+                    subject_et.setHint(getdata.getString(1));
+                }
+            }
+            LDH.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
         rezerwuj_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (sprawdz_czy_dane_niepuste(0)) {
+                    if(subject_et.length()<1) subject_et.setText(subject_et.getHint());
                     alertDialog = new AlertDialog.Builder(Rezerwacja.this)
                             .setTitle("Rezerwacja")
                             .setMessage("Czy napewno chcesz dokonać rezerwacji?")
@@ -190,18 +213,70 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         });
 }
 
-public void setSpinner(ArrayList<String> id,ArrayList<String>nazwa){
-        Log.d("list",id.toString());
-        Log.d("list",nazwa.toString());
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-            android.R.layout.simple_spinner_item, nazwa);
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    minuty_sp.setAdapter(adapter);
+public void setCurrentDate(){
+    Calendar c= Calendar.getInstance();
+    year=c.get(Calendar.YEAR);
+    month=c.get(Calendar.MONTH)+1;
+    day=c.get(Calendar.DAY_OF_MONTH);
+    hour=c.get(Calendar.HOUR_OF_DAY);
+    minute=c.get(Calendar.MINUTE);
 
+    if(year<10){
+        yearFinal="0"+Integer.toString(year);
+    }else{
+        yearFinal=Integer.toString(year);
+    }
+
+    if(month<10){
+        monthFinal="0"+Integer.toString(month);
+    }else{
+        monthFinal=Integer.toString(month);
+    }
+
+    if(day<10){
+        dayFinal="0"+Integer.toString(day);
+    }else{
+        dayFinal=Integer.toString(day);
+    }
+
+    if(hour<10){
+        hourFinal="0"+Integer.toString(hour);
+    }else{
+        hourFinal=Integer.toString(hour);
+    }
+    if(minute<10){
+        minuteFinal="0"+Integer.toString(minute);
+    }else{
+        minuteFinal=Integer.toString(minute);
+    }
+
+    String data=(yearFinal)+"-"+(monthFinal)+"-"+(dayFinal);
+    String godzina=(hourFinal)+":"+(minuteFinal);
+    data_poczatkowa=data+" "+godzina+":00";
+    poczatek_et.setText(data+" "+godzina+":00");
+
+    c.add(Calendar.MINUTE, DEFAULT_ADDTIME_MIN);
+    hour=c.get(Calendar.HOUR_OF_DAY);
+    minute=c.get(Calendar.MINUTE);
+    if(hour<10){
+        hourFinal="0"+Integer.toString(hour);
+    }else{
+        hourFinal=Integer.toString(hour);
+    }
+    if(minute<10){
+        minuteFinal="0"+Integer.toString(minute);
+    }else{
+        minuteFinal=Integer.toString(minute);
+    }
+    godzina=(hourFinal)+":"+(minuteFinal);
+    data_koncowa=data+" "+godzina+":00";
+
+    koniec_et.setText(data+" "+godzina+":00");
 }
-
 public long convert_epoch_date(){
-    String string_date = data_bez_godzin;
+    String[] s= (poczatek_et.getText().toString()).split(" ");
+   // String string_date = data_bez_godzin;
+    String string_date=s[0];
     long milliseconds=0;
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
     try {
@@ -215,7 +290,7 @@ public long convert_epoch_date(){
 
 public boolean sprawdz_czy_dane_niepuste(int param) {
     if (param == 0) {
-        if (subject_et.length() > 1 && poczatek_et.length() > 1 && koniec_et.length() > 1 && projekt_et.length() > 1) {
+        if ((subject_et.length() > 1 || subject_et.getHint().length()>1) && poczatek_et.length() > 1 && koniec_et.length() > 1 && projekt_et.length() > 1) {
             return true;
         } else {
             alertDialog = new AlertDialog.Builder(Rezerwacja.this)

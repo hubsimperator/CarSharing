@@ -119,6 +119,9 @@ public static String[] headers={"Temat","Data","Samochód"};
                 intent.putExtra("StartDate",lista_rezerwacji.get(rowIndex).get("StartDate"));
                 intent.putExtra("EndDate",lista_rezerwacji.get(rowIndex).get("EndDate"));
                 intent.putExtra("Status",lista_rezerwacji.get(rowIndex).get("Status"));
+                intent.putExtra("GrupaProjektu",lista_rezerwacji.get(rowIndex).get("GrupaProjektu"));
+                intent.putExtra("NrProjektu",lista_rezerwacji.get(rowIndex).get("NrProjektu"));
+
                 startActivity(intent);
             }
         });

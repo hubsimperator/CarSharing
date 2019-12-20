@@ -32,6 +32,8 @@ public class MojeRezerwacje extends AppCompatActivity {
     public static String PoczatekRezerwacji;
     public static String KoniecRezerwacji;
     public static String Status;
+    public static String GrupaProjektu;
+    public static String NrProjektu;
 
     ImageView anuluj_rezerwacje_bt;
     ImageView zakoncz_rezerwacje_bt;
@@ -47,6 +49,9 @@ public class MojeRezerwacje extends AppCompatActivity {
        PoczatekRezerwacji=extras.getString("StartDate");
        KoniecRezerwacji=extras.getString("EndDate");
        Status=extras.getString("Status");
+       GrupaProjektu=extras.getString("GrupaProjektu");
+       NrProjektu=extras.getString("NrProjektu");
+
 
        zakoncz_rezerwacje_bt=(ImageView) findViewById(R.id.zakoncz_bt);
 
@@ -73,6 +78,8 @@ public class MojeRezerwacje extends AppCompatActivity {
                    intent.putExtra("StartDate", PoczatekRezerwacji);
                    intent.putExtra("EndDate", KoniecRezerwacji);
                    intent.putExtra("BookingId", BookingId);
+                   intent.putExtra("GrupaProjektu",GrupaProjektu);
+                   intent.putExtra("NrProjektu",NrProjektu);
                    startActivity(intent);
                }
                else if(Status.equals("1")) {

@@ -14,6 +14,8 @@ public class Obiekt_Rezerwacja {
 	private String Location;
 	private String Description;
 	private String Status;
+	private String GrupaProjektu;
+	private String NrProjektu;
 
 	public void setBookingId(String BookingId) {
 		this.BookingId = BookingId;
@@ -85,6 +87,19 @@ public class Obiekt_Rezerwacja {
 		return Location;
 	}
 
+	public void setGrupaProjektu(String GrupaProjektu) {
+		this.GrupaProjektu = GrupaProjektu;
+	}
+	public String getGrupaProjektu() {
+		return GrupaProjektu;
+	}
+
+	public void setNrProjektu(String NrProjektu) {
+		this.NrProjektu = NrProjektu;
+	}
+	public String getNrProjektu(){
+		return NrProjektu;
+	}
 	public void setDescription(String Description) {
 		this.Description = Description;
 	}

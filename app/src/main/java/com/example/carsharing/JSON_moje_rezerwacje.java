@@ -163,7 +163,8 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
                 rezerwacja.setLocation(row.getString("Location"));
                 rezerwacja.setDescription(row.getString("Description"));
                 rezerwacja.setStatus(row.getString("Status"));
-
+                rezerwacja.setGrupaProjektu(row.getString("GRUPA_PROJEKTU"));
+                rezerwacja.setNrProjektu(row.getString("NR_PROJEKTU"));
 
                 lista_pola_rezerwacji.put("BookingId",rezerwacja.getBookingId());
                 lista_pola_rezerwacji.put("StartDate",rezerwacja.getStartDate());
@@ -177,6 +178,8 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
                 lista_pola_rezerwacji.put("Location",rezerwacja.getLocation());
                 lista_pola_rezerwacji.put("Description",rezerwacja.getDescription());
                 lista_pola_rezerwacji.put("Status",rezerwacja.getStatus());
+                lista_pola_rezerwacji.put("GrupaProjektu",rezerwacja.getGrupaProjektu());
+                lista_pola_rezerwacji.put("NrProjektu",rezerwacja.getNrProjektu());
 
                 lista_rezerwacji.add(lista_pola_rezerwacji);
 

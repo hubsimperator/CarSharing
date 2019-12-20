@@ -36,6 +36,7 @@ public class RozpoczecieJazdy extends AppCompatActivity {
     public static String KoniecRezerwacji;
     public static String BookingId;
 
+
     public static String GrupaProjektu;
     public static String NazwaProjektu;
 
@@ -55,6 +56,9 @@ public class RozpoczecieJazdy extends AppCompatActivity {
         PoczatekRezerwacji=extras.getString("StartDate");
         KoniecRezerwacji=extras.getString("EndDate");
         BookingId=extras.getString("BookingId");
+        GrupaProjektu=extras.getString("GrupaProjektu");
+        NazwaProjektu=extras.getString("NrProjektu");
+
 
         rozpocznij_bt=(ImageView) findViewById(R.id.potwierdz_bt);
         rozpocznij_bt.setOnClickListener(new View.OnClickListener() {
@@ -92,15 +96,16 @@ public class RozpoczecieJazdy extends AppCompatActivity {
             }
         });
 
-        JSON_lista_projektow json_lista_projektow=new JSON_lista_projektow();
-        json_lista_projektow.StartUpdate(1,RozpoczecieJazdy.this);
+        proj_et.setText(NazwaProjektu);
+     //   JSON_lista_projektow json_lista_projektow=new JSON_lista_projektow();
+      //  json_lista_projektow.StartUpdate(1,RozpoczecieJazdy.this);
 }
 
     public void wyswietl_projekt(Context con, String _proj, String _grupa_projektu){
       proj_et.setText(_proj);
       NazwaProjektu=_proj;
       GrupaProjektu=_grupa_projektu;
-        rozpocznij_bt.setVisibility(View.VISIBLE);
+       // rozpocznij_bt.setVisibility(View.VISIBLE);
 
 
     }
