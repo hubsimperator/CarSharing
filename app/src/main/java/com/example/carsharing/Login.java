@@ -68,15 +68,17 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        try{
+            JSON_lista_czas_powiadomien lis = new JSON_lista_czas_powiadomien();
+            lis.StartUpdate(this);
+        }catch(Exception e){
+
+        }
+
      try {
          Bundle b = getIntent().getExtras();
-         Log.d("Firebejz", "jest cos");
-
-         String someData = b.getString("someData");
-         String someData2 = b.getString("someData2");
-
-         Log.d("Firebejz", someData);
-
+         String someData = b.getString("title");
+         String someData2 = b.getString("body");
          AlertDialog alertDialog = new AlertDialog.Builder(this)
                  .setTitle(someData)
                  .setMessage(someData2)
