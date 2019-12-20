@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class JSON_lista_samochodow {
@@ -50,11 +51,12 @@ public class JSON_lista_samochodow {
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
+
             jsonObject.accumulate("DateFrom",StartDate);
             jsonObject.accumulate("DateTo",EndDate);
-            jsonObject.accumulate("Parking","Wałowa");
+            jsonObject.accumulate("Parking",Parking);
             json = jsonObject.toString();
-            StringEntity se = new StringEntity(json);
+            StringEntity se = new StringEntity(json, "UTF-8");
             httpPost.setEntity(se);
             httpPost.setHeader("Content-type", "application/json");
             httpPost.setHeader("Accept", "application/json");
