@@ -75,6 +75,14 @@ public class Login extends AppCompatActivity {
 
         }
 
+        try{
+            JSON_lista_parkingow lis = new JSON_lista_parkingow();
+            lis.StartUpdate(this);
+        }catch(Exception e){
+
+        }
+
+
      try {
          Bundle b = getIntent().getExtras();
          String someData = b.getString("title");

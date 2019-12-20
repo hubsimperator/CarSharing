@@ -2,11 +2,8 @@ package com.example.carsharing;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -23,23 +20,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class JSON_lista_samochodow {
+public class JSON_lista_parkingow {
 
     Context con = null;
+ArrayList<String> parking_nazwa;
 
-    public static ArrayList<String> lista_samochodow;
-    public static ArrayList<String> lista_samochodow_id;
-
-    String StartDate,EndDate,Parking;
-
-    public void StartUpdate(String _StartDate, String _EndDate,String _Parking, Context context) {
+    public void StartUpdate(Context context) {
         con = context;
-        Parking=_Parking;
-        StartDate=_StartDate;
-        EndDate=_EndDate;
-        lista_samochodow=new ArrayList<>();
-        lista_samochodow_id=new ArrayList<>();
-        new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppGetAutos");
+        new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppVParkings");
     }
 
     public String POST(String url) {
@@ -50,9 +38,6 @@ public class JSON_lista_samochodow {
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("DateFrom",StartDate);
-            jsonObject.accumulate("DateTo",EndDate);
-            jsonObject.accumulate("Parking","Wałowa");
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
@@ -69,6 +54,8 @@ public class JSON_lista_samochodow {
     }
     private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
         AlertDialog alertDialog;
+
+
         @Override
         protected void onPreExecute() {
 
@@ -81,10 +68,13 @@ public class JSON_lista_samochodow {
                     .setCancelable(false)
                     .show();
         }
+        String post_result;
+
+
 
         @Override
         protected String doInBackground(String... urls) {
-            String post_result=POST(urls[0]);
+            post_result=POST(urls[0]);
             deserialize_json(post_result);
             return null;
         }
@@ -92,10 +82,19 @@ public class JSON_lista_samochodow {
     @Override
     protected void onPostExecute(String result) {
         alertDialog.dismiss();
-        Rezerwacja res=new Rezerwacja();
-        res.wyswietl_liste(con,lista_samochodow,lista_samochodow_id);
+
+
+            Lista_parking_DataHandler LD = new Lista_parking_DataHandler(con);
+            LD.dropdatabase();
+            boolean insert;
+            for (int i = 0; i < parking_nazwa.size(); ) {
+                insert = LD.inputData(parking_nazwa.get(i));
+                if(insert)
+                {i++;}
+            }
 
     }
+
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
@@ -107,8 +106,13 @@ public class JSON_lista_samochodow {
         return result;
     }
 
+
     public void deserialize_json(String input)
     {
+        Log.d("output",input);
+
+        parking_nazwa=new ArrayList<>();
+
         JSONArray array = null;
         String dataname;
 
@@ -120,12 +124,12 @@ public class JSON_lista_samochodow {
         }
 
         try {
+
             for (int i = 0; i <array.length(); i++) {
-                JSONObject row = array.getJSONObject(i);
-                dataname = row.getString("ResourceName");
-                lista_samochodow.add(dataname);
-                lista_samochodow_id.add(row.getString("ResourceId"));
+            JSONObject row = array.getJSONObject(i);
+            parking_nazwa.add(row.getString("parking"));
             }
+
         }
         catch (JSONException e) {                e.printStackTrace();
         }

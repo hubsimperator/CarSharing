@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,15 +31,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     int DEFAULT_ADDTIME_MIN=60;
+    String DEFAULT_PARKING_NAME="Wałowa";
 
     int year,month,day,hour,minute;
     String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
@@ -50,6 +55,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     String data_bez_godzin;
     String godzina_poczatkowa;
     String data_koncowa;
+    String parking;
     public static String eit_Resource;
     public static String grupa_projektu;
     public static String nazwa_projektu;
@@ -61,6 +67,9 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public static ImageView rezerwuj_bt;
 
     public static Spinner minuty_sp;
+    public static Spinner parking_sp;
+
+    public static ArrayList<String> parkingi;
 
     boolean start_date=false;
      boolean end_date=false;
@@ -73,6 +82,13 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rezerwacja);
 
+        try {
+            getLocationFromAddress("Straszyn");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         JSON_lista_przypomnien json_lista_przypomnien=new JSON_lista_przypomnien();
         json_lista_przypomnien.StartUpdate(Rezerwacja.this);
 
@@ -83,12 +99,37 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         projekt_et=(EditText) findViewById(R.id.projekt_et);
         subject_et=(EditText) findViewById(R.id.tytul_et);
         minuty_sp=(Spinner) findViewById(R.id.spinner);
+        parking_sp=(Spinner) findViewById(R.id.parking_sp);
+
+
+        parkingi=new ArrayList<>();
+
+        try {
+            Lista_parking_DataHandler LDH = new Lista_parking_DataHandler(this);
+            Cursor getdata = LDH.getData();
+            while (getdata.moveToNext()) {
+
+                    parkingi.add(getdata.getString(1));
+
+            }
+            LDH.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, parkingi);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        parking_sp.setAdapter(adapter);
+
+        parking_sp.setSelection(parkingi.indexOf(DEFAULT_PARKING_NAME));
+        parking=parking_sp.getSelectedItem().toString();
 
 
         String[] arraySpinner = new String[] {
                 "15 min", "30 min", "1h", "1,5h", "2h", "2,5h" };
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+       adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         minuty_sp.setAdapter(adapter);
@@ -100,7 +141,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             public void onClick(View v) {
                 if(sprawdz_czy_dane_niepuste(1)) {
                     JSON_lista_samochodow json_lista_samochodow = new JSON_lista_samochodow();
-                    json_lista_samochodow.StartUpdate(data_poczatkowa, data_koncowa, Rezerwacja.this);
+                    json_lista_samochodow.StartUpdate(data_poczatkowa, data_koncowa,parking, Rezerwacja.this);
                 }
             }
         });
@@ -212,6 +253,16 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             }
         });
 }
+
+    public void getLocationFromAddress(String strAddress) throws IOException {
+
+        Geocoder coder = new Geocoder(Rezerwacja.this);
+        List<Address> address;
+            address = coder.getFromLocationName(strAddress,5);
+            Address location=address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+    }
 
 public void setCurrentDate(){
     Calendar c= Calendar.getInstance();

@@ -131,7 +131,7 @@
                 android:textSize="15dp" />
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/parking_sp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
