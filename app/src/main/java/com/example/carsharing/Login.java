@@ -12,10 +12,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -24,14 +31,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.widget.ImageView;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
 
-public class Login extends AppCompatActivity {
+
+public class Login extends AppCompatActivity implements LocationListener {
+    LocationManager mlocation;
+    Criteria criteria;
+    LocationManager mLocationManager;
+
+
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -100,9 +118,32 @@ public class Login extends AppCompatActivity {
 
      }
 
+
         if(!checkPermissions()){
             setPermissions();
         }
+
+
+        ReverseGeoCoding("Wałowa");
+
+        GeoProcessing geoProcessing=new GeoProcessing();
+        geoProcessing.setNearestParking(Login.this);
+/*
+
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 2 * 60 * 1000) {
+            // Do something with the recent location fix
+            //  otherwise wait for the update below
+        }
+        else {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
+
+
+
+ */
+
         final TextView error = (TextView)findViewById(R.id.errortxt);
         final Context context = this;
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -131,27 +172,6 @@ public class Login extends AppCompatActivity {
             error.setTextColor(0xFFFF0000);
             error.setText("Błąd połączenia, sprawdź połączenie z internetem");
         }
-     /**   try {
-            if(!tit.equals(null)) {
-                alertDialog = new AlertDialog.Builder(this)
-                        .setTitle(tit)
-                        .setMessage(bod)
-                        .setIcon(R.drawable.confirm)
-                        .setCancelable(true)
-                        .show();
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-
-
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( Login.this,  new OnSuccessListener<InstanceIdResult>() {
-
-            @Override
-            public void onSuccess(InstanceIdResult instanceIdResult) {
-                String mToken = instanceIdResult.getToken();
-                Log.e("Token",mToken);
-            }
-        });}*/
 
         try {
             LoginDataHandler LDH = new LoginDataHandler(this);
@@ -168,11 +188,15 @@ public class Login extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
-        ImageView im = (ImageView) findViewById(R.id.Loginbtn);
 
-        im.setOnClickListener(new View.OnClickListener() {
+
+        ImageView zaloguj = (ImageView) findViewById(R.id.Loginbtn);
+
+        zaloguj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
                 ProgressDialog pg = new ProgressDialog(context);
                 pg.setMessage("Wczytywanie...");
@@ -213,6 +237,30 @@ public class Login extends AppCompatActivity {
         });
         }
 
+    public LatLng ReverseGeoCoding(String strAddress){
+        Geocoder coder = new Geocoder(this);
+        List<Address> address;
+        LatLng _location = null;
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if (address==null) {
+                return null;
+            }
+            Address location=address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+            double latitude= (double) (location.getLatitude());
+            double longitude=(double) (location.getLongitude());
+            _location = new LatLng(latitude, longitude);
+
+            return _location;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return _location;
+
+    }
+
 
     private boolean checkPermissions() {
 
@@ -239,12 +287,20 @@ public class Login extends AppCompatActivity {
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             return false;
         }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }
         return true;
     }
 
     private void setPermissions() {
         ActivityCompat.requestPermissions((Activity) this, new String[]{
-                Manifest.permission.INTERNET , Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.VIBRATE ,Manifest.permission.CAMERA }, 1);
+                Manifest.permission.INTERNET , Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.VIBRATE ,Manifest.permission.CAMERA,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
     }
     public boolean isConnected(){
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
@@ -253,6 +309,29 @@ public class Login extends AppCompatActivity {
             return true;
         else
             return false;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (location != null) {
+            Log.v("Location Changed", location.getLatitude() + " and " + location.getLongitude());
+            mLocationManager.removeUpdates(this);
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
 

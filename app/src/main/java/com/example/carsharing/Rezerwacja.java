@@ -123,7 +123,18 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         parking_sp.setAdapter(adapter);
 
         parking_sp.setSelection(parkingi.indexOf(DEFAULT_PARKING_NAME));
-        parking=parking_sp.getSelectedItem().toString();
+        parking_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parking=parking_sp.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
 
         String[] arraySpinner = new String[] {
@@ -376,7 +387,15 @@ public void wyswietl_liste(Context con, final ArrayList<String> lista, final Arr
         public void onClick(DialogInterface dialog, int which) {
             alertDialog.dismiss();
         }
-    });
+    })
+            .setNeutralButton("Powrót",null)
+            .setNegativeButton("Szczegóły", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
+                }
+            })
+            ;
     LayoutInflater inflater = (LayoutInflater)   con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     view = inflater.inflate(R.layout.dostepne_samochody,null);
     dialogBuilder.setView(view);
