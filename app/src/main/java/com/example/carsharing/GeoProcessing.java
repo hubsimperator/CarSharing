@@ -50,7 +50,7 @@ Context con;
     public void setNearestParking(Context _con){
         con=_con;
 
-        String[] latlong =  "54.357851,18.656592".split(",");
+        String[] latlong =  "54.299752,18.591066".split(",");
         double latitude = Double.parseDouble(latlong[0]);
         double longitude = Double.parseDouble(latlong[1]);
         LatLng location = new LatLng(latitude, longitude);
