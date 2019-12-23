@@ -123,11 +123,15 @@ public class Login extends AppCompatActivity implements LocationListener {
             setPermissions();
         }
 
-
+/*
         ReverseGeoCoding("Wałowa");
 
         GeoProcessing geoProcessing=new GeoProcessing();
         geoProcessing.setNearestParking(Login.this);
+
+NAPISALEM CI FRASZKE
+ */
+
 /*
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
