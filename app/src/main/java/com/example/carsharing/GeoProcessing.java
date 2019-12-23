@@ -47,13 +47,15 @@ Context con;
     ArrayList<Double> distance;
     ArrayList<String> parkingi;
 
-    public void setNearestParking(Context _con){
+    public void setNearestParking(LatLng _myCoordinate,Context _con){
         con=_con;
 
         String[] latlong =  "54.299752,18.591066".split(",");
         double latitude = Double.parseDouble(latlong[0]);
         double longitude = Double.parseDouble(latlong[1]);
         LatLng location = new LatLng(latitude, longitude);
+
+        location=_myCoordinate;
 
         parkingi=new ArrayList<>();
         distance=new ArrayList<>();

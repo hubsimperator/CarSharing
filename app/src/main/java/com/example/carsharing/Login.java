@@ -124,14 +124,8 @@ public class Login extends AppCompatActivity implements LocationListener {
         }
 
 
-       // ReverseGeoCoding("Wałowa");
-
-        GeoProcessing geoProcessing=new GeoProcessing();
-        geoProcessing.setNearestParking(Login.this);
 
 
-
-/*
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -144,8 +138,17 @@ public class Login extends AppCompatActivity implements LocationListener {
         }
 
 
+        LatLng myCoord;
 
- */
+        if(location==null){
+            myCoord=new LatLng(54.357912, 18.656533);
+        }else{
+             myCoord= new LatLng(location.getLatitude(),location.getLongitude());
+        }
+        GeoProcessing geoProcessing=new GeoProcessing();
+        geoProcessing.setNearestParking(myCoord,Login.this);
+
+
 
         final TextView error = (TextView)findViewById(R.id.errortxt);
         final Context context = this;
@@ -239,30 +242,6 @@ public class Login extends AppCompatActivity implements LocationListener {
             }
         });
         }
-
-    public LatLng ReverseGeoCoding(String strAddress){
-        Geocoder coder = new Geocoder(this);
-        List<Address> address;
-        LatLng _location = null;
-        try {
-            address = coder.getFromLocationName(strAddress,5);
-            if (address==null) {
-                return null;
-            }
-            Address location=address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-            double latitude= (double) (location.getLatitude());
-            double longitude=(double) (location.getLongitude());
-            _location = new LatLng(latitude, longitude);
-
-            return _location;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return _location;
-
-    }
 
 
     private boolean checkPermissions() {
