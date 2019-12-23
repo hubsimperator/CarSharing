@@ -35,14 +35,16 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
     HashMap<String, String> lista_pola_rezerwacji;
 
     Context con ;
-
+    HttpAsyncTask2 mTask;
     public static ArrayList<String> lista_samochodow;
 
     public void StartUpdate(String Login, String Password, Context context) {
         con = context;
      //   er=error;
         lista_samochodow=new ArrayList<>();
-        new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppGetMyBookings");
+        mTask=new HttpAsyncTask2();
+
+        mTask.execute("https://notif2.sng.com.pl/api/CsAppGetMyBookings");
     }
 
     public String POST(String url) {
@@ -66,10 +68,12 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
         }
+
+
         return result;
     }
     private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
-        AlertDialog alertDialog;
+        public AlertDialog alertDialog;
         @Override
         protected void onPreExecute() {
 
@@ -91,13 +95,24 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
         @Override
         protected String doInBackground(String... urls) {
             post_result=POST(urls[0]);
-            deserialize_json(post_result);
+            if(post_result==null){
+
+                alertDialog.dismiss();
+
+                finish();
+                mTask.cancel(true);
+            }else {
+                deserialize_json(post_result);
+                Log.d("aaa", "a");
+            }
             return null;
         }
 
 
     @Override
     protected void onPostExecute(String result) {
+
+            Log.d("tt","aa");
         if(post_result.equals("[]")){
                 Toast.makeText(con,"Brak rezerwacji",Toast.LENGTH_LONG).show();
             }
@@ -144,48 +159,53 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
             rezerwacja=new Obiekt_Rezerwacja();
             lista_rezerwacji=new ArrayList<>();
 
+    try {
+        for (int i = 0; i < array.length(); i++) {
 
-            for (int i = 0; i <array.length(); i++) {
-
-                lista_pola_rezerwacji=new HashMap<>();
+            lista_pola_rezerwacji = new HashMap<>();
 
 
-                JSONObject row = array.getJSONObject(i);
-                rezerwacja.setBookingId(row.getString("BookingId"));
-                rezerwacja.setStartDate(row.getString("StartDate"));
-                rezerwacja.setEndDate(row.getString("EndDate"));
-                rezerwacja.setAllDay(row.getString("AllDay"));
-                rezerwacja.setSubject(row.getString("Subject"));
-                rezerwacja.setEit_Resource(row.getString("Eit_Resource"));
-                rezerwacja.setEit_ResourceName(row.getString("Eit_ResourceName"));
-                rezerwacja.setEit_Uzytkownik(row.getString("Eit_Uzytkownik"));
-                rezerwacja.setReminderId(row.getString("ReminderId"));
-                rezerwacja.setLocation(row.getString("Location"));
-                rezerwacja.setDescription(row.getString("Description"));
-                rezerwacja.setStatus(row.getString("Status"));
-                rezerwacja.setGrupaProjektu(row.getString("GRUPA_PROJEKTU"));
-                rezerwacja.setNrProjektu(row.getString("NR_PROJEKTU"));
+            JSONObject row = array.getJSONObject(i);
+            rezerwacja.setBookingId(row.getString("BookingId"));
+            rezerwacja.setStartDate(row.getString("StartDate"));
+            rezerwacja.setEndDate(row.getString("EndDate"));
+            rezerwacja.setAllDay(row.getString("AllDay"));
+            rezerwacja.setSubject(row.getString("Subject"));
+            rezerwacja.setEit_Resource(row.getString("Eit_Resource"));
+            rezerwacja.setEit_ResourceName(row.getString("Eit_ResourceName"));
+            rezerwacja.setEit_Uzytkownik(row.getString("Eit_Uzytkownik"));
+            rezerwacja.setReminderId(row.getString("ReminderId"));
+            rezerwacja.setLocation(row.getString("Location"));
+            rezerwacja.setDescription(row.getString("Description"));
+            rezerwacja.setStatus(row.getString("Status"));
+            rezerwacja.setGrupaProjektu(row.getString("GRUPA_PROJEKTU"));
+            rezerwacja.setNrProjektu(row.getString("NR_PROJEKTU"));
 
-                lista_pola_rezerwacji.put("BookingId",rezerwacja.getBookingId());
-                lista_pola_rezerwacji.put("StartDate",rezerwacja.getStartDate());
-                lista_pola_rezerwacji.put("EndDate",rezerwacja.getEndDate());
-                lista_pola_rezerwacji.put("AllDay",rezerwacja.getAllDay());
-                lista_pola_rezerwacji.put("Subject",rezerwacja.getSubject());
-                lista_pola_rezerwacji.put("Eit_Resource",rezerwacja.getEit_Resource());
-                lista_pola_rezerwacji.put("Eit_ResourceName",rezerwacja.getEit_ResourceName());
-                lista_pola_rezerwacji.put("Eit_Uzytkownik",rezerwacja.getEit_Uzytkownik());
-                lista_pola_rezerwacji.put("ReminderId",rezerwacja.getReminderId());
-                lista_pola_rezerwacji.put("Location",rezerwacja.getLocation());
-                lista_pola_rezerwacji.put("Description",rezerwacja.getDescription());
-                lista_pola_rezerwacji.put("Status",rezerwacja.getStatus());
-                lista_pola_rezerwacji.put("GrupaProjektu",rezerwacja.getGrupaProjektu());
-                lista_pola_rezerwacji.put("NrProjektu",rezerwacja.getNrProjektu());
+            lista_pola_rezerwacji.put("BookingId", rezerwacja.getBookingId());
+            lista_pola_rezerwacji.put("StartDate", rezerwacja.getStartDate());
+            lista_pola_rezerwacji.put("EndDate", rezerwacja.getEndDate());
+            lista_pola_rezerwacji.put("AllDay", rezerwacja.getAllDay());
+            lista_pola_rezerwacji.put("Subject", rezerwacja.getSubject());
+            lista_pola_rezerwacji.put("Eit_Resource", rezerwacja.getEit_Resource());
+            lista_pola_rezerwacji.put("Eit_ResourceName", rezerwacja.getEit_ResourceName());
+            lista_pola_rezerwacji.put("Eit_Uzytkownik", rezerwacja.getEit_Uzytkownik());
+            lista_pola_rezerwacji.put("ReminderId", rezerwacja.getReminderId());
+            lista_pola_rezerwacji.put("Location", rezerwacja.getLocation());
+            lista_pola_rezerwacji.put("Description", rezerwacja.getDescription());
+            lista_pola_rezerwacji.put("Status", rezerwacja.getStatus());
+            lista_pola_rezerwacji.put("GrupaProjektu", rezerwacja.getGrupaProjektu());
+            lista_pola_rezerwacji.put("NrProjektu", rezerwacja.getNrProjektu());
 
-                lista_rezerwacji.add(lista_pola_rezerwacji);
+            lista_rezerwacji.add(lista_pola_rezerwacji);
 
-                Log.d("rezerwacja",     rezerwacja.getStartDate());
-            }
-            Log.d("rezerwacja",lista_rezerwacji.toString());
+            Log.d("rezerwacja", rezerwacja.getStartDate());
+        }
+
+    }catch (NullPointerException ne){
+        Toast.makeText(con,"Brak rezerwacji",Toast.LENGTH_LONG).show();
+
+    }
+
         }
         catch (JSONException e) {                e.printStackTrace();
         }

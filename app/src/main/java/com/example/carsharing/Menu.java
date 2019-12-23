@@ -52,6 +52,7 @@ public class Menu extends AppCompatActivity {
                    // Intent intent = new Intent(getApplicationContext(), ListaRezerwacji.class);
                     //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     //startActivity(intent);
+     //           onPause();
                 JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
                 json_moje_rezerwacje.StartUpdate("","",Menu.this);
                 }
