@@ -165,8 +165,14 @@ public class MojeRezerwacje extends AppCompatActivity {
                         .setMessage("Czy napewno chcesz zakończyć rezerwację?")
                         .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                JSON_zakoncz_rezerwacje json_zakoncz_rezerwacje=new JSON_zakoncz_rezerwacje();
-                                json_zakoncz_rezerwacje.StartUpdate("test",BookingId,MojeRezerwacje.this);
+                                Intent intent = new Intent(getApplicationContext(), OcenaAuta_po.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("StartDate", PoczatekRezerwacji);
+                                intent.putExtra("EndDate", KoniecRezerwacji);
+                                intent.putExtra("BookingId", BookingId);
+                                intent.putExtra("GrupaProjektu", GrupaProjektu);
+                                intent.putExtra("NrProjektu", NrProjektu);
+                                startActivity(intent);
                             }
                         })
                         .setNegativeButton("Nie", new DialogInterface.OnClickListener() {

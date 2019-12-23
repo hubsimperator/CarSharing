@@ -44,6 +44,8 @@
             android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity android:name=".ListaRezerwacji" />
         <activity android:name=".OcenaAuta" />
+        <activity android:name=".OcenaAuta_po" />
+
 
 
         <uses-library
