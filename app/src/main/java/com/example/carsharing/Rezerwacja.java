@@ -43,6 +43,8 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
 
     int DEFAULT_ADDTIME_MIN=60;
     String DEFAULT_PARKING_NAME="Wałowa";
+    String DEFAULT_PRZYPOMNIENIE="15 minut";
+
 
     int year,month,day,hour,minute;
     String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
@@ -59,6 +61,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public static String eit_Resource;
     public static String grupa_projektu;
     public static String nazwa_projektu;
+    public static String przypomnienie_id;
 
     public static TextView label_samochod_tv;
     public static TextView wybrany_samochod_tv;
@@ -71,6 +74,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
 
     public static ArrayList<String> parkingi;
 
+
     boolean start_date=false;
      boolean end_date=false;
 
@@ -81,6 +85,8 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rezerwacja);
+        Bundle extras= getIntent().getExtras();
+        DEFAULT_PARKING_NAME=extras.getString("nearestParking");
 
         try {
             getLocationFromAddress("Straszyn");
@@ -135,15 +141,47 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             }
         });
 
+        ArrayList<String> powiadomienie_nazwa=new ArrayList<>();
+        final ArrayList<String> powiadomienie_id=new ArrayList<>();
 
 
-        String[] arraySpinner = new String[] {
-                "15 min", "30 min", "1h", "1,5h", "2h", "2,5h" };
+
+        try {
+            Lista_czas_powiadomien_DataHandler LDH = new Lista_czas_powiadomien_DataHandler(Rezerwacja.this);
+            Cursor getdata = LDH.getData();
+            while (getdata.moveToNext()) {
+                powiadomienie_nazwa.add(getdata.getString(2));
+                powiadomienie_id.add(getdata.getString(1));
+
+            }
+            LDH.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+
 
        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, arraySpinner);
+                android.R.layout.simple_spinner_item, powiadomienie_nazwa);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         minuty_sp.setAdapter(adapter);
+        minuty_sp.setSelection(powiadomienie_nazwa.indexOf(DEFAULT_PRZYPOMNIENIE));
+        przypomnienie_id=powiadomienie_id.get(powiadomienie_nazwa.indexOf(DEFAULT_PRZYPOMNIENIE));
+
+        minuty_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+              String _przypomnienie=minuty_sp.getSelectedItem().toString();
+                przypomnienie_id=powiadomienie_id.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
         ImageView search_bt = (ImageView) findViewById(R.id.search_bt);
@@ -240,7 +278,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
                             .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     JSON_potwierdzenie_rezerwacji json_potwierdzenie_rezerwacji = new JSON_potwierdzenie_rezerwacji();
-                                    json_potwierdzenie_rezerwacji.StartUpdate(data_poczatkowa, data_koncowa, "0", subject_et.getText().toString(), eit_Resource, "", "4", "", "", "", "", grupa_projektu, nazwa_projektu, Rezerwacja.this);
+                                    json_potwierdzenie_rezerwacji.StartUpdate(data_poczatkowa, data_koncowa, "0", subject_et.getText().toString(), eit_Resource, "", przypomnienie_id, "", "", "", "", grupa_projektu, nazwa_projektu, Rezerwacja.this);
 
                                 }
                             })
@@ -503,6 +541,9 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
 
 
     }
+
+
+
 }
 
 

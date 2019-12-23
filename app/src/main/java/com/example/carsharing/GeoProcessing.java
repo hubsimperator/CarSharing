@@ -79,6 +79,10 @@ Context con;
         Log.d("dystans",distance.toString());
 
         int minIndex = distance.indexOf(Collections.min(distance));
+
+        Menu menu = new Menu();
+        menu.setNearestParking(parkingi.get(minIndex));
+        /*
         Toast.makeText(con,"Najbliżej masz do parkingu: "+parkingi.get(minIndex),Toast.LENGTH_LONG);
 
        AlertDialog alertDialog=new AlertDialog.Builder(con)
@@ -88,6 +92,8 @@ Context con;
                 .setCancelable(true)
                 .show();
 
+
+         */
     }
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {

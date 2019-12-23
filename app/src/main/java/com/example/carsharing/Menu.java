@@ -25,11 +25,12 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Calendar;
 
-public class Menu extends AppCompatActivity implements LocationListener {
+public class Menu extends AppCompatActivity {
     AlertDialog alertDialog;
     Location mlocation;
-    Criteria criteria;
     LocationManager mLocationManager;
+    LatLng myCoord;
+    public static String nearestParking;
 
 
     @Override
@@ -51,14 +52,11 @@ public class Menu extends AppCompatActivity implements LocationListener {
             @Override
             public void onLocationChanged(Location location) {
                 mlocation = location;
-                LatLng myCoord;
                 if(mlocation==null){
                     myCoord=new LatLng(54.215, 18.627798);
                 }else{
                     myCoord= new LatLng(mlocation.getLatitude(),mlocation.getLongitude());
                 }
-
-
                 GeoProcessing geoProcessing=new GeoProcessing();
                 geoProcessing.setNearestParking(myCoord,Menu.this);
             }
@@ -113,6 +111,7 @@ public class Menu extends AppCompatActivity implements LocationListener {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Rezerwacja.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("nearestParking",nearestParking);
                 startActivity(intent);
             }
         });
@@ -126,9 +125,14 @@ public class Menu extends AppCompatActivity implements LocationListener {
                         .setPositiveButton("Zadzwoń", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                JSON_telefon_dyspozytor json_telefon_dyspozytor=new JSON_telefon_dyspozytor();
+                                json_telefon_dyspozytor.StartUpdate(Menu.this);
+                                /*
                                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                                 callIntent.setData(Uri.parse("tel:"+"692591846"));
                                 startActivity(callIntent);
+
+                                 */
                             }
                         })
                         .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
@@ -195,27 +199,8 @@ public class Menu extends AppCompatActivity implements LocationListener {
         }
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        if (location != null) {
-            Log.v("Location Changed", location.getLatitude() + " and " + location.getLongitude());
-            mLocationManager.removeUpdates(this);
-        }
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
+    public void setNearestParking(String _parking){
+        nearestParking=_parking;
     }
 }
 
