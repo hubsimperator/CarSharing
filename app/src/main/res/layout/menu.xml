@@ -41,7 +41,6 @@
             android:layout_height="90sp"
             android:layout_marginTop="30sp"
             android:layout_gravity="center"
-
             app:srcCompat="@drawable/koszty" />
 
         <ImageView

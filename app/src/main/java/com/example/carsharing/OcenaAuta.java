@@ -23,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 public class OcenaAuta extends AppCompatActivity {
 
     public static String PoczatekRezerwacji;
@@ -37,6 +39,7 @@ public class OcenaAuta extends AppCompatActivity {
     public static Switch switch2;
     public static Switch switch3;
 
+ArrayList<Integer> switch_on;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +56,27 @@ public class OcenaAuta extends AppCompatActivity {
         NrProjektu=extras.getString("NrProjektu");
 
 
+        switch_on=new ArrayList<>();
+        switch1=(Switch) findViewById(R.id.switch1);
+        switch2=(Switch) findViewById(R.id.switch2);
+        switch3=(Switch) findViewById(R.id.switch3);
+
+
+
+
+
         ImageView rozpocznij_jazde=(ImageView) findViewById(R.id.rezerwuj_bt);
         rozpocznij_jazde.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(switch1.isChecked()) switch_on.add(0);
+
+                if(switch2.isChecked()) switch_on.add(1);
+
+                if(switch3.isChecked()) switch_on.add(2);
+
+
                 Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("StartDate", PoczatekRezerwacji);

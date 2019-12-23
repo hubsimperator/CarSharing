@@ -59,7 +59,6 @@ public class RozpoczecieJazdy extends AppCompatActivity {
         GrupaProjektu=extras.getString("GrupaProjektu");
         NazwaProjektu=extras.getString("NrProjektu");
 
-
         rozpocznij_bt=(ImageView) findViewById(R.id.potwierdz_bt);
         rozpocznij_bt.setOnClickListener(new View.OnClickListener() {
             @Override
