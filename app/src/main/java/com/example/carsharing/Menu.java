@@ -1,6 +1,8 @@
 package com.example.carsharing;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Menu extends AppCompatActivity {
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,24 +27,6 @@ public class Menu extends AppCompatActivity {
         koszty_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                try {
-
-                    Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                    intent.putExtra("SCAN_MODE", "QR_CODE_MODE"); // "PRODUCT_MODE for bar codes
-
-                    startActivityForResult(intent, 0);
-
-                } catch (Exception e) {
-
-                    Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
-                    Intent marketIntent = new Intent(Intent.ACTION_VIEW,marketUri);
-                    startActivity(marketIntent);
-
-                }
-
-                 */
-
                 startActivity(new Intent(getApplicationContext(),QRScanner.class));
             }
         });
@@ -49,10 +35,6 @@ public class Menu extends AppCompatActivity {
         mojerezerwacje_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                   // Intent intent = new Intent(getApplicationContext(), ListaRezerwacji.class);
-                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    //startActivity(intent);
-     //           onPause();
                 JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
                 json_moje_rezerwacje.StartUpdate("","",Menu.this);
                 }
@@ -65,6 +47,35 @@ public class Menu extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Rezerwacja.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+            }
+        });
+        ImageView telefon_bt=(ImageView) findViewById(R.id.telefon_bt);
+        telefon_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog = new AlertDialog.Builder(Menu.this)
+                        .setTitle("Połączenie")
+                        .setMessage("Czy napewno chcesz zadzwonić do Dyspozytora?")
+                        .setPositiveButton("Zadzwoń", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                callIntent.setData(Uri.parse("tel:"+"692591846"));
+                                startActivity(callIntent);
+                            }
+                        })
+                        .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            alertDialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
+
+
             }
         });
 
