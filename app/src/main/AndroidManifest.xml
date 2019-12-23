@@ -43,6 +43,8 @@
 
             android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity android:name=".ListaRezerwacji" />
+        <activity android:name=".OcenaAuta" />
+
 
         <uses-library
             android:name="org.apache.http.legacy"

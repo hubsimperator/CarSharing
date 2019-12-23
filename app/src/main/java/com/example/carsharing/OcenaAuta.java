@@ -1,15 +1,12 @@
 package com.example.carsharing;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -25,9 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Calendar;
-
-public class Menu extends AppCompatActivity {
+public class OcenaAuta extends AppCompatActivity {
     AlertDialog alertDialog;
     Location mlocation;
     LocationManager mLocationManager;
@@ -54,13 +49,13 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
                 mlocation = location;
-                if (mlocation == null) {
-                    myCoord = new LatLng(54.215, 18.627798);
-                } else {
-                    myCoord = new LatLng(mlocation.getLatitude(), mlocation.getLongitude());
+                if(mlocation==null){
+                    myCoord=new LatLng(54.215, 18.627798);
+                }else{
+                    myCoord= new LatLng(mlocation.getLatitude(),mlocation.getLongitude());
                 }
-                GeoProcessing geoProcessing = new GeoProcessing();
-                geoProcessing.setNearestParking(myCoord, Menu.this);
+                GeoProcessing geoProcessing=new GeoProcessing();
+                geoProcessing.setNearestParking(myCoord, OcenaAuta.this);
             }
 
             @Override
@@ -79,17 +74,22 @@ public class Menu extends AppCompatActivity {
             }
         };
 
-        final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        final LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
 
-        locationManager.requestSingleUpdate(criteria, locationListener, looper);
 
 
-        ImageView koszty_bt = (ImageView) findViewById(R.id.koszty_bt);
+            locationManager.requestSingleUpdate(criteria, locationListener, looper);
+
+
+
+
+
+        ImageView koszty_bt=(ImageView) findViewById(R.id.koszty_bt);
         koszty_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), QRScanner.class));
+                startActivity(new Intent(getApplicationContext(),QRScanner.class));
             }
         });
 
@@ -97,10 +97,10 @@ public class Menu extends AppCompatActivity {
         mojerezerwacje_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSON_moje_rezerwacje json_moje_rezerwacje = new JSON_moje_rezerwacje();
-                json_moje_rezerwacje.StartUpdate("", "", Menu.this);
-            }
-        });
+                JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+                json_moje_rezerwacje.StartUpdate("","", OcenaAuta.this);
+                }
+    });
 
         ImageView rezerwacja_bt = (ImageView) findViewById(R.id.zarezerwuj_bt);
         rezerwacja_bt.setOnClickListener(new View.OnClickListener() {
@@ -108,25 +108,28 @@ public class Menu extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Rezerwacja.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("nearestParking", nearestParking);
+                intent.putExtra("nearestParking",nearestParking);
                 startActivity(intent);
             }
         });
-        ImageView telefon_bt = (ImageView) findViewById(R.id.telefon_bt);
+        ImageView telefon_bt=(ImageView) findViewById(R.id.telefon_bt);
         telefon_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog = new AlertDialog.Builder(Menu.this)
+                alertDialog = new AlertDialog.Builder(OcenaAuta.this)
                         .setTitle("Połączenie")
                         .setMessage("Czy napewno chcesz zadzwonić do Dyspozytora?")
                         .setPositiveButton("Zadzwoń", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
-
                                 JSON_telefon_dyspozytor json_telefon_dyspozytor=new JSON_telefon_dyspozytor();
-                                json_telefon_dyspozytor.StartUpdate(Menu.this);
+                                json_telefon_dyspozytor.StartUpdate(OcenaAuta.this);
+                                /*
+                                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                callIntent.setData(Uri.parse("tel:"+"692591846"));
+                                startActivity(callIntent);
 
+                                 */
                             }
                         })
                         .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
@@ -191,25 +194,6 @@ public class Menu extends AppCompatActivity {
                 //handle cancel
             }
         }
-    }
-
-    public void callToDyzpozytor(String _number){
-        Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:" + "692591846"));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    Activity#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
-                return;
-            }
-        }
-        startActivity(callIntent);
-
     }
 
     public void setNearestParking(String _parking){

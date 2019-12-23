@@ -1,8 +1,13 @@
 package com.example.carsharing;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -23,7 +28,7 @@ import java.util.ArrayList;
 public class JSON_telefon_dyspozytor {
 
     Context con = null;
-ArrayList<String> parking_nazwa;
+    public static String phoneNumber;
 
     public void StartUpdate(Context context) {
         con = context;
@@ -82,16 +87,12 @@ ArrayList<String> parking_nazwa;
     @Override
     protected void onPostExecute(String result) {
         alertDialog.dismiss();
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + phoneNumber));
+        con.startActivity(callIntent);
+/*
 
-
-            Lista_parking_DataHandler LD = new Lista_parking_DataHandler(con);
-            LD.dropdatabase();
-            boolean insert;
-            for (int i = 0; i < parking_nazwa.size(); ) {
-                insert = LD.inputData(parking_nazwa.get(i));
-                if(insert)
-                {i++;}
-            }
+ */
 
     }
 
@@ -111,7 +112,6 @@ ArrayList<String> parking_nazwa;
     {
         Log.d("output",input);
 
-        parking_nazwa=new ArrayList<>();
 
         JSONArray array = null;
         String dataname;
@@ -127,7 +127,7 @@ ArrayList<String> parking_nazwa;
 
             for (int i = 0; i <array.length(); i++) {
             JSONObject row = array.getJSONObject(i);
-            parking_nazwa.add(row.getString("parking"));
+            phoneNumber=row.getString("StringValue");
             }
 
         }
