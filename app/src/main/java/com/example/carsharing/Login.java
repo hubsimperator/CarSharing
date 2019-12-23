@@ -44,10 +44,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class Login extends AppCompatActivity implements LocationListener {
-    LocationManager mlocation;
-    Criteria criteria;
-    LocationManager mLocationManager;
+public class Login extends AppCompatActivity {
 
 
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
@@ -124,29 +121,6 @@ public class Login extends AppCompatActivity implements LocationListener {
         }
 
 
-
-
-
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if(location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 2 * 60 * 1000) {
-            // Do something with the recent location fix
-            //  otherwise wait for the update below
-        }
-        else {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        }
-
-
-        LatLng myCoord;
-
-        if(location==null){
-            myCoord=new LatLng(54.357912, 18.656533);
-        }else{
-             myCoord= new LatLng(location.getLatitude(),location.getLongitude());
-        }
-        GeoProcessing geoProcessing=new GeoProcessing();
-        geoProcessing.setNearestParking(myCoord,Login.this);
 
 
 
@@ -299,28 +273,6 @@ public class Login extends AppCompatActivity implements LocationListener {
             return false;
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        if (location != null) {
-            Log.v("Location Changed", location.getLatitude() + " and " + location.getLongitude());
-            mLocationManager.removeUpdates(this);
-        }
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
 }
 
 

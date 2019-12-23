@@ -220,7 +220,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             while (getdata.moveToNext()) {
                 if(getdata.getString(3).matches("true"))
                 {
-                    subject_et.setHint(getdata.getString(1));
+                    subject_et.setHint(getdata.getString(1)+" rezerwacja");
                 }
             }
             LDH.close();
