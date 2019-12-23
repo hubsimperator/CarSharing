@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -23,185 +24,61 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.maps.model.LatLng;
 
 public class OcenaAuta extends AppCompatActivity {
-    AlertDialog alertDialog;
-    Location mlocation;
-    LocationManager mLocationManager;
-    LatLng myCoord;
-    public static String nearestParking;
+
+    public static String PoczatekRezerwacji;
+    public static String KoniecRezerwacji;
+    public static String BookingId;
+    public static String GrupaProjektu;
+    public static String NazwaProjektu;
+    public static String NrProjektu;
+
+
+    public static Switch switch1;
+    public static Switch switch2;
+    public static Switch switch3;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.menu);
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-        criteria.setSpeedRequired(false);
-        criteria.setCostAllowed(true);
-        criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
-        criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
-
-        final Looper looper = null;
-        final LocationListener locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                mlocation = location;
-                if(mlocation==null){
-                    myCoord=new LatLng(54.215, 18.627798);
-                }else{
-                    myCoord= new LatLng(mlocation.getLatitude(),mlocation.getLongitude());
-                }
-                GeoProcessing geoProcessing=new GeoProcessing();
-                geoProcessing.setNearestParking(myCoord, OcenaAuta.this);
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-                Log.d("Status Changed", String.valueOf(status));
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-                Log.d("Provider Enabled", provider);
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-                Log.d("Provider Disabled", provider);
-            }
-        };
-
-        final LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        setContentView(R.layout.ocen_auto_przed);
 
 
+        Bundle extras= getIntent().getExtras();
+        PoczatekRezerwacji=extras.getString("StartDate");
+        KoniecRezerwacji=extras.getString("EndDate");
+        BookingId=extras.getString("BookingId");
+        GrupaProjektu=extras.getString("GrupaProjektu");
+        NazwaProjektu=extras.getString("NrProjektu");
+        NrProjektu=extras.getString("NrProjektu");
 
 
-            locationManager.requestSingleUpdate(criteria, locationListener, looper);
-
-
-
-
-
-        ImageView koszty_bt=(ImageView) findViewById(R.id.koszty_bt);
-        koszty_bt.setOnClickListener(new View.OnClickListener() {
+        ImageView rozpocznij_jazde=(ImageView) findViewById(R.id.rezerwuj_bt);
+        rozpocznij_jazde.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),QRScanner.class));
-            }
-        });
-
-        ImageView mojerezerwacje_bt = (ImageView) findViewById(R.id.zmien_czas_bt);
-        mojerezerwacje_bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
-                json_moje_rezerwacje.StartUpdate("","", OcenaAuta.this);
-                }
-    });
-
-        ImageView rezerwacja_bt = (ImageView) findViewById(R.id.zarezerwuj_bt);
-        rezerwacja_bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Rezerwacja.class);
+                Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("nearestParking",nearestParking);
+                intent.putExtra("StartDate", PoczatekRezerwacji);
+                intent.putExtra("EndDate", KoniecRezerwacji);
+                intent.putExtra("BookingId", BookingId);
+                intent.putExtra("GrupaProjektu", GrupaProjektu);
+                intent.putExtra("NrProjektu", NrProjektu);
                 startActivity(intent);
             }
         });
-        ImageView telefon_bt=(ImageView) findViewById(R.id.telefon_bt);
-        telefon_bt.setOnClickListener(new View.OnClickListener() {
+
+
+
+        ImageView back_bt = (ImageView) findViewById(R.id.back_bt);
+        back_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog = new AlertDialog.Builder(OcenaAuta.this)
-                        .setTitle("Połączenie")
-                        .setMessage("Czy napewno chcesz zadzwonić do Dyspozytora?")
-                        .setPositiveButton("Zadzwoń", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                JSON_telefon_dyspozytor json_telefon_dyspozytor=new JSON_telefon_dyspozytor();
-                                json_telefon_dyspozytor.StartUpdate(OcenaAuta.this);
-                                /*
-                                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                callIntent.setData(Uri.parse("tel:"+"692591846"));
-                                startActivity(callIntent);
-
-                                 */
-                            }
-                        })
-                        .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            alertDialog.dismiss();
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-
-
-
-
+                  finish();
             }
         });
 
-}
 
-    public static int backButtonCount;
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public void onBackPressed()
-    {
-        new CountDownTimer(5000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                Log.d("Zegar","seconds remaining: " + millisUntilFinished / 1000);
-                //here you can have your logic to set text to edittext
-                backButtonCount=1;
-            }
-
-            public void onFinish() {
-                Log.d("Zegar","done");
-                backButtonCount=0;
-            }
-
-        }.start();
-        if(backButtonCount >= 1)
-        {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        else
-        {
-            Toast.makeText(this, "W celu zamknięcia aplikacji naćiśnij POWRÓT jeszcze raz", Toast.LENGTH_SHORT).show();
-            backButtonCount++;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0) {
-
-            if (resultCode == RESULT_OK) {
-                String contents = data.getStringExtra("SCAN_RESULT");
-            }
-            if(resultCode == RESULT_CANCELED){
-                //handle cancel
-            }
-        }
-    }
-
-    public void setNearestParking(String _parking){
-        nearestParking=_parking;
     }
 }
-
-
-
-
 

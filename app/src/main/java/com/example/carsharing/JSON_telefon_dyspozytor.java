@@ -90,10 +90,6 @@ public class JSON_telefon_dyspozytor {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:" + phoneNumber));
         con.startActivity(callIntent);
-/*
-
- */
-
     }
 
     }
