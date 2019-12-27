@@ -83,63 +83,75 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        if(!checkPermissions()){
+            setPermissions();
+        }
+        try{
+            JSON_SendLog sendLog = new JSON_SendLog();
+            sendLog.Send(this);
+        }catch(Exception e){
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog( "Login.class 001: "+ e.toString());
+            log.close();
+        }
         try{
             JSON_lista_czas_powiadomien lis = new JSON_lista_czas_powiadomien();
             lis.StartUpdate(this);
         }catch(Exception e){
-
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog( "Login.class 002: "+e.toString());
+            log.close();
         }
 
         try{
             JSON_lista_parkingow lis = new JSON_lista_parkingow();
             lis.StartUpdate(this);
         }catch(Exception e){
-
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog( "Login.class 003: "+e.toString());
+            log.close();
         }
 
 
      try {
+         if(getIntent().hasExtra("title")) {
          Bundle b = getIntent().getExtras();
-         String someData = b.getString("title");
-         String someData2 = b.getString("body");
-         AlertDialog alertDialog = new AlertDialog.Builder(this)
-                 .setTitle(someData)
-                 .setMessage(someData2)
-                 .setIcon(R.drawable.confirm)
-                 .setCancelable(true)
-                 .show();
+                String someData = b.getString("title");
+                String someData2 = b.getString("body");
+                AlertDialog alertDialog = new AlertDialog.Builder(this)
+                        .setTitle(someData)
+                        .setMessage(someData2)
+                        .setIcon(R.drawable.confirm)
+                        .setCancelable(true)
+                        .show();
+         }
 
-
-     }catch (NullPointerException ne){
-         Log.d("Firebejz", "Nie ma nic");
+     }catch (Exception e){
+         Logs_DataHandler log = new Logs_DataHandler(this);
+         log.inputLog( "Login.class 004: "+e.toString());
+         log.close();
 
      }
-
-
-        if(!checkPermissions()){
-            setPermissions();
-        }
-
-
-
-
 
         final TextView error = (TextView)findViewById(R.id.errortxt);
         final Context context = this;
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         String tit = null;
         String bod = null;
-        if(getIntent().getExtras()!=null)
-        {
-            for(String key : getIntent().getExtras().keySet())
-            {
-                if(key.equals("t1")){
-                   tit = getIntent().getExtras().getString(key);
-                }
-                else if(key.equals("b1")){
-                    bod = getIntent().getExtras().getString(key);
+        try {
+            if (getIntent().getExtras() != null) {
+                for (String key : getIntent().getExtras().keySet()) {
+                    if (key.equals("t1")) {
+                        tit = getIntent().getExtras().getString(key);
+                    } else if (key.equals("b1")) {
+                        bod = getIntent().getExtras().getString(key);
+                    }
                 }
             }
+        }catch (Exception e){
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog( "Login.class 005: "+e.toString());
+            log.close();
         }
 
         if(isConnected()){
@@ -166,7 +178,9 @@ public class Login extends AppCompatActivity {
             }
             LDH.close();
         } catch (Exception e){
-            e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog( "Login.class 006: "+e.toString());
+            log.close();
         }
 
 
@@ -204,7 +218,7 @@ public class Login extends AppCompatActivity {
                                     if(task.isSuccessful()){
                                         String token = task.getResult().getToken();
                                         JSON_Login logowanie = new JSON_Login();
-                                        Log.d("token",token + " 2");
+                                        Log.d("token",token );
                                         logowanie.StartUpdate(Logi,Haslo,getApplicationContext(),error,token);
                                     }else
                                     {

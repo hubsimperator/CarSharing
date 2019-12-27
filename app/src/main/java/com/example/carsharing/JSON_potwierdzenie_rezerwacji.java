@@ -96,7 +96,9 @@ public class JSON_potwierdzenie_rezerwacji {
             if (inputStream != null) result = convertInputStreamToString(inputStream);
             else result = "Nie działa";
         } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_potwierdzenie rezerwacji.class 001: "+e.toString());
+            log.close();
         }
         return result;
     }

@@ -74,6 +74,9 @@ public final class SimpleTableDataAdapter extends TableDataAdapter<String[]> {
         } catch (final IndexOutOfBoundsException e) {
             Log.w(LOG_TAG, "No Sting given for row " + rowIndex + ", column " + columnIndex + ". "
                     + "Caught exception: " + e.toString());
+            Logs_DataHandler log = new Logs_DataHandler(getContext());
+            log.inputLog( "SimpleTableAdapter.class 001: "+e.toString());
+            log.close();
             // Show no text
         }
 

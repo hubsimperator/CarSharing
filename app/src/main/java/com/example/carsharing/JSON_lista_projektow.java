@@ -85,7 +85,9 @@ public class JSON_lista_projektow {
             if (inputStream != null) result = convertInputStreamToString(inputStream);
             else result = "Nie działa";
         } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_lista_projektow.class 001: "+e.toString());
+            log.close();
         }
         return result;
     }
@@ -142,6 +144,9 @@ public class JSON_lista_projektow {
                             alertDialog.dismiss();
                         }catch (NullPointerException ne){
                             alertDialog.dismiss();
+                            Logs_DataHandler log = new Logs_DataHandler(con);
+                            log.inputLog( "JSON_lista_projektow.class 002: "+ne.toString());
+                            log.close();
 
                         }
 
@@ -241,7 +246,9 @@ public class JSON_lista_projektow {
             array = new JSONArray(input);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_lista_projekctow.class 003: "+e.toString());
+            log.close();
         }
 
         try {
@@ -282,7 +289,9 @@ public class JSON_lista_projektow {
             //   Log.d("lista",lista_projekt.toString());
 
         }
-        catch (JSONException e) {                e.printStackTrace();
+        catch (JSONException e) {               Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_lista_projektow.class 004: "+e.toString());
+            log.close();
         }
 
     }

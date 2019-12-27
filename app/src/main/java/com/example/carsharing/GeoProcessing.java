@@ -67,7 +67,9 @@ Context con;
             }
             LDH.close();
         } catch (Exception e){
-            e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "GeoProcessing.class 001: "+e.toString());
+            log.close();
         }
 
 
@@ -135,7 +137,9 @@ Context con;
 
             return _location;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "GeoProcessing.class 002: "+e.toString());
+            log.close();
         }
         return _location;
 

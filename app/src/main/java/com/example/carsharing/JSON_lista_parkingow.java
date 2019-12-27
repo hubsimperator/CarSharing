@@ -48,7 +48,9 @@ ArrayList<String> parking_nazwa;
             if (inputStream != null) result = convertInputStreamToString(inputStream);
             else result = "Nie działa";
         } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_lista_parkingow.class 001: "+e.toString());
+            log.close();
         }
         return result;
     }
@@ -120,7 +122,9 @@ ArrayList<String> parking_nazwa;
             array = new JSONArray(input);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_lista_parkingow.class 002: "+e.toString());
+            log.close();
         }
 
         try {
@@ -131,7 +135,10 @@ ArrayList<String> parking_nazwa;
             }
 
         }
-        catch (JSONException e) {                e.printStackTrace();
+        catch (JSONException e) {
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_lista_parkingow.class 003: "+e.toString());
+            log.close();
         }
 
     }

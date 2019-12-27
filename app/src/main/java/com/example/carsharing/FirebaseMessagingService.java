@@ -29,20 +29,27 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         if (remoteMessage.getData().size() > 0) {
             try {
                 JSONObject data = new JSONObject(remoteMessage.getData());
-                String jsonMessage  = data.getString("extra_information");
+                String jsonMessage  = data.getString("title");
                 //sendNotification(data.getString("title"), data.getString("body"),data.getString("click_action"));
             }catch (Exception e){
-                e.printStackTrace();
+                Logs_DataHandler log = new Logs_DataHandler(this);
+                log.inputLog( "FirebaseMessagingService.class 001: "+e.toString());
+                log.close();
             }
         }
 
         if(remoteMessage.getNotification() != null){
+                try {
+                    String title = remoteMessage.getNotification().getTitle();
 
-                String title = remoteMessage.getNotification().getTitle();
-
-                String message = remoteMessage.getNotification().getBody();
-                String click_action = remoteMessage.getNotification().getClickAction();
-                sendNotification(title, message, click_action);
+                    String message = remoteMessage.getNotification().getBody();
+                    String click_action = remoteMessage.getNotification().getClickAction();
+                    sendNotification(title, message, click_action);
+                }catch(Exception e){
+                    Logs_DataHandler log = new Logs_DataHandler(this);
+                    log.inputLog( "FirebaseMessagingService.class 002: "+e.toString());
+                    log.close();
+                }
             }
 
         }
@@ -64,29 +71,39 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         Uri nottificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Context context = this;
         if(Build.VERSION.SDK_INT< Build.VERSION_CODES.O) {
-            NotificationCompat.Builder notifiBuilder = new NotificationCompat.Builder(context, FirebaseMessagingService.class.getSimpleName())//NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.auto)
-                    .setContentTitle(title)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(title))
-                    .setAutoCancel(true)
-                    .setSound(nottificationSound)
-                    .setVibrate(new long[]{1000,100,1000,100,1000})
-                    .setChannelId("test")
-                    .setContentIntent(pendingIntent);
+            try {
+                NotificationCompat.Builder notifiBuilder = new NotificationCompat.Builder(context, FirebaseMessagingService.class.getSimpleName())//NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.auto)
+                        .setContentTitle(title)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(title))
+                        .setAutoCancel(true)
+                        .setSound(nottificationSound)
+                        .setVibrate(new long[]{1000, 100, 1000, 100, 1000})
+                        .setChannelId("test")
+                        .setContentIntent(pendingIntent);
 
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            int importance = NotificationManager.IMPORTANCE_LOW;
-            notificationManager.notify(0, notifiBuilder.build());
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(FirebaseMessagingService.this, "default");
-
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                int importance = NotificationManager.IMPORTANCE_LOW;
+                notificationManager.notify(0, notifiBuilder.build());
+                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(FirebaseMessagingService.this, "default");
+            }
+            catch (Exception e){
+                Logs_DataHandler log = new Logs_DataHandler(this);
+                log.inputLog( "FirebaseMessagingService.class 003: "+e.toString());
+                log.close();
+            }
         }else
         {
-
-            NotificationUtils mNotificationUtils = new NotificationUtils(this);
-            Notification.Builder nb = mNotificationUtils.
-                    getAndroidChannelNotification( title,messageBody,pendingIntent);
-            mNotificationUtils.getManager().notify(101, nb.build());
-
+            try {
+                NotificationUtils mNotificationUtils = new NotificationUtils(this);
+                Notification.Builder nb = mNotificationUtils.
+                        getAndroidChannelNotification(title, messageBody, pendingIntent);
+                mNotificationUtils.getManager().notify(101, nb.build());
+            }catch(Exception e){
+                Logs_DataHandler log = new Logs_DataHandler(this);
+                log.inputLog( "FirebaseMessagingService.class 004: "+e.toString());
+                log.close();
+            }
         }}
     @Override
     public void onNewToken(String token) {

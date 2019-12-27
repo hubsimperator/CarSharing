@@ -53,7 +53,10 @@ public class JSON_telefon_dyspozytor {
             if (inputStream != null) result = convertInputStreamToString(inputStream);
             else result = "Nie działa";
         } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
+
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_telefon_dyspozytor.class 001: "+e.toString());
+            log.close();
         }
         return result;
     }
@@ -116,7 +119,9 @@ public class JSON_telefon_dyspozytor {
             array = new JSONArray(input);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_telefon_dyspozytor.class 002: "+e.toString());
+            log.close();
         }
 
         try {
@@ -127,7 +132,9 @@ public class JSON_telefon_dyspozytor {
             }
 
         }
-        catch (JSONException e) {                e.printStackTrace();
+        catch (JSONException e) {                            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_telefon_dyspozytor.class 003: "+e.toString());
+            log.close();
         }
 
     }

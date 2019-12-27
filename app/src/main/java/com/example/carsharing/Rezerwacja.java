@@ -121,6 +121,9 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             LDH.close();
         } catch (Exception e){
             e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog( "Rezerwacja.class 001: "+e.toString());
+            log.close();
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -157,6 +160,9 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             LDH.close();
         } catch (Exception e){
             e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog( "Rezerwacja.class 002: "+e.toString());
+            log.close();
         }
 
 
@@ -264,6 +270,9 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
             LDH.close();
         } catch (Exception e){
             e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog( "Rezerwacja.class 003: "+e.toString());
+            log.close();
         }
 
 
@@ -384,6 +393,9 @@ public long convert_epoch_date(){
         milliseconds = d.getTime();
     } catch (ParseException e) {
         e.printStackTrace();
+        Logs_DataHandler log = new Logs_DataHandler(this);
+        log.inputLog( "Rezerwacja.class 004: "+e.toString());
+        log.close();
     }
     return milliseconds;
 }
@@ -505,7 +517,9 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
             minute=c.get(Calendar.MINUTE);
             timePickerDialog.updateTime(hour,minute);
         }catch (NullPointerException ne){
-
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog( "Rezerwacja.class 005: "+ne.toString());
+            log.close();
         }
 
     }

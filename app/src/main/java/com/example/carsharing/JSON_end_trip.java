@@ -51,7 +51,9 @@ public class JSON_end_trip {
             if (inputStream != null) result = convertInputStreamToString(inputStream);
             else result = "Nie działa";
         } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_end_trip.class 001: "+e.toString());
+            log.close();
         }
         return result;
     }

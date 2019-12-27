@@ -1,28 +1,54 @@
 package com.example.carsharing;
+
+import android.bluetooth.BluetoothClass;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
+import android.os.Build.VERSION;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+public class JSON_SendLog {
+    Context context;
+    String Exception="";
+    String USER="";
 
-public class JSON_lista_czas_powiadomien {
-    Context con = null;
-    public void StartUpdate(Context context) {
-        con = context;
-        new JSON_lista_czas_powiadomien.HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppGetReminders");
+
+    public void Send(Context con) {
+        context = con;
+        Logs_DataHandler lo = new Logs_DataHandler(con);
+        Cursor login = lo.getData();
+        while (login.moveToNext()){
+            USER = login.getString(1);
+        }
+        lo.close();
+        String erid =" ";
+        Logs_DataHandler ErrorLog = new Logs_DataHandler(con);
+        Cursor Err = ErrorLog.getData();
+        while (Err.moveToNext()){
+            erid = Err.getString(0);
+            Exception=Err.getString(1);
+        }
+        if(!erid.equals(" ")){
+            ErrorLog.deletewpis(erid);
+            //tutaj zapodajesz adres json
+            new JSON_SendLog.HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppAddLogError");
+            ErrorLog.close();
+        }
     }
+
+
 
     public String POST(String url) {
         InputStream inputStream = null;
@@ -33,6 +59,12 @@ public class JSON_lista_czas_powiadomien {
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
+            //tutaj wrzucasz elementy json
+            jsonObject.accumulate("UserId",USER);
+            jsonObject.accumulate("Device", Build.DEVICE.toString());
+            jsonObject.accumulate("SysVersion",VERSION.RELEASE + " " + String.valueOf(VERSION.SDK_INT));
+            jsonObject.accumulate("Logvalue",Exception);
+
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
@@ -43,43 +75,31 @@ public class JSON_lista_czas_powiadomien {
             if (inputStream != null) result = convertInputStreamToString(inputStream);
             else result = "Nie działa";
         } catch (Exception e) {
-            Logs_DataHandler log = new Logs_DataHandler(con);
-            log.inputLog( "JSON_lista_czas_powiadomien.class 001: "+e.toString());
+            Logs_DataHandler log = new Logs_DataHandler(context);
+            log.inputLog( "JSON_Send.class + 001: "+e.toString());
             log.close();
         }
         return result;
     }
+
     private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
             return POST(urls[0]);
         }
 
-
         @Override
         protected void onPostExecute(String result) {
-            if(!result.equals("null"))
-            {
-                try {
-                Lista_czas_powiadomien_DataHandler LD = new Lista_czas_powiadomien_DataHandler(con);
-                LD.dropdatabase();
-                    JSONArray jsonArray = new JSONArray(result);
-                    JSONObject jsonobject;
-                    boolean insert;
-                    for (int i = 0; i < jsonArray.length(); ) {
-                        jsonobject=jsonArray.getJSONObject(i);
-                        insert = LD.inputDataTime(jsonobject.getString("ReminderID").toString(),jsonobject.getString("ReminderInfo").toString());
-                        if(insert)
-                        {i++;}
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+//tutaj piszesz obsługę odbioru json
+            if(result.equals("\"true\"")) {
+                Send(context);
+                Toast.makeText(context, result.toString(), Toast.LENGTH_LONG).show();
 
             }
         }
-    }
 
+
+    }
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String line = "";
@@ -89,3 +109,5 @@ public class JSON_lista_czas_powiadomien {
         return result;
     }
 }
+
+

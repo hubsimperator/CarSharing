@@ -66,7 +66,9 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
             if (inputStream != null) result = convertInputStreamToString(inputStream);
             else result = "Nie działa";
         } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_moje_rezerwacje.class 001: "+e.toString());
+            log.close();
         }
 
 
@@ -119,7 +121,9 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
         try {
             alertDialog.dismiss();
         }catch (IllegalArgumentException ie){
-            Log.d("Marcin","błąd");
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_moje_rezerwacje.class 002: "+ie.toString());
+            log.close();
         }
 
         ListaRezerwacji listaRezerwacji;
@@ -152,7 +156,9 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
             array = new JSONArray(input);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_moje_rezerwacje.class 003: "+e.toString());
+            log.close();
         }
 
         try {
@@ -207,7 +213,9 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
     }
 
         }
-        catch (JSONException e) {                e.printStackTrace();
+        catch (JSONException e) {                Logs_DataHandler log = new Logs_DataHandler(con);
+            log.inputLog( "JSON_moje_rezerwacje.class 004: "+e.toString());
+            log.close();
         }
 
     }
