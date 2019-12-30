@@ -155,6 +155,9 @@ public class Menu extends AppCompatActivity {
 
             }
         });
+        startActivity(new Intent(getApplicationContext(), Update.class));
+
+
 
 }
 

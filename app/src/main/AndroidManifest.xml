@@ -24,6 +24,8 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         <activity android:name=".ZmienCzasRezerwacji" android:screenOrientation="portrait"></activity>
         <activity android:name=".QRScanner" />
+        <activity android:name=".Update" />
+
         <activity android:name=".RozpoczecieJazdy" android:screenOrientation="portrait" />
 
         <activity android:name=".Login"     android:screenOrientation="portrait"  >
