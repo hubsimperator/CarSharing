@@ -22,11 +22,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".ZmienCzasRezerwacji"></activity>
+        <activity android:name=".ZmienCzasRezerwacji" android:screenOrientation="portrait"></activity>
         <activity android:name=".QRScanner" />
-        <activity android:name=".RozpoczecieJazdy" />
+        <activity android:name=".RozpoczecieJazdy" android:screenOrientation="portrait" />
 
-        <activity android:name=".Login"       >
+        <activity android:name=".Login"     android:screenOrientation="portrait"  >
             <intent-filter>
                 <action android:name="Login" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -36,15 +36,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Menu"  />
-        <activity android:name=".MojeRezerwacje" />
+        <activity android:name=".Menu" android:screenOrientation="portrait" />
+        <activity android:name=".MojeRezerwacje" android:screenOrientation="portrait" />
         <activity
             android:name=".Rezerwacja"
-
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-        <activity android:name=".ListaRezerwacji" />
-        <activity android:name=".OcenaAuta" />
-        <activity android:name=".OcenaAuta_po" />
+        <activity android:name=".ListaRezerwacji" android:screenOrientation="portrait" />
+        <activity android:name=".OcenaAuta" android:screenOrientation="portrait" />
+        <activity android:name=".OcenaAuta_po" android:screenOrientation="portrait" />
 
 
 
