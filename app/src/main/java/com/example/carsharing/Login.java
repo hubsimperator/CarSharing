@@ -47,7 +47,7 @@ import java.util.List;
 
 
 public class Login extends AppCompatActivity {
-
+String WersjaAplikacji = "Wersja Alfa";
 
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
         @Override
@@ -92,6 +92,16 @@ public class Login extends AppCompatActivity {
             setPermissions();
         }
         if (isConnected()) {
+try{
+    TextView te = (TextView)findViewById(R.id.Versionerror);
+JSON_check_version cv = new JSON_check_version();
+cv.StartUpdate(WersjaAplikacji,te,this);
+}catch (Exception e){
+    Logs_DataHandler log = new Logs_DataHandler(this);
+    log.inputLog("Login.class 000: " + e.toString());
+    log.close();
+}
+
 
         try {
             JSON_SendLog sendLog = new JSON_SendLog();
