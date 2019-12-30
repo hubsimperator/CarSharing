@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +37,8 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
     ArrayList<HashMap<String, String>> lista_rezerwacji;
     HashMap<String, String> lista_pola_rezerwacji;
 
+    String user_name;
+
     Context con ;
     HttpAsyncTask2 mTask;
     public static ArrayList<String> lista_samochodow;
@@ -42,6 +47,23 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
         con = context;
      //   er=error;
         lista_samochodow=new ArrayList<>();
+
+        try {
+            LoginDataHandler LDH = new LoginDataHandler(con);
+            Cursor getdata = LDH.getData();
+            while (getdata.moveToNext()) {
+                    user_name=getdata.getString(1);
+            }
+            LDH.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog( "Rezerwacja.class 003: "+e.toString());
+            log.close();
+        }
+
+
+
         mTask=new HttpAsyncTask2();
 
         mTask.execute("https://notif2.sng.com.pl/api/CsAppGetMyBookings");
@@ -55,7 +77,7 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("UserName","Admin");
+            jsonObject.accumulate("UserName",user_name);
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
