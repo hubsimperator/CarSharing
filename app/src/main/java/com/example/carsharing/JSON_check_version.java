@@ -75,21 +75,28 @@ public class JSON_check_version {
             }
             else
             {
+                String URL =result.replace("\"","");
+                Intent intent = new Intent(con, Update.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("url", URL);
+                con.startActivity(intent);
+/*
                 er.setTextColor(0xFFCC0000);
                 er.setGravity(Gravity.CENTER);
                 er.setText("Pobierz aktualną wersję: " + result);
                 er.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String URL =result.replace("\"","");
                         Uri uriUrl = Uri.parse(URL);
                         Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
                         con.startActivity(launchBrowser);
                     }
                 });
 
-
+ */
                 }
+
+
         }
     }
 

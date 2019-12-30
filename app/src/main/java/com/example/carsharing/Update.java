@@ -27,12 +27,16 @@ public class Update extends Activity {
     private ProgressDialog pDialog;
     public static final int progress_bar_type = 0;
 
+
     // File url to download
-    private static String file_url = "https://nc.sng.com.pl/index.php/s/JXfBTtXBciLK2AI/download?path=%2F&files=CarSharing.apk";
+    public static String file_url;//=extras.getString("BookingId"); //= "https://nc.sng.com.pl/index.php/s/JXfBTtXBciLK2AI/download?path=%2F&files=CarSharing.apk";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle extras= getIntent().getExtras();
+        file_url=extras.getString("url");
 
         setContentView(R.layout.activity_main);
 
@@ -67,6 +71,8 @@ public class Update extends Activity {
 
                 String ppath=Environment
                         .getExternalStorageDirectory().toString();
+
+                Log.d("Path aktualizacji",ppath);
                 // Output stream
                 OutputStream output = new FileOutputStream(Environment
                         .getExternalStorageDirectory().toString()
