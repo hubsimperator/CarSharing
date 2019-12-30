@@ -22,7 +22,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Handler;
 import android.os.Looper;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -51,19 +53,19 @@ public class Login extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             //setContentView(R.layout.activity_login);
-            final TextView error = (TextView)findViewById(R.id.errortxt);
-            if(isConnected()){
+            final TextView error = (TextView) findViewById(R.id.errortxt);
+            if (isConnected()) {
                 error.setTextColor(0xFF00CC00);
                 getNetworkType gnt = new getNetworkType();
                 error.setGravity(Gravity.RIGHT);
-                error.setText("sieć: "+ gnt.getNetworkType(getApplicationContext()).toString());
-            }
-            else{
+                error.setText("sieć: " + gnt.getNetworkType(getApplicationContext()).toString());
+            } else {
                 error.setTextColor(0xFFFF0000);
                 error.setText("Błąd połączenia, sprawdź połączenie z internetem");
             }
         }
     };
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -72,50 +74,55 @@ public class Login extends AppCompatActivity {
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeReceiver, intentFilter);
     }
+
     @Override
     protected void onPause() {
         super.onPause();
 
         unregisterReceiver(networkChangeReceiver);
     }
+
     AlertDialog alertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if(!checkPermissions()){
+        if (!checkPermissions()) {
             setPermissions();
         }
-        try{
+        if (isConnected()) {
+
+        try {
             JSON_SendLog sendLog = new JSON_SendLog();
             sendLog.Send(this);
-        }catch(Exception e){
+        } catch (Exception e) {
             Logs_DataHandler log = new Logs_DataHandler(this);
-            log.inputLog( "Login.class 001: "+ e.toString());
+            log.inputLog("Login.class 001: " + e.toString());
             log.close();
         }
-        try{
+        try {
             JSON_lista_czas_powiadomien lis = new JSON_lista_czas_powiadomien();
             lis.StartUpdate(this);
-        }catch(Exception e){
+        } catch (Exception e) {
             Logs_DataHandler log = new Logs_DataHandler(this);
-            log.inputLog( "Login.class 002: "+e.toString());
+            log.inputLog("Login.class 002: " + e.toString());
             log.close();
         }
 
-        try{
+        try {
             JSON_lista_parkingow lis = new JSON_lista_parkingow();
             lis.StartUpdate(this);
-        }catch(Exception e){
+        } catch (Exception e) {
             Logs_DataHandler log = new Logs_DataHandler(this);
-            log.inputLog( "Login.class 003: "+e.toString());
+            log.inputLog("Login.class 003: " + e.toString());
             log.close();
         }
 
 
-     try {
-         if(getIntent().hasExtra("title")) {
-         Bundle b = getIntent().getExtras();
+        try {
+            if (getIntent().hasExtra("title")) {
+                Bundle b = getIntent().getExtras();
                 String someData = b.getString("title");
                 String someData2 = b.getString("body");
                 AlertDialog alertDialog = new AlertDialog.Builder(this)
@@ -124,18 +131,18 @@ public class Login extends AppCompatActivity {
                         .setIcon(R.drawable.confirm)
                         .setCancelable(true)
                         .show();
-         }
+            }
 
-     }catch (Exception e){
-         Logs_DataHandler log = new Logs_DataHandler(this);
-         log.inputLog( "Login.class 004: "+e.toString());
-         log.close();
+        } catch (Exception e) {
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog("Login.class 004: " + e.toString());
+            log.close();
 
-     }
+        }
 
-        final TextView error = (TextView)findViewById(R.id.errortxt);
+        final TextView error = (TextView) findViewById(R.id.errortxt);
         final Context context = this;
-        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         String tit = null;
         String bod = null;
         try {
@@ -148,19 +155,18 @@ public class Login extends AppCompatActivity {
                     }
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             Logs_DataHandler log = new Logs_DataHandler(this);
-            log.inputLog( "Login.class 005: "+e.toString());
+            log.inputLog("Login.class 005: " + e.toString());
             log.close();
         }
 
-        if(isConnected()){
+        if (isConnected()) {
             error.setTextColor(0xFF00CC00);
             getNetworkType gnt = new getNetworkType();
             error.setGravity(Gravity.RIGHT);
-            error.setText("sieć: "+ gnt.getNetworkType(this).toString());
-        }
-        else{
+            error.setText("sieć: " + gnt.getNetworkType(this).toString());
+        } else {
             error.setTextColor(0xFFFF0000);
             error.setText("Błąd połączenia, sprawdź połączenie z internetem");
         }
@@ -169,17 +175,16 @@ public class Login extends AppCompatActivity {
             LoginDataHandler LDH = new LoginDataHandler(this);
             Cursor getdata = LDH.getData();
             while (getdata.moveToNext()) {
-                if(getdata.getString(3).matches("true"))
-                {
+                if (getdata.getString(3).matches("true")) {
                     ((EditText) findViewById(R.id.Logintxt)).setText(getdata.getString(1));
                     ((EditText) findViewById(R.id.Passwordtxt)).setText(getdata.getString(2));
                     ((CheckBox) findViewById(R.id.zapamietajchbox)).setChecked(true);
                 }
             }
             LDH.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             Logs_DataHandler log = new Logs_DataHandler(this);
-            log.inputLog( "Login.class 006: "+e.toString());
+            log.inputLog("Login.class 006: " + e.toString());
             log.close();
         }
 
@@ -191,37 +196,32 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
 
 
-
                 ProgressDialog pg = new ProgressDialog(context);
                 pg.setMessage("Wczytywanie...");
                 pg.show();
                 final String Logi = ((EditText) findViewById(R.id.Logintxt)).getText().toString();
                 final String Haslo = ((EditText) findViewById(R.id.Passwordtxt)).getText().toString();
-                if(Logi.equals("") || Haslo.equals(""))
-                {
+                if (Logi.equals("") || Haslo.equals("")) {
                     error.setTextColor(0xFFCC0000);
                     error.setGravity(Gravity.CENTER);
                     error.setText("Login i Hasło nie mogą być puste");
                     pg.hide();
-                }
-                else
-                {
-                        LoginDataHandler LDH = new LoginDataHandler(getApplicationContext());
-                        LDH.dropdatabase();
-                        LDH.inputDataTime(((CheckBox) findViewById(R.id.zapamietajchbox)).isChecked(), Logi, Haslo);
-                        LDH.close();
+                } else {
+                    LoginDataHandler LDH = new LoginDataHandler(getApplicationContext());
+                    LDH.dropdatabase();
+                    LDH.inputDataTime(((CheckBox) findViewById(R.id.zapamietajchbox)).isChecked(), Logi, Haslo);
+                    LDH.close();
 
                     FirebaseInstanceId.getInstance().getInstanceId()
                             .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                                    if(task.isSuccessful()){
+                                    if (task.isSuccessful()) {
                                         String token = task.getResult().getToken();
                                         JSON_Login logowanie = new JSON_Login();
-                                        Log.d("token",token );
-                                        logowanie.StartUpdate(Logi,Haslo,getApplicationContext(),error,token);
-                                    }else
-                                    {
+                                        Log.d("token", token);
+                                        logowanie.StartUpdate(Logi, Haslo, getApplicationContext(), error, token);
+                                    } else {
                                         JSON_Login logowanie = new JSON_Login();
                                     }
                                 }
@@ -229,8 +229,11 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+    }else {TextView error = (TextView) findViewById(R.id.errortxt);
+            w8(error);
         }
 
+}
 
     private boolean checkPermissions() {
 
@@ -278,6 +281,33 @@ public class Login extends AppCompatActivity {
         ActivityCompat.requestPermissions((Activity) this, new String[]{
                 Manifest.permission.INTERNET , Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.VIBRATE ,Manifest.permission.CAMERA,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.CALL_PHONE}, 1);
     }
+
+    public void w8(final TextView error){
+        try {
+            error.setTextColor(0xFFFF0000);
+            error.setText("Błąd połączenia, sprawdź połączenie z internetem");
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(isConnected()) {
+                        finish();
+                        startActivity(getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                    }
+                    else
+                    {
+                        w8(error);
+                    }
+                }
+            }, 1000);
+
+        }catch(Exception e){
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog("Login.class 007: " + e.toString());
+            log.close();
+        }
+    }
+
     public boolean isConnected(){
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
