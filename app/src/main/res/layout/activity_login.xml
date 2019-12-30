@@ -75,5 +75,10 @@
             android:ellipsize="middle"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/Versionerror"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

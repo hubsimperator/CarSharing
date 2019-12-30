@@ -1,41 +1,36 @@
 package com.example.carsharing;
-import android.Manifest;
-import android.app.Activity;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.Gravity;
-import android.widget.ProgressBar;
+import android.view.View;
 import android.widget.TextView;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
 
-import androidx.core.app.ActivityCompat;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
-public class JSON_Login {
+public class JSON_check_version {
+
     Context con = null;
-    String User ="",Pass="",Token="";
-    TextView er=null;
-    ProgressDialog progressDialog;
-    public void StartUpdate(String Login, String Password, Context context, TextView error, String Tok, ProgressDialog pg) {
+    String Wersja ="";
+    TextView er;
+    public void StartUpdate(String version, TextView error, Context context) {
         con = context;
-        User=Login;
-        Pass=Password;
+        Wersja = version;
         er=error;
-        Token=Tok;
-        progressDialog=pg;
-        new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/GetUsercs");
+        new JSON_check_version.HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppWersja");
     }
 
     public String POST(String url) {
@@ -47,8 +42,7 @@ public class JSON_Login {
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("User",User);
-            jsonObject.accumulate("Password",Pass);
+            jsonObject.accumulate("Wersja",Wersja);
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
@@ -72,28 +66,31 @@ public class JSON_Login {
         }
 
 
-    @Override
-    protected void onPostExecute(String result) {
+        @Override
+        protected void onPostExecute(final String result) {
 
-            if(result.contains("true"))
+            if(result.contains("True"))
             {
-                if(Token.matches("")){
-                    Intent intent = new Intent(con, Menu.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    con.startActivity(intent);
-                }else {
-                    JSON_SendToken st = new JSON_SendToken();
-                    st.StartUpdate(User, Token, con);
-                }
+
             }
             else
             {
                 er.setTextColor(0xFFCC0000);
                 er.setGravity(Gravity.CENTER);
-                er.setText("Błędny Login lub Hasło");
-                progressDialog.hide();
-            }
-    }
+                er.setText("Pobierz aktualną wersję: " + result);
+                er.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String URL =result.replace("\"","");
+                        Uri uriUrl = Uri.parse(URL);
+                        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+                        con.startActivity(launchBrowser);
+                    }
+                });
+
+
+                }
+        }
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
