@@ -5,12 +5,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -67,7 +70,7 @@ public class Update extends Activity {
                 // Output stream
                 OutputStream output = new FileOutputStream(Environment
                         .getExternalStorageDirectory().toString()
-                        + "/aaa.apk");
+                        + "/aktualizacjaCarsharing.apk");
 
                 byte data[] = new byte[1024];
 
@@ -106,7 +109,12 @@ public class Update extends Activity {
         @Override
         protected void onPostExecute(String result) {
             dismissDialog(progress_bar_type);
-
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(new File(Environment
+                    .getExternalStorageDirectory().toString()
+                    + "/aktualizacjaCarsharing.apk")), "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 
@@ -119,7 +127,7 @@ public class Update extends Activity {
         switch (id) {
             case progress_bar_type: // we set this to 0
                 pDialog = new ProgressDialog(this);
-                pDialog.setMessage("Downloading file. Please wait...");
+                pDialog.setMessage("Pobieranie aktualizacji. Proszę czekać...");
                 pDialog.setIndeterminate(false);
                 pDialog.setMax(100);
                 pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
