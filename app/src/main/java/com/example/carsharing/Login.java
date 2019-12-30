@@ -196,7 +196,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                ProgressDialog pg = new ProgressDialog(context);
+                final ProgressDialog pg = new ProgressDialog(context);
                 pg.setMessage("Wczytywanie...");
                 pg.show();
                 final String Logi = ((EditText) findViewById(R.id.Logintxt)).getText().toString();
@@ -220,7 +220,7 @@ public class Login extends AppCompatActivity {
                                         String token = task.getResult().getToken();
                                         JSON_Login logowanie = new JSON_Login();
                                         Log.d("token", token);
-                                        logowanie.StartUpdate(Logi, Haslo, getApplicationContext(), error, token);
+                                        logowanie.StartUpdate(Logi, Haslo, getApplicationContext(), error, token,pg);
                                     } else {
                                         JSON_Login logowanie = new JSON_Login();
                                     }

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -26,12 +27,14 @@ public class JSON_Login {
     Context con = null;
     String User ="",Pass="",Token="";
     TextView er=null;
-    public void StartUpdate(String Login, String Password, Context context,TextView error,String Tok) {
+    ProgressDialog progressDialog;
+    public void StartUpdate(String Login, String Password, Context context, TextView error, String Tok, ProgressDialog pg) {
         con = context;
         User=Login;
         Pass=Password;
         er=error;
         Token=Tok;
+        progressDialog=pg;
         new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/GetUsercs");
     }
 
@@ -88,6 +91,7 @@ public class JSON_Login {
                 er.setTextColor(0xFFCC0000);
                 er.setGravity(Gravity.CENTER);
                 er.setText("Błędny Login lub Hasło");
+                progressDialog.hide();
             }
     }
     }
