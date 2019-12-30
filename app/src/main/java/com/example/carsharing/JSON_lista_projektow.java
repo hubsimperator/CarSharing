@@ -57,7 +57,7 @@ public class JSON_lista_projektow {
     public void StartUpdate(Integer _projekt, Context context) {
         projekt=_projekt;
         Date todayDate = Calendar.getInstance().getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         currentDate = formatter.format(todayDate);
 
         con = context;
@@ -74,7 +74,7 @@ public class JSON_lista_projektow {
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("Data","2019-12-12");
+            jsonObject.accumulate("Data",currentDate);
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
