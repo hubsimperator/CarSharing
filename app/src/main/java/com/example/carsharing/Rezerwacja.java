@@ -87,13 +87,15 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         setContentView(R.layout.rezerwacja);
         Bundle extras= getIntent().getExtras();
         DEFAULT_PARKING_NAME=extras.getString("nearestParking");
-
+/*
         try {
             getLocationFromAddress("Straszyn");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
+ */
 
         JSON_lista_przypomnien json_lista_przypomnien=new JSON_lista_przypomnien();
         json_lista_przypomnien.StartUpdate(Rezerwacja.this);

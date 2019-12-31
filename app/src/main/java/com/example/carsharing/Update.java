@@ -8,9 +8,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+
+import androidx.core.content.FileProvider;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -22,6 +25,8 @@ import java.net.URLConnection;
 
 
 public class Update extends Activity {
+
+    public static File saveFile;
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -73,10 +78,18 @@ public class Update extends Activity {
                         .getExternalStorageDirectory().toString();
 
                 Log.d("Path aktualizacji",ppath);
-                // Output stream
+                File folder = Update.this.getFilesDir();
+                String path = folder.getAbsolutePath() + "/" + "hubert";
+                saveFile = new File(path);
+                saveFile.createNewFile();
+                OutputStream output = new FileOutputStream(saveFile,false);
+
+              /*  // Output stream
                 OutputStream output = new FileOutputStream(Environment
                         .getExternalStorageDirectory().toString()
                         + "/aktualizacjaCarsharing.apk");
+
+               */
 
                 byte data[] = new byte[1024];
 
@@ -115,12 +128,32 @@ public class Update extends Activity {
         @Override
         protected void onPostExecute(String result) {
             dismissDialog(progress_bar_type);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                saveFile.setReadable(true, false);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setDataAndType(Uri.fromFile(saveFile), "application/vnd.android.package-archive");
+                Update.this.getApplicationContext().startActivity(intent);
+            } else {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri fileUri = FileProvider.getUriForFile(Update.this,
+                        "ir.mhdr.provider",
+                        saveFile);
+                intent.setDataAndType(fileUri, "application/vnd.android.package-archive");
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(intent);
+            }
+
+            /*
+
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.fromFile(new File(Environment
                     .getExternalStorageDirectory().toString()
                     + "/aktualizacjaCarsharing.apk")), "application/vnd.android.package-archive");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+
+             */
         }
     }
 
