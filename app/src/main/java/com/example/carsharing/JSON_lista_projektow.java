@@ -129,33 +129,34 @@ public class JSON_lista_projektow {
         alertDialog.dismiss();
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con)
-                .setNeutralButton("Wybierz", new DialogInterface.OnClickListener() {
+                .setNeutralButton("Zamknij", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            if(projekt==0) {
-                                Rezerwacja rez = new Rezerwacja();
-                                rez.wyswietl_projekt(con, nazwa_projektu.toString(), selected_item);
-                            }
-                            else {
-                                RozpoczecieJazdy rez = new RozpoczecieJazdy();
-                                rez.wyswietl_projekt(con, nazwa_projektu.toString(), selected_item);
-                            }
-                            alertDialog.dismiss();
-                        }catch (NullPointerException ne){
-                            alertDialog.dismiss();
-                            Logs_DataHandler log = new Logs_DataHandler(con);
-                            log.inputLog( "JSON_lista_projektow.class 002: "+ne.toString());
-                            log.close();
-
-                        }
+                        alertDialog.dismiss();
 
                     }
                 })
-                .setNegativeButton("Zamknij", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Wybierz", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
+                try {
+                    if(projekt==0) {
+                        Rezerwacja rez = new Rezerwacja();
+                        rez.wyswietl_projekt(con, nazwa_projektu.toString(), selected_item);
+                    }
+                    else {
+                        RozpoczecieJazdy rez = new RozpoczecieJazdy();
+                        rez.wyswietl_projekt(con, nazwa_projektu.toString(), selected_item);
+                    }
+                    alertDialog.dismiss();
+                }catch (NullPointerException ne){
+                    alertDialog.dismiss();
+                    Logs_DataHandler log = new Logs_DataHandler(con);
+                    log.inputLog( "JSON_lista_projektow.class 002: "+ne.toString());
+                    log.close();
+
+                }
+
             }
         });
         ArrayAdapter<String> adapter3 = new ArrayAdapter<String>

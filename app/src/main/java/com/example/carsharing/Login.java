@@ -47,7 +47,7 @@ import java.util.List;
 
 
 public class Login extends AppCompatActivity {
-String WersjaAplikacji = "Wersja Beta";
+String WersjaAplikacji = "Wersja Alfa3";
 
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
         @Override

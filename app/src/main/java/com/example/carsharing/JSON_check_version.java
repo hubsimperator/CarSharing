@@ -1,7 +1,10 @@
 package com.example.carsharing;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -75,11 +78,22 @@ public class JSON_check_version {
             }
             else
             {
+                AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(con);
+                dlgAlert.setTitle("Dostępna jest nowa wersja aplikacji");
+                dlgAlert.setMessage("Aktualna wersja może nie działać prawidłowo, zalecana jest aktualizacja.");
+                dlgAlert.setPositiveButton("Aktualizuj",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //dismiss the dialog
+
                 String URL =result.replace("\"","");
                 Intent intent = new Intent(con, Update.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("url", URL);
                 con.startActivity(intent);
+                            }
+                        });
+                dlgAlert.show();
 /*
                 er.setTextColor(0xFFCC0000);
                 er.setGravity(Gravity.CENTER);
