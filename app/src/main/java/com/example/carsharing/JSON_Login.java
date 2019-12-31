@@ -42,7 +42,6 @@ public class JSON_Login {
         InputStream inputStream = null;
         String result = "";
         try {
-
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
             String json = "";

@@ -47,7 +47,7 @@ import java.util.List;
 
 
 public class Login extends AppCompatActivity {
-String WersjaAplikacji = "Wersja Alf";
+String WersjaAplikacji = "Wersja Beta";
 
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
         @Override
@@ -102,7 +102,6 @@ cv.StartUpdate(WersjaAplikacji,te,this);
     log.close();
 }
 
-
         try {
             JSON_SendLog sendLog = new JSON_SendLog();
             sendLog.Send(this);
@@ -120,7 +119,14 @@ cv.StartUpdate(WersjaAplikacji,te,this);
             log.close();
         }
 
-
+        try {
+            JSON_lista_parkingow lis = new JSON_lista_parkingow();
+            lis.StartUpdate(this);
+        } catch (Exception e) {
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog("Login.class 003: " + e.toString());
+            log.close();
+        }
 
 
         try {
@@ -214,14 +220,7 @@ cv.StartUpdate(WersjaAplikacji,te,this);
                     LDH.dropdatabase();
                     LDH.inputDataTime(((CheckBox) findViewById(R.id.zapamietajchbox)).isChecked(), Logi, Haslo);
                     LDH.close();
-                    try {
-                        JSON_lista_parkingow lis = new JSON_lista_parkingow();
-                        lis.StartUpdate(context);
-                    } catch (Exception e) {
-                        Logs_DataHandler log = new Logs_DataHandler(context);
-                        log.inputLog("Login.class 003: " + e.toString());
-                        log.close();
-                    }
+
                     FirebaseInstanceId.getInstance().getInstanceId()
                             .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                                 @Override

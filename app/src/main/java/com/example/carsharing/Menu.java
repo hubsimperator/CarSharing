@@ -53,6 +53,7 @@ public class Menu extends AppCompatActivity {
         final LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+
                 mlocation = location;
                 if (mlocation == null) {
                     myCoord = new LatLng(54.215, 18.627798);
@@ -61,6 +62,8 @@ public class Menu extends AppCompatActivity {
                 }
                 GeoProcessing geoProcessing = new GeoProcessing();
                 geoProcessing.setNearestParking(myCoord, Menu.this);
+
+
             }
 
             @Override

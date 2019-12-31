@@ -84,18 +84,6 @@ Context con;
 
         Menu menu = new Menu();
         menu.setNearestParking(parkingi.get(minIndex));
-        /*
-        Toast.makeText(con,"Najbliżej masz do parkingu: "+parkingi.get(minIndex),Toast.LENGTH_LONG);
-
-       AlertDialog alertDialog=new AlertDialog.Builder(con)
-                .setTitle("Dystans ")
-                .setMessage("Najbliżej masz do parkingu: "+parkingi.get(minIndex))
-                .setIcon(android.R.drawable.ic_input_add)
-                .setCancelable(true)
-                .show();
-
-
-         */
     }
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {

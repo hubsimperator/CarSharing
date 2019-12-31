@@ -27,11 +27,12 @@ public class JSON_SendLog {
 
     public void Send(Context con) {
         context = con;
-        Logs_DataHandler lo = new Logs_DataHandler(con);
+        LoginDataHandler lo = new LoginDataHandler(con);
         Cursor login = lo.getData();
         while (login.moveToNext()){
             USER = login.getString(1);
         }
+        Log.d("user",USER);
         lo.close();
         String erid =" ";
         Logs_DataHandler ErrorLog = new Logs_DataHandler(con);
@@ -61,8 +62,8 @@ public class JSON_SendLog {
             JSONObject jsonObject = new JSONObject();
             //tutaj wrzucasz elementy json
             jsonObject.accumulate("UserId",USER);
-            jsonObject.accumulate("Device", Build.DEVICE.toString());
-            jsonObject.accumulate("SysVersion",VERSION.RELEASE + " " + String.valueOf(VERSION.SDK_INT));
+            jsonObject.accumulate("Device", Build.DEVICE);
+            jsonObject.accumulate("SysVersion", "SDK: "+String.valueOf( Build.VERSION.SDK_INT));
             jsonObject.accumulate("Logvalue",Exception);
 
             json = jsonObject.toString();

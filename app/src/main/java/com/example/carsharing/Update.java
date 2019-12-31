@@ -13,20 +13,21 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 
+import androidx.core.content.FileProvider;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import androidx.core.content.FileProvider;
-
 
 public class Update extends Activity {
-public String ppath;
+
+    public static File saveFile;
+
     // Progress Dialog
     private ProgressDialog pDialog;
     public static final int progress_bar_type = 0;
@@ -73,14 +74,22 @@ public String ppath;
                 InputStream input = new BufferedInputStream(url.openStream(),
                         8192);
 
-                ppath=Environment
-                        .getExternalStorageDirectory().getPath()+ "/aktualizacjaCarsharing.apk";
+                String ppath=Environment
+                        .getExternalStorageDirectory().toString();
 
                 Log.d("Path aktualizacji",ppath);
-                // Output stream
+                File folder = Update.this.getFilesDir();
+                String path = folder.getAbsolutePath() + "/" + "hubert";
+                saveFile = new File(path);
+                saveFile.createNewFile();
+                OutputStream output = new FileOutputStream(saveFile,false);
+
+              /*  // Output stream
                 OutputStream output = new FileOutputStream(Environment
                         .getExternalStorageDirectory().toString()
                         + "/aktualizacjaCarsharing.apk");
+
+               */
 
                 byte data[] = new byte[1024];
 
@@ -119,30 +128,33 @@ public String ppath;
         @Override
         protected void onPostExecute(String result) {
             dismissDialog(progress_bar_type);
-    if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
-    File toInstall = new File(ppath);
-    Intent intent;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        Uri apkUri = FileProvider.getUriForFile(Update.this, BuildConfig.APPLICATION_ID + ".fileprovider", toInstall);
-        intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
-        intent.setData(apkUri);
-        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    } else {
-        Uri apkUri = Uri.fromFile(toInstall);
-        intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    }
-    Update.this.startActivity(intent);
-    }
-    else{
-        try {
-            getAssets().open("./aktualizacjaCarsharing.apk");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                saveFile.setReadable(true, false);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setDataAndType(Uri.fromFile(saveFile), "application/vnd.android.package-archive");
+                Update.this.getApplicationContext().startActivity(intent);
+            } else {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri fileUri = FileProvider.getUriForFile(Update.this,
+                        "ir.mhdr.provider",
+                        saveFile);
+                intent.setDataAndType(fileUri, "application/vnd.android.package-archive");
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(intent);
+            }
 
-    }
+            //fraszka dla daniela
+            /*
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(new File(Environment
+                    .getExternalStorageDirectory().toString()
+                    + "/aktualizacjaCarsharing.apk")), "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+             */
         }
     }
 
