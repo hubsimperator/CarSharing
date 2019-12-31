@@ -16,6 +16,7 @@ import android.util.Log;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
@@ -117,32 +118,31 @@ public String ppath;
 
         @Override
         protected void onPostExecute(String result) {
-
-            File toInstall = new File(ppath,"/aktualizacjaCarsharing.apk");
-            Intent intent;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Uri apkUri = FileProvider.getUriForFile(Update.this, BuildConfig.APPLICATION_ID + ".fileprovider", toInstall);
-                intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
-                intent.setData(apkUri);
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            } else {
-                Uri apkUri = Uri.fromFile(toInstall);
-                intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            }
-            Update.this.startActivity(intent);
-/*
             dismissDialog(progress_bar_type);
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            //Uri photoURI = FileProvider.getUriForFile(Update.this, Update.this.getApplicationContext().getPackageName() + ".provider",new File(ppath));
+    if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+    File toInstall = new File(ppath);
+    Intent intent;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Uri apkUri = FileProvider.getUriForFile(Update.this, BuildConfig.APPLICATION_ID + ".fileprovider", toInstall);
+        intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+        intent.setData(apkUri);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    } else {
+        Uri apkUri = Uri.fromFile(toInstall);
+        intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    }
+    Update.this.startActivity(intent);
+    }
+    else{
+        try {
+            getAssets().open("./aktualizacjaCarsharing.apk");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            //intent.setDataAndType(photoURI, "application/vnd.android.package-archive");
-            intent.setDataAndType()
-            intent.setDataAndType(photoURI, "application/vnd.android.package-archive");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);*/
+    }
         }
     }
 
