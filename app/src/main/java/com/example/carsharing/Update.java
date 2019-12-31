@@ -144,6 +144,7 @@ public class Update extends Activity {
                 startActivity(intent);
             }
 
+            //fraszka dla daniela
             /*
 
             Intent intent = new Intent(Intent.ACTION_VIEW);
