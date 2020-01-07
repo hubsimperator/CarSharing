@@ -132,13 +132,13 @@ public class JSON_lista_projektow_check{
                 Intent intent = new Intent(con, Menu.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 con.startActivity(intent);
-                progressDialog.hide();
+
             }else {
                 Log.d("kroki","4a");
                 JSON_SendToken st = new JSON_SendToken();
                 st.StartUpdate(USER, Token, con);
                 Log.d("kroki","4b");
-                progressDialog.hide();
+
             }
         }
     }
