@@ -73,26 +73,18 @@ public class JSON_Login {
 
     @Override
     protected void onPostExecute(String result) {
-
+        Log.d("kroki","1");
             if(result.contains("true"))
             {
                 try {
                     JSON_lista_projektow_check lpc = new JSON_lista_projektow_check();
-                    lpc.StartUpdate(con);
-
+                    lpc.StartUpdate(con,progressDialog,Token);
+                    Log.d("kroki","2");
                 } catch(Exception e){Logs_DataHandler log = new Logs_DataHandler(con);
                     log.inputLog( "JSON_Login.class 002: "+e.toString());
                     log.close();
             }
 
-                if(Token.matches("")){
-                    Intent intent = new Intent(con, Menu.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    con.startActivity(intent);
-                }else {
-                    JSON_SendToken st = new JSON_SendToken();
-                    st.StartUpdate(User, Token, con);
-                }
             }
             else
             {
@@ -101,6 +93,7 @@ public class JSON_Login {
                 er.setText("Błędny Login lub Hasło");
                 progressDialog.hide();
             }
+        Log.d("kroki","5");
     }
     }
 

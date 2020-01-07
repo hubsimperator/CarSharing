@@ -118,24 +118,14 @@ AlertDialog alertDialog;
         protected void onPostExecute(String result) {
              boolean insered ;
              Projekty_DataHandler myDB = new Projekty_DataHandler(con);
-             myDB.dropdatabase();
+             //myDB.dropdatabase();
              if (!result.equals("null")) {
 
 
-             myDB.dropdatabase();
+
              try {
              JSONArray jsonArray = new JSONArray(result);
              JSONObject jsonobject;
-             for (int i = 0; i < jsonArray.length(); ) {
-             jsonobject = jsonArray.getJSONObject(i);
-
-             insered = myDB.inputData(jsonobject.getString("GRUPA_PROJEKTU"),jsonobject.getString("NR_PROJEKTU"),"0");
-             if (insered) {
-             i++;
-             } else {
-             Toast.makeText(con, "błąd podczas wczytywania danych", Toast.LENGTH_LONG).show();
-             }
-             }
              } catch (JSONException e) {
              e.printStackTrace();
              }

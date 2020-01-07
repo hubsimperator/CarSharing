@@ -155,7 +155,7 @@ public class JSON_lista_projektow {
                         rez.wyswietl_projekt(con, nazwa_projektu.toString(), selected_item);
                     }
                     alertDialog.dismiss();
-                }catch (NullPointerException ne){
+                }catch (Exception ne){
                     alertDialog.dismiss();
                     Logs_DataHandler log = new Logs_DataHandler(con);
                     log.inputLog( "JSON_lista_projektow.class 002: "+ne.toString());
