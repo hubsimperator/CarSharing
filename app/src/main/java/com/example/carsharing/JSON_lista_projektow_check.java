@@ -1,29 +1,19 @@
 package com.example.carsharing;
-
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,29 +22,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+
 
 public class JSON_lista_projektow_check{
     AlertDialog alertDialog;
-    String nazwa_projektu;
-    int CProj=0;
+    int CProj;
     Context con = null;
-    ArrayList<HashMap<String, String>> lista_projekt;
-    HashMap<String, String> lista_pola_projekt;
-    ArrayList<String> lista_grupa_projektowa, lista_nazwa_proj;
-    Integer projekt;
-    String DEFAULT_GROUP_NAME="PO";
-    String USER="";
-    public static String selected_item;
-    List<People> mList;
-    private People selectedPerson;
-    public static ArrayList<String> lista_samochodow;
+    ArrayList<String> lista_grupa_projektowa;
+    String USER="",Token="";
     String currentDate;
-    Spinner projekt_sp;
-    AutoCompleteTextView actv;
-    PeopleAdapter adapter;
-    public void StartUpdate( Context context) {
+    ProgressDialog progressDialog;
+    public void StartUpdate( Context context,ProgressDialog pg, String tok) {
+        Token = tok;
+        progressDialog=pg;
+        Log.d("kroki","B1");
         Date todayDate = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         currentDate = formatter.format(todayDate);
@@ -79,6 +60,7 @@ public class JSON_lista_projektow_check{
         InputStream inputStream = null;
         String result = "";
         try {
+            Log.d("kroki","B2");
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
             String json = "";
@@ -97,7 +79,7 @@ public class JSON_lista_projektow_check{
             else result = "Nie działa";
         } catch (Exception e) {
             Logs_DataHandler log = new Logs_DataHandler(con);
-            log.inputLog( "JSON_Login.class 001: "+e.toString());
+            log.inputLog( "JSON_lista_projektów_check 001: "+e.toString());
             log.close();
         }
         return result;
@@ -105,6 +87,7 @@ public class JSON_lista_projektow_check{
     private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
+            Log.d("kroki","B3");
             return POST(urls[0]);
         }
 
@@ -112,16 +95,17 @@ public class JSON_lista_projektow_check{
         @Override
         protected void onPostExecute(String result) {
             boolean insered ;
+            Log.d("kroki","B4");
             Projekty_DataHandler myDB = new Projekty_DataHandler(con);
+            /*
             myDB.dropdatabase();
             if (!result.equals("null")) {
-
-
-
+                Log.d("kroki","B5");
                 try {
                     JSONArray jsonArray = new JSONArray(result);
                     JSONObject jsonobject;
                     if(jsonArray.length()>2) {
+                        Log.d("kroki","B6");
                         myDB.dropdatabase();
                         for (int i = 0; i < jsonArray.length(); ) {
                             jsonobject = jsonArray.getJSONObject(i);
@@ -134,13 +118,29 @@ public class JSON_lista_projektow_check{
                             }
                         }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Logs_DataHandler log = new Logs_DataHandler(con);
+                    log.inputLog( "JSON_lista_projektów_check 002: "+e.toString());
+                    log.close();
                 }
+            }*/
+            myDB.close();
+            Log.d("kroki","B7");
+            Log.d("kroki","3");
+            if(Token.matches("")){
+                Log.d("kroki","4");
+                Intent intent = new Intent(con, Menu.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                con.startActivity(intent);
+                progressDialog.hide();
+            }else {
+                Log.d("kroki","4a");
+                JSON_SendToken st = new JSON_SendToken();
+                st.StartUpdate(USER, Token, con);
+                Log.d("kroki","4b");
+                progressDialog.hide();
             }
-
         }
-
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
