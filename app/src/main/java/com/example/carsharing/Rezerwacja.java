@@ -538,7 +538,7 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
             hour=c.get(Calendar.HOUR_OF_DAY);
             minute=c.get(Calendar.MINUTE);
             timePickerDialog.updateTime(hour,minute);
-        }catch (NullPointerException ne){
+        }catch (Exception ne){
             Logs_DataHandler log = new Logs_DataHandler(this);
             log.inputLog( "Rezerwacja.class 005: "+ne.toString());
             log.close();

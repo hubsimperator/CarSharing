@@ -54,6 +54,11 @@ public class Projekty_DataHandler  extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
         return res.getCount();
     }
+    public Cursor getCuredProject(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" where DEF = '1'",null);
+        return res;
+    }
 
     public boolean inputData(String Grupa, String Numer,String Domyslny) {
         SQLiteDatabase db = this.getWritableDatabase();

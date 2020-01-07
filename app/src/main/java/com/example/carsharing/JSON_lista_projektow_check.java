@@ -97,7 +97,7 @@ public class JSON_lista_projektow_check{
             else result = "Nie działa";
         } catch (Exception e) {
             Logs_DataHandler log = new Logs_DataHandler(con);
-            log.inputLog( "JSON_Login.class 001: "+e.toString());
+            log.inputLog( "JSON_lista_projektów_check 001: "+e.toString());
             log.close();
         }
         return result;
@@ -134,8 +134,10 @@ public class JSON_lista_projektow_check{
                             }
                         }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Logs_DataHandler log = new Logs_DataHandler(con);
+                    log.inputLog( "JSON_lista_projektów_check 002: "+e.toString());
+                    log.close();
                 }
             }
 
