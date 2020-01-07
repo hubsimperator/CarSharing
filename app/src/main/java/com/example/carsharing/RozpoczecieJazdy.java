@@ -81,8 +81,8 @@ public class RozpoczecieJazdy extends AppCompatActivity {
         proj_et.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSON_lista_projektow json_lista_projektow=new JSON_lista_projektow();
-                json_lista_projektow.StartUpdate(1,RozpoczecieJazdy.this);
+                //JSON_lista_projektow json_lista_projektow=new JSON_lista_projektow();
+                //json_lista_projektow.StartUpdate(1,RozpoczecieJazdy.this);
             }
         });
 
