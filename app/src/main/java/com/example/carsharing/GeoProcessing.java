@@ -112,7 +112,7 @@ Context con;
         List<Address> address;
         LatLng _location = null;
         try {
-            strAddress="Port";
+           // strAddress="Port";
             address = coder.getFromLocationName(strAddress,5,54.248257,18.396202,54.499899,18.868130);
             if (address.size()<1) {
 
