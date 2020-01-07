@@ -44,6 +44,8 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     int DEFAULT_ADDTIME_MIN=60;
     String DEFAULT_PARKING_NAME="Wałowa";
     String DEFAULT_PRZYPOMNIENIE="15 minut";
+    String DEFAULT_GRUPA_PROJ;
+    String DEFAULT_NUMER_PROJ;
 
 
     int year,month,day,hour,minute;
@@ -72,6 +74,9 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public static Spinner parking_sp;
 
     public static ArrayList<String> parkingi;
+
+    public static ArrayList<String> grupa_proj;
+    public static ArrayList<String> numer_proj;
 
 
     boolean start_date=false;
@@ -111,7 +116,6 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
 
         parkingi=new ArrayList<>();
 
-
 try {
     JSON_get_default_project gdp = new JSON_get_default_project();
     gdp.StartUpdate(Rezerwacja.this);
@@ -120,6 +124,25 @@ try {
     log.inputLog( "Rezerwacja.class 099: "+e.toString());
     log.close();
 }
+
+grupa_proj=new ArrayList<>();
+numer_proj=new ArrayList<>();
+        try {
+            Projekty_DataHandler PDH = new Projekty_DataHandler(this);
+            Cursor getdata = PDH.getGrup();
+            while (getdata.moveToNext()) {
+
+                grupa_proj.add(getdata.getString(0));
+            }
+            PDH.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog( "Rezerwacja.class 0000: "+e.toString());
+            log.close();
+        }
+
+
 
 
         try {
@@ -212,23 +235,41 @@ try {
                 }
             }
         });
-/*************************************/
+
         projekt_et.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSON_lista_projektow2 json_lista_projektow=new JSON_lista_projektow2();
-                json_lista_projektow.StartUpdate(0,Rezerwacja.this);
+                final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Rezerwacja.this)
+                        .setNeutralButton("Zamknij", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                alertDialog.dismiss();
+
+                            }
+                        })
+                        .setNegativeButton("Wybierz", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });
+
+                LayoutInflater inflater = (LayoutInflater)   Rezerwacja.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+
+                View view = inflater.inflate(R.layout.projekty,null);
+
+                dialogBuilder.setView(view);
+
+                alertDialog =dialogBuilder.create();
+                alertDialog.show();
+              //  JSON_lista_projektow2 json_lista_projektow=new JSON_lista_projektow2();
+               // json_lista_projektow.StartUpdate(0,Rezerwacja.this);
             }
         });
-        /**
-        projekt_et.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                JSON_lista_projektow json_lista_projektow=new JSON_lista_projektow();
-                json_lista_projektow.StartUpdate(0,Rezerwacja.this);
-            }
-        });
-/*************************************/
+
         start_date=false;
         end_date=false;
 
@@ -498,6 +539,8 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
         projekt_et.setText(_proj);
         nazwa_projektu=_proj;
         grupa_projektu=_grupa_projektu;
+        DEFAULT_GRUPA_PROJ=_grupa_projektu;
+        DEFAULT_NUMER_PROJ=_proj;
 }
 
 
