@@ -63,7 +63,6 @@ public class Menu extends AppCompatActivity {
                 GeoProcessing geoProcessing = new GeoProcessing();
                 geoProcessing.setNearestParking(myCoord, Menu.this);
 
-
             }
 
             @Override
