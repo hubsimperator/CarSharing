@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,14 +37,32 @@ import java.util.List;
 public class ProjektWybor {
 
 
-    public static ArrayList<String> grupa_proj;
-    public static ArrayList<String> numer_proj;
-
+    public static ArrayList<String> grupa_proj=new ArrayList<>();
+    public static ArrayList<String> numer_proj=new ArrayList<>();
+    public static Context con;
 
     View view;
     AlertDialog alertDialog;
 
-public void s(Context con){
+public void a(){
+    try {
+        Projekty_DataHandler PDH = new Projekty_DataHandler(con);
+        Cursor getdata = PDH.getGrup();
+        while (getdata.moveToNext()) {
+            grupa_proj.add(getdata.getString(0));
+        }
+        PDH.close();
+    } catch (Exception e) {
+        Logs_DataHandler log = new Logs_DataHandler(con);
+        log.inputLog("Login.class 006: " + e.toString());
+        log.close();
+    }
+}
+
+
+public void s(Context con1){
+    con=con1;
+    this.a();
     final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con)
             .setNeutralButton("Zamknij", new DialogInterface.OnClickListener() {
                 @Override

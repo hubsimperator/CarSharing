@@ -73,14 +73,15 @@ public class JSON_Login {
 
     @Override
     protected void onPostExecute(String result) {
-
+progressDialog.hide();
             if(result.contains("true"))
             {
                 try {
                     JSON_lista_projektow_check lpc = new JSON_lista_projektow_check();
                     lpc.StartUpdate(con);
 
-                } catch(Exception e){Logs_DataHandler log = new Logs_DataHandler(con);
+                } catch(Exception e){
+                    Logs_DataHandler log = new Logs_DataHandler(con);
                     log.inputLog( "JSON_Login.class 002: "+e.toString());
                     log.close();
             }
@@ -99,7 +100,7 @@ public class JSON_Login {
                 er.setTextColor(0xFFCC0000);
                 er.setGravity(Gravity.CENTER);
                 er.setText("Błędny Login lub Hasło");
-                progressDialog.hide();
+               // progressDialog.hide();
             }
     }
     }

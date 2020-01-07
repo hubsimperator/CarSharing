@@ -140,15 +140,7 @@ public class JSON_lista_projektow_check{
             }
 
         }
-        private List<People> retrievePeople(ArrayList<String> lista_nazwa_pro) {
 
-
-            List<People> list = new ArrayList<People>();
-            for(int i =0;i<lista_nazwa_proj.size();i++) {
-                list.add(new People(lista_nazwa_pro.get(i)));
-            }
-            return list;
-        }
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {

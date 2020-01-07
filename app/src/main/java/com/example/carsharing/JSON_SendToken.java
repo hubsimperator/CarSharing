@@ -62,11 +62,13 @@ public class JSON_SendToken {
     private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            return POST(urls[0]);
+            String res=POST(urls[0]);
+            return res;
         }
 
         @Override
         protected void onPostExecute(String result) {
+                Log.d("a","a");
                 Intent intent = new Intent(con, Menu.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 con.startActivity(intent);
