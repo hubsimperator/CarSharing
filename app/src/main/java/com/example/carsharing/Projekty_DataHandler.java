@@ -13,7 +13,7 @@ public class Projekty_DataHandler  extends SQLiteOpenHelper {
     public static final String GR = "GR";
     public static final String NR = "NR";
     public static final String DEF = "DEF";
-    public static final String CT = "("+ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+GR+" text not null,"+NR+" text not null)";
+    public static final String CT = "("+ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+GR+" text not null,"+NR+" text not null,"+DEF+" text not null)";
 
     public Projekty_DataHandler(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -49,12 +49,18 @@ public class Projekty_DataHandler  extends SQLiteOpenHelper {
         db.execSQL("drop table if exists "+TABLE_NAME);
         onCreate(db);
     }
+    public int getCount(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
+        return res.getCount();
+    }
 
-    public boolean inputData(String Grupa, String Numer) {
+    public boolean inputData(String Grupa, String Numer,String Domyslny) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(GR,Grupa);
         contentValues.put(NR,Numer);
+        contentValues.put(DEF,Domyslny);
         long result = db.insert(TABLE_NAME,null,contentValues);
         if(result == -1){
             return false;

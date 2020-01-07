@@ -54,8 +54,7 @@ public class JSON_lista_projektow_check{
     Spinner projekt_sp;
     AutoCompleteTextView actv;
     PeopleAdapter adapter;
-    public void StartUpdate(Integer _projekt, Context context) {
-        projekt=_projekt;
+    public void StartUpdate( Context context) {
         Date todayDate = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         currentDate = formatter.format(todayDate);
@@ -69,6 +68,9 @@ public class JSON_lista_projektow_check{
         con = context;
         //   er=error;
         lista_grupa_projektowa=new ArrayList<>();
+
+        Projekty_DataHandler pdh = new Projekty_DataHandler(con);
+        CProj = pdh.getCount();
         new JSON_lista_projektow_check.HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppGetProjectList2");
     }
 
@@ -115,159 +117,27 @@ public class JSON_lista_projektow_check{
             if (!result.equals("null")) {
 
 
-                myDB.dropdatabase();
+
                 try {
                     JSONArray jsonArray = new JSONArray(result);
                     JSONObject jsonobject;
-                    for (int i = 0; i < jsonArray.length(); ) {
-                        jsonobject = jsonArray.getJSONObject(i);
+                    if(jsonArray.length()>2) {
+                        myDB.dropdatabase();
+                        for (int i = 0; i < jsonArray.length(); ) {
+                            jsonobject = jsonArray.getJSONObject(i);
 
-                        insered = myDB.inputData(jsonobject.getString("GRUPA_PROJEKTU"),jsonobject.getString("NR_PROJEKTU"));
-                        if (insered) {
-                            i++;
-                        } else {
-                            Toast.makeText(con, "błąd podczas wczytywania danych", Toast.LENGTH_LONG).show();
+                            insered = myDB.inputData(jsonobject.getString("GRUPA_PROJEKTU"), jsonobject.getString("NR_PROJEKTU"), jsonobject.getString("DEF"));
+                            if (insered) {
+                                i++;
+                            } else {
+                                Toast.makeText(con, "błąd podczas wczytywania danych", Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-            String test = "";
-            final Cursor cur = myDB.getGrup();
-
-            while(cur.moveToNext()){
-                lista_grupa_projektowa.add(cur.getString(0));
-            }
-            cur.moveToFirst();
-            selected_item=cur.getString(0);
-            cur.close();
-
-
-            ArrayAdapter<String> GROUPadapter = new ArrayAdapter<String>(con,
-                    android.R.layout.simple_spinner_item,lista_grupa_projektowa);
-            LayoutInflater inflater = (LayoutInflater)   con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.projekty,null);
-            projekt_sp=(Spinner) view.findViewById(R.id.spinner2);
-            projekt_sp.setAdapter(GROUPadapter);
-
-/*****/
-            ArrayAdapter<String> adapter3 = new ArrayAdapter<String>
-                    (con, android.R.layout.select_dialog_item, lista_nazwa_proj);
-
-
-
-            //Projekty_DataHandler myDB = new Projekty_DataHandler(con);
-
-
-
-/***/
-            myDB.close();
-            projekt_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Projekty_DataHandler myDB = new Projekty_DataHandler(con);
-                    Cursor ccc = myDB.getGrup();
-                    ccc.moveToPosition(projekt);
-                    selected_item=ccc.getString(0);
-                    lista_nazwa_proj = new ArrayList<>();
-                    Cursor getproj = myDB.getNumber(selected_item);
-                    while (getproj.moveToNext()) {
-                        lista_nazwa_proj.add(getproj.getString(0));
-
-                    }
-                    myDB.close();
-                }
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-
-
-            actv = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
-            ImageView dropdown=(ImageView) view.findViewById(R.id.dropdown);
-            dropdown.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Projekty_DataHandler myDB = new Projekty_DataHandler(con);
-                    Cursor cur1 = myDB.getNumber(projekt_sp.getSelectedItem().toString());
-
-                    lista_nazwa_proj = new ArrayList<>();
-                    while (cur1.moveToNext()){
-                        lista_nazwa_proj.add(cur1.getString(0));
-                    }
-                    cur1.close();
-                    mList = retrievePeople(lista_nazwa_proj);
-
-
-
-                    adapter = new PeopleAdapter(con, R.layout.activity_main, R.id.lbl_name, mList);
-                    actv.setThreshold(1);
-                    actv.setAdapter(adapter);
-                    actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-
-                            //this is the way to find selected object/item
-                            selectedPerson = (People) adapterView.getItemAtPosition(pos);
-                            //  nazwa_projektu=(String) adapterView.getItemAtPosition(pos);
-                            nazwa_projektu=selectedPerson.getName();
-                        }
-
-                    });
-                    actv.showDropDown();
-                    myDB.close();
-                }
-            });
-
-            alertDialog=new AlertDialog.Builder(con)
-                    .setTitle("Proszę czekać ")
-                    .setMessage("Pobieranie danych ...")
-                    .setIcon(android.R.drawable.ic_input_add)
-                    .setCancelable(false)
-                    .show();
-
-            alertDialog.dismiss();
-            final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con)
-                    .setNeutralButton("Zamknij", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            alertDialog.dismiss();
-
-                        }
-                    })
-                    .setNegativeButton("Wybierz", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                if(projekt==0) {
-                                    Rezerwacja rez = new Rezerwacja();
-                                    rez.wyswietl_projekt(con, nazwa_projektu, selected_item);
-                                }
-                                else {
-                                    RozpoczecieJazdy rez = new RozpoczecieJazdy();
-                                    rez.wyswietl_projekt(con, nazwa_projektu, selected_item);
-                                }
-                                alertDialog.dismiss();
-                            }catch (Exception ne){
-                                alertDialog.dismiss();
-                                Logs_DataHandler log = new Logs_DataHandler(con);
-                                log.inputLog( "JSON_lista_projektow.class 002: "+ne.toString());
-                                log.close();
-
-                            }
-
-                        }
-                    });
-
-
-
-            dialogBuilder.setView(view);
-
-            alertDialog =dialogBuilder.create();
-            alertDialog.show();
-
 
         }
         private List<People> retrievePeople(ArrayList<String> lista_nazwa_pro) {

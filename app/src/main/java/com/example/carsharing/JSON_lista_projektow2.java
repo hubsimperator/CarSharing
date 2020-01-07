@@ -129,7 +129,7 @@ AlertDialog alertDialog;
              for (int i = 0; i < jsonArray.length(); ) {
              jsonobject = jsonArray.getJSONObject(i);
 
-             insered = myDB.inputData(jsonobject.getString("GRUPA_PROJEKTU"),jsonobject.getString("NR_PROJEKTU"));
+             insered = myDB.inputData(jsonobject.getString("GRUPA_PROJEKTU"),jsonobject.getString("NR_PROJEKTU"),"0");
              if (insered) {
              i++;
              } else {
