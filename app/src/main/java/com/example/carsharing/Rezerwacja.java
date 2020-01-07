@@ -239,32 +239,8 @@ numer_proj=new ArrayList<>();
         projekt_et.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Rezerwacja.this)
-                        .setNeutralButton("Zamknij", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                alertDialog.dismiss();
-
-                            }
-                        })
-                        .setNegativeButton("Wybierz", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-
-                            }
-                        });
-
-                LayoutInflater inflater = (LayoutInflater)   Rezerwacja.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
-
-                View view = inflater.inflate(R.layout.projekty,null);
-
-                dialogBuilder.setView(view);
-
-                alertDialog =dialogBuilder.create();
-                alertDialog.show();
+              ProjektWybor projektWybor=new ProjektWybor();
+              projektWybor.s(Rezerwacja.this);
               //  JSON_lista_projektow2 json_lista_projektow=new JSON_lista_projektow2();
                // json_lista_projektow.StartUpdate(0,Rezerwacja.this);
             }
