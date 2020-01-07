@@ -12,6 +12,7 @@ public class Projekty_DataHandler  extends SQLiteOpenHelper {
     public static final String ID = "ID";
     public static final String GR = "GR";
     public static final String NR = "NR";
+    public static final String DEF = "DEF";
     public static final String CT = "("+ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+GR+" text not null,"+NR+" text not null)";
 
     public Projekty_DataHandler(Context context) {
