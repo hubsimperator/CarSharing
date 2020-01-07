@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -12,8 +13,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -48,7 +51,7 @@ public class JSON_lista_projektow {
     ArrayList<String> lista_grupa_projektowa;
     Integer projekt;
     String DEFAULT_GROUP_NAME="PO";
-
+    String USER="";
 
     public static String selected_item;
 
@@ -59,9 +62,14 @@ public class JSON_lista_projektow {
         Date todayDate = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         currentDate = formatter.format(todayDate);
-
+        LoginDataHandler lo = new LoginDataHandler(context);
+        Cursor login = lo.getData();
+        while (login.moveToNext()){
+            USER = login.getString(1);
+        }
+        Log.d("user",USER);
+        lo.close();
         con = context;
-     //   er=error;
         lista_grupa_projektowa=new ArrayList<>();
         new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppGetProjectList");
     }
@@ -75,6 +83,7 @@ public class JSON_lista_projektow {
             String json = "";
             JSONObject jsonObject = new JSONObject();
             jsonObject.accumulate("Data",currentDate);
+            jsonObject.accumulate("User",USER);
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);
@@ -109,8 +118,6 @@ public class JSON_lista_projektow {
         }
         String post_result;
 
-
-
         @Override
         protected String doInBackground(String... urls) {
             post_result=POST(urls[0]);
@@ -127,7 +134,6 @@ public class JSON_lista_projektow {
     @Override
     protected void onPostExecute(String result) {
         alertDialog.dismiss();
-
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con)
                 .setNeutralButton("Zamknij", new DialogInterface.OnClickListener() {
                     @Override
@@ -159,6 +165,11 @@ public class JSON_lista_projektow {
 
             }
         });
+
+
+
+
+
         ArrayAdapter<String> adapter3 = new ArrayAdapter<String>
                 (con, android.R.layout.select_dialog_item, lista_nazwa_proj);
         LayoutInflater inflater = (LayoutInflater)   con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

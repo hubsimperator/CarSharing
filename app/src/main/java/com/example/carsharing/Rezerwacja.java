@@ -52,13 +52,12 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public static EditText koniec_et;
     public static EditText projekt_et;
     public static EditText subject_et;
-
     String data_poczatkowa;
     String data_bez_godzin;
     String godzina_poczatkowa;
     String data_koncowa;
-    String parking;
-    public static String eit_Resource;
+    String parking="";
+    public static String eit_Resource="";
     public static String grupa_projektu;
     public static String nazwa_projektu;
     public static String przypomnienie_id;
@@ -111,6 +110,17 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
 
 
         parkingi=new ArrayList<>();
+
+
+try {
+    JSON_get_default_project gdp = new JSON_get_default_project();
+    gdp.StartUpdate(Rezerwacja.this);
+}catch (Exception e){
+    Logs_DataHandler log = new Logs_DataHandler(this);
+    log.inputLog( "Rezerwacja.class 099: "+e.toString());
+    log.close();
+}
+
 
         try {
             Lista_parking_DataHandler LDH = new Lista_parking_DataHandler(this);
@@ -202,7 +212,15 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
                 }
             }
         });
-
+/*************************************/
+        projekt_et.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSON_lista_projektow2 json_lista_projektow=new JSON_lista_projektow2();
+                json_lista_projektow.StartUpdate(0,Rezerwacja.this);
+            }
+        });
+        /**
         projekt_et.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,7 +228,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
                 json_lista_projektow.StartUpdate(0,Rezerwacja.this);
             }
         });
-
+/*************************************/
         start_date=false;
         end_date=false;
 
@@ -285,9 +303,13 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
                             .setMessage("Czy napewno chcesz dokonać rezerwacji?")
                             .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    JSON_potwierdzenie_rezerwacji json_potwierdzenie_rezerwacji = new JSON_potwierdzenie_rezerwacji();
-                                    json_potwierdzenie_rezerwacji.StartUpdate(data_poczatkowa, data_koncowa, "0", subject_et.getText().toString(), eit_Resource, "", przypomnienie_id, "", "", "", "", grupa_projektu, nazwa_projektu, Rezerwacja.this);
-
+                                    if(!eit_Resource.matches("") ) {
+                                        JSON_potwierdzenie_rezerwacji json_potwierdzenie_rezerwacji = new JSON_potwierdzenie_rezerwacji();
+                                        json_potwierdzenie_rezerwacji.StartUpdate(data_poczatkowa, data_koncowa, "0", subject_et.getText().toString(), eit_Resource, "", przypomnienie_id, "", "", "", "", grupa_projektu, nazwa_projektu, Rezerwacja.this);
+                                    }else{
+                                        Toast.makeText(Rezerwacja.this,"Najpierw kliknij w lupę i wybierz auto",Toast.LENGTH_LONG).show();
+                                        alertDialog.dismiss();
+                                    }
                                 }
                             })
                             .setNegativeButton("Nie", new DialogInterface.OnClickListener() {
@@ -477,6 +499,7 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
         nazwa_projektu=_proj;
         grupa_projektu=_grupa_projektu;
 }
+
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

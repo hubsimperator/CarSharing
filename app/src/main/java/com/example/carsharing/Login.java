@@ -50,7 +50,7 @@ public class Login extends AppCompatActivity {
     /** Poniżej wartość Wersji aplikacji - musi być zgodna z wartością dostępną w procedurze cs.pCheckVersion
      * w celu wypuszczenia nowej wersji oprogramowania zmieniamy poniższą wartosć na nową, aplikację generujemy i wystawiamy w nc.sng.com.pl
      * i w wyżej wspomnianej procedurze wprowadzamy nową wartosć w wskazane miejsce*/
-String WersjaAplikacji = "Wersja Alfa3";
+String WersjaAplikacji = "Wersja Alfa4";
 
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
         @Override
