@@ -140,7 +140,6 @@ public void WyborProjektu(final Context con1){
     adapter = new PeopleAdapter(con1, R.layout.activity_main, R.id.lbl_name,mList);
     actv.setAdapter(adapter);
     actv.setThreshold(2);
-    actv.setAdapter(adapter);
     actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
