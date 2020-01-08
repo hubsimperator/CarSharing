@@ -77,15 +77,15 @@ public class PeopleAdapter extends ArrayAdapter<People> {
         }
 
         @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            List<People> filterList = (ArrayList<People>) results.values;
-            if (results != null && results.count > 0 &&results.count<100) {
-                clear();
+        protected void publishResults(CharSequence constraint, FilterResults results) { List<People> filterList = (ArrayList<People>) results.values;
+
+            if (results != null && results.count > 0 &&results.count<100) { clear();
                 for (People people : filterList) {
                     add(people);
                     notifyDataSetChanged();
                 }
             }
+
         }
     };
 }

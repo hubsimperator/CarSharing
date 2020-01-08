@@ -64,10 +64,12 @@ public void WyborProjektu(final Context con1){
 
     //pobranie z bazy danych//***********
     try {
+        grupa_proj.clear();
         Projekty_DataHandler myDB = new Projekty_DataHandler(con1);
         Cursor getdata = myDB.getGrup();
         while (getdata.moveToNext()) {
-            grupa_proj.add(getdata.getString(0));
+                grupa_proj.add(getdata.getString(0));
+
         }
         myDB.close();
     } catch (Exception e) {
@@ -155,6 +157,11 @@ public void WyborProjektu(final Context con1){
     dropdown.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            mList = retrievePeople();
+
+            adapter = new PeopleAdapter(con1, R.layout.activity_main, R.id.lbl_name,mList);
+            actv.setAdapter(adapter);
             actv.showDropDown();
         }
     });
