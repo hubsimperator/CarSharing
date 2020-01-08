@@ -45,8 +45,14 @@ public class ProjektWybor {
     View view;
     AlertDialog alertDialog;
     Spinner projekt_sp;
+    Integer projekt;
+    String numer_projektu;
+    String grupa_projektu;
+    private People selectedPerson;
 
-public void WyborProjektu(final Context con1){
+
+    public void WyborProjektu(final Context con1,int _projekt){
+    projekt=_projekt;
     final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con1)
             .setNeutralButton("Zamknij", new DialogInterface.OnClickListener() {
                 @Override
@@ -58,6 +64,26 @@ public void WyborProjektu(final Context con1){
             .setNegativeButton("Wybierz", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
+                    try {
+                        grupa_projektu=projekt_sp.getSelectedItem().toString();
+
+                        if(projekt==0) {
+                            Rezerwacja rez = new Rezerwacja();
+                            rez.wyswietl_projekt(con1, numer_projektu, grupa_projektu);
+                        }
+                        else {
+                            RozpoczecieJazdy rez = new RozpoczecieJazdy();
+                            rez.wyswietl_projekt(con1, numer_projektu, grupa_projektu);
+                        }
+                        alertDialog.dismiss();
+                    }catch (Exception ne){
+                        alertDialog.dismiss();
+                        Logs_DataHandler log = new Logs_DataHandler(con1);
+                        log.inputLog( "PROJEKTWYBOR.class 002: "+ne.toString());
+                        log.close();
+
+                    }
 
                 }
             });
@@ -146,9 +172,9 @@ public void WyborProjektu(final Context con1){
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
             //this is the way to find selected object/item
-         //   selectedPerson = (People) adapterView.getItemAtPosition(pos);
+           selectedPerson = (People) adapterView.getItemAtPosition(pos);
               //nazwa_projektu=(String) adapterView.getItemAtPosition(pos);
-            //nazwa_projektu=selectedPerson.getName();
+            numer_projektu=selectedPerson.getName();
         }
     });
 
@@ -159,7 +185,6 @@ public void WyborProjektu(final Context con1){
         public void onClick(View v) {
 
             mList = retrievePeople();
-
             adapter = new PeopleAdapter(con1, R.layout.activity_main, R.id.lbl_name,mList);
             actv.setAdapter(adapter);
             actv.showDropDown();

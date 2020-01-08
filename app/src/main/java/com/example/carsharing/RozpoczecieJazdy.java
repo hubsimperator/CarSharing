@@ -83,6 +83,8 @@ public class RozpoczecieJazdy extends AppCompatActivity {
             public void onClick(View v) {
                 //JSON_lista_projektow json_lista_projektow=new JSON_lista_projektow();
                 //json_lista_projektow.StartUpdate(1,RozpoczecieJazdy.this);
+                ProjektWybor projektWybor=new ProjektWybor();
+                projektWybor.WyborProjektu(RozpoczecieJazdy.this,1);
             }
         });
 

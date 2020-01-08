@@ -236,7 +236,7 @@ numer_proj=new ArrayList<>();
             @Override
             public void onClick(View v) {
               ProjektWybor projektWybor=new ProjektWybor();
-              projektWybor.WyborProjektu(Rezerwacja.this);
+              projektWybor.WyborProjektu(Rezerwacja.this,0);
               //  JSON_lista_projektow2 json_lista_projektow=new JSON_lista_projektow2();
                // json_lista_projektow.StartUpdate(0,Rezerwacja.this);
             }
