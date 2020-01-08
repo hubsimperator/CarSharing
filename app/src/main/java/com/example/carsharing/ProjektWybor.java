@@ -59,7 +59,6 @@ public void a(Context con2){
     }
 }
 
-
 public void s(Context con1){
     ProjektWybor pw = new ProjektWybor();
     pw.a(con1);

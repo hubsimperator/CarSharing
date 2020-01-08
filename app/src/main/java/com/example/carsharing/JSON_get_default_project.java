@@ -77,7 +77,6 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
         return POST(urls[0]);
     }
 
-
     @Override
     protected void onPostExecute(String result) {
         boolean insered ;

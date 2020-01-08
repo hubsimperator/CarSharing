@@ -76,7 +76,6 @@ public class JSON_SendToken {
             Log.d("kroki","A4");
         }
     }
-
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String line = "";

@@ -207,7 +207,6 @@ cv.StartUpdate(WersjaAplikacji,te,this);
             @Override
             public void onClick(View v) {
 
-
                 final ProgressDialog pg = new ProgressDialog(context);
                 pg.setMessage("Wczytywanie...");
                 pg.show();

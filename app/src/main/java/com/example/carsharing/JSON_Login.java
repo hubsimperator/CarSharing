@@ -37,7 +37,6 @@ public class JSON_Login {
         progressDialog=pg;
         new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/GetUsercs");
     }
-
     public String POST(String url) {
         InputStream inputStream = null;
         String result = "";
