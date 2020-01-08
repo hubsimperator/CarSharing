@@ -31,10 +31,11 @@ public class JSON_lista_projektow_check{
     ArrayList<String> lista_grupa_projektowa;
     String USER="",Token="";
     String currentDate;
-    ProgressDialog progressDialog;
-    public void StartUpdate( Context context,ProgressDialog pg, String tok) {
+    ProgressDialog pg;
+    public void StartUpdate( Context context, String tok) {
         Token = tok;
-        progressDialog=pg;
+        pg = new ProgressDialog(context);
+        pg.setMessage("Wczytywanie...");
         Log.d("kroki","B1");
         Date todayDate = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -125,10 +126,12 @@ public class JSON_lista_projektow_check{
                 }
             }
             myDB.close();
+            pg.hide();
             Log.d("kroki","B7");
             Log.d("kroki","3");
             if(Token.matches("")){
                 Log.d("kroki","4");
+
                 Intent intent = new Intent(con, Menu.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 con.startActivity(intent);

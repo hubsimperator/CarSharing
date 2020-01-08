@@ -39,21 +39,22 @@ public class ProjektWybor {
 
     public static ArrayList<String> grupa_proj=new ArrayList<>();
     public static ArrayList<String> numer_proj=new ArrayList<>();
-    public static Context con;
 
     View view;
     AlertDialog alertDialog;
 
-public void a(){
+public void a(Context con2){
     try {
-        Projekty_DataHandler PDH = new Projekty_DataHandler(con);
+        Projekty_DataHandler PDH = new Projekty_DataHandler(con2);
         Cursor getdata = PDH.getGrup();
+        getdata.moveToFirst();
+        String test = getdata.getString(0);
         while (getdata.moveToNext()) {
-            grupa_proj.add(getdata.getString(1));
+            grupa_proj.add(getdata.getString(0));
         }
         PDH.close();
     } catch (Exception e) {
-        Logs_DataHandler log = new Logs_DataHandler(con);
+        Logs_DataHandler log = new Logs_DataHandler(con2);
         log.inputLog("Login.class 006: " + e.toString());
         log.close();
     }
@@ -61,9 +62,9 @@ public void a(){
 
 
 public void s(Context con1){
-    con=con1;
-    this.a();
-    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con)
+    ProjektWybor pw = new ProjektWybor();
+    pw.a(con1);
+    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con1)
             .setNeutralButton("Zamknij", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -79,7 +80,7 @@ public void s(Context con1){
                 }
             });
 
-    LayoutInflater inflater = (LayoutInflater)   con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    LayoutInflater inflater = (LayoutInflater)   con1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
 
