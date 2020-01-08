@@ -45,14 +45,13 @@ public class ProjektWybor {
 
 public void a(Context con2){
     try {
-        Projekty_DataHandler PDH = new Projekty_DataHandler(con2);
-        Cursor getdata = PDH.getGrup();
-        getdata.moveToFirst();
-        String test = getdata.getString(0);
+        Projekty_DataHandler myDB = new Projekty_DataHandler(con2);
+        Cursor getdata = myDB.getGrup();
+        getdata.moveToLast();
         while (getdata.moveToNext()) {
             grupa_proj.add(getdata.getString(0));
         }
-        PDH.close();
+        myDB.close();
     } catch (Exception e) {
         Logs_DataHandler log = new Logs_DataHandler(con2);
         log.inputLog("Login.class 006: " + e.toString());

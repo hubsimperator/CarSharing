@@ -32,10 +32,9 @@ public class JSON_lista_projektow_check{
     String USER="",Token="";
     String currentDate;
     ProgressDialog pg;
-    public void StartUpdate( Context context, String tok) {
+    public void StartUpdate( Context context,ProgressDialog progressDialog,String tok) {
         Token = tok;
-        pg = new ProgressDialog(context);
-        pg.setMessage("Wczytywanie...");
+        pg = progressDialog;
         Log.d("kroki","B1");
         Date todayDate = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -105,9 +104,11 @@ public class JSON_lista_projektow_check{
                 try {
                     JSONArray jsonArray = new JSONArray(result);
                     JSONObject jsonobject;
-                    if(jsonArray.length()>2) {
+                    if(jsonArray.length()>20) {
                         Log.d("kroki","B6");
                         myDB.dropdatabase();
+                        myDB.close();
+                        myDB = new Projekty_DataHandler(con);
                         for (int i = 0; i < jsonArray.length(); ) {
                             jsonobject = jsonArray.getJSONObject(i);
 
@@ -125,7 +126,13 @@ public class JSON_lista_projektow_check{
                     log.close();
                 }
             }
+            Cursor test = myDB.getGrup();
+            int testowy = test.getCount();
+            testowy = testowy;
             myDB.close();
+
+
+
             pg.hide();
             Log.d("kroki","B7");
             Log.d("kroki","3");

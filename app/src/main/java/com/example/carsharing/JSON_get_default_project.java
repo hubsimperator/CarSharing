@@ -81,8 +81,6 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         boolean insered ;
-        Projekty_DataHandler myDB = new Projekty_DataHandler(con);
-        myDB.dropdatabase();
         if (!result.equals("null")) {
             Rezerwacja rez = new Rezerwacja();
             try {

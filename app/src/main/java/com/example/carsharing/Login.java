@@ -232,8 +232,7 @@ cv.StartUpdate(WersjaAplikacji,te,this);
                                         String token = task.getResult().getToken();
                                         JSON_Login logowanie = new JSON_Login();
                                         Log.d("token", token);
-                                        pg.hide();
-                                        logowanie.StartUpdate(Logi, Haslo, getApplicationContext(), error, token);
+                                        logowanie.StartUpdate(Logi, Haslo, getApplicationContext(), error, token,pg);
                                     } else {
                                         JSON_Login logowanie = new JSON_Login();
                                     }
