@@ -5,18 +5,14 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CalendarView;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -240,7 +236,7 @@ numer_proj=new ArrayList<>();
             @Override
             public void onClick(View v) {
               ProjektWybor projektWybor=new ProjektWybor();
-              projektWybor.s(Rezerwacja.this);
+              projektWybor.WyborProjektu(Rezerwacja.this);
               //  JSON_lista_projektow2 json_lista_projektow=new JSON_lista_projektow2();
                // json_lista_projektow.StartUpdate(0,Rezerwacja.this);
             }
