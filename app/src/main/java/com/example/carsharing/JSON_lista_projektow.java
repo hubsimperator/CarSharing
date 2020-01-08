@@ -148,11 +148,11 @@ public class JSON_lista_projektow {
                 try {
                     if(projekt==0) {
                         Rezerwacja rez = new Rezerwacja();
-                        rez.wyswietl_projekt(con, nazwa_projektu.toString(), selected_item);
+                        rez.wyswietl_projekt(con, nazwa_projektu, selected_item);
                     }
                     else {
                         RozpoczecieJazdy rez = new RozpoczecieJazdy();
-                        rez.wyswietl_projekt(con, nazwa_projektu.toString(), selected_item);
+                        rez.wyswietl_projekt(con, nazwa_projektu, selected_item);
                     }
                     alertDialog.dismiss();
                 }catch (Exception ne){

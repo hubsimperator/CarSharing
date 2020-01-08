@@ -49,7 +49,7 @@ public void a(){
         Projekty_DataHandler PDH = new Projekty_DataHandler(con);
         Cursor getdata = PDH.getGrup();
         while (getdata.moveToNext()) {
-            grupa_proj.add(getdata.getString(0));
+            grupa_proj.add(getdata.getString(1));
         }
         PDH.close();
     } catch (Exception e) {
