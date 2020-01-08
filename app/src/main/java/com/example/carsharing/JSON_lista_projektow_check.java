@@ -97,8 +97,8 @@ public class JSON_lista_projektow_check{
             boolean insered ;
             Log.d("kroki","B4");
             Projekty_DataHandler myDB = new Projekty_DataHandler(con);
-            /*
-            myDB.dropdatabase();
+
+
             if (!result.equals("null")) {
                 Log.d("kroki","B5");
                 try {
@@ -123,7 +123,7 @@ public class JSON_lista_projektow_check{
                     log.inputLog( "JSON_lista_projektów_check 002: "+e.toString());
                     log.close();
                 }
-            }*/
+            }
             myDB.close();
             Log.d("kroki","B7");
             Log.d("kroki","3");
