@@ -22,7 +22,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:textColorHint="#9e9191"
             android:hint="login"
+
             android:layout_marginTop="50sp"
             android:inputType="textPersonName" />
 
@@ -31,6 +33,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:textColorHint="#9e9191"
+
             android:hint="hasło"
             android:inputType="textPassword" />
 
@@ -61,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:textColorHint="#9e9191"
 
                 android:hint="Zapamiętaj mnie" />
 

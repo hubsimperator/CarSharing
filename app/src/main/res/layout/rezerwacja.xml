@@ -47,6 +47,8 @@
                 android:id="@+id/tytul_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="#9e9191"
+
                 android:hint="Tytuł" />
         </LinearLayout>
 

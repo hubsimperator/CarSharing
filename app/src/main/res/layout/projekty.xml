@@ -72,6 +72,8 @@
                 android:dropDownVerticalOffset="-250dp"
                 android:ems="10"
                 android:hint="Wpisz projekt"
+                android:textColorHint="#9e9191"
+
                 android:text="">
 
                 <requestFocus />
