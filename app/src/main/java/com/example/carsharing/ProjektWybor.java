@@ -37,13 +37,16 @@ import java.util.List;
 
 public class ProjektWybor {
     List<People> mList;
+     PeopleAdapter adapter;
+
 
     public static ArrayList<String> grupa_proj=new ArrayList<>();
     public static ArrayList<String> numer_proj=new ArrayList<>();
     View view;
     AlertDialog alertDialog;
+    Spinner projekt_sp;
 
-public void WyborProjektu(Context con1){
+public void WyborProjektu(final Context con1){
     final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con1)
             .setNeutralButton("Zamknij", new DialogInterface.OnClickListener() {
                 @Override
@@ -77,7 +80,7 @@ public void WyborProjektu(Context con1){
     LayoutInflater inflater = (LayoutInflater)   con1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View view = inflater.inflate(R.layout.projekty,null);
 
-    Spinner projekt_sp=(Spinner) view.findViewById(R.id.spinner2);
+     projekt_sp=(Spinner) view.findViewById(R.id.spinner2);
 
     ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(con1,
             android.R.layout.simple_spinner_item,grupa_proj);
@@ -99,14 +102,43 @@ public void WyborProjektu(Context con1){
         log.close();
     }
 
-
     final AutoCompleteTextView actv = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
 
-    PeopleAdapter adapter;
+    projekt_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            numer_proj.clear();
+            try {
+                Projekty_DataHandler myDB = new Projekty_DataHandler(con1);
+                Cursor getdata = myDB.getNumber(projekt_sp.getSelectedItem().toString());
+                while (getdata.moveToNext()) {
+                    numer_proj.add(getdata.getString(0));
+                }
+                myDB.close();
+            } catch (Exception e) {
+                Logs_DataHandler log = new Logs_DataHandler(con1);
+                log.inputLog("Login.class 006: " + e.toString());
+                log.close();
+            }
+            adapter.clear();
+            mList = retrievePeople();
+            adapter = new PeopleAdapter(con1, R.layout.activity_main, R.id.lbl_name,mList);
+            actv.setAdapter(adapter);
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    });
+
+
+
     mList = retrievePeople();
 
     adapter = new PeopleAdapter(con1, R.layout.activity_main, R.id.lbl_name,mList);
-
+    actv.setAdapter(adapter);
     actv.setThreshold(2);
     actv.setAdapter(adapter);
     actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
