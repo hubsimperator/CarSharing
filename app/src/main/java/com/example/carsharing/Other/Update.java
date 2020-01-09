@@ -14,6 +14,7 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
+import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.R;
 
 import java.io.BufferedInputStream;
@@ -114,7 +115,9 @@ public class Update extends Activity {
                 input.close();
 
             } catch (Exception e) {
-                Log.e("Error: ", e.getMessage());
+                Logs_DataHandler log = new Logs_DataHandler(getApplicationContext());
+                log.inputLog( "Update.class 001: "+e.toString());
+                log.close();
             }
 
             return null;

@@ -33,13 +33,13 @@ public class JSON_lista_projektow_check{
     int CProj;
     Context con = null;
     ArrayList<String> lista_grupa_projektowa;
-    String USER="",Token="";
+    String USER="",Token="",wersjaAplikacji="";
     String currentDate;
     ProgressDialog pg;
-    public void StartUpdate( Context context,ProgressDialog progressDialog,String tok) {
+    public void StartUpdate(Context context, ProgressDialog progressDialog, String tok, String appVer) {
         Token = tok;
+        wersjaAplikacji=appVer;
         pg = progressDialog;
-        Log.d("kroki","B1");
         Date todayDate = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         currentDate = formatter.format(todayDate);
@@ -48,7 +48,6 @@ public class JSON_lista_projektow_check{
         while (login.moveToNext()){
             USER = login.getString(1);
         }
-        Log.d("user",USER);
         lo.close();
         con = context;
         //   er=error;
@@ -64,7 +63,6 @@ public class JSON_lista_projektow_check{
         InputStream inputStream = null;
         String result = "";
         try {
-            Log.d("kroki","B2");
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
             String json = "";
@@ -91,7 +89,6 @@ public class JSON_lista_projektow_check{
     private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            Log.d("kroki","B3");
             return POST(urls[0]);
         }
 
@@ -99,17 +96,14 @@ public class JSON_lista_projektow_check{
         @Override
         protected void onPostExecute(String result) {
             boolean insered ;
-            Log.d("kroki","B4");
             Projekty_DataHandler myDB = new Projekty_DataHandler(con);
 
 
             if (!result.equals("null")) {
-                Log.d("kroki","B5");
                 try {
                     JSONArray jsonArray = new JSONArray(result);
                     JSONObject jsonobject;
                     if(jsonArray.length()>20) {
-                        Log.d("kroki","B6");
                         myDB.dropdatabase();
                         myDB.close();
                         myDB = new Projekty_DataHandler(con);
@@ -135,24 +129,16 @@ public class JSON_lista_projektow_check{
             testowy = testowy;
             myDB.close();
 
-
-
             pg.hide();
-            Log.d("kroki","B7");
-            Log.d("kroki","3");
             if(Token.matches("")){
-                Log.d("kroki","4");
 
                 Intent intent = new Intent(con, Menu.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 con.startActivity(intent);
 
             }else {
-                Log.d("kroki","4a");
                 JSON_SendToken st = new JSON_SendToken();
-                st.StartUpdate(USER, Token, con);
-                Log.d("kroki","4b");
-
+                st.StartUpdate(USER, Token, con,wersjaAplikacji);
             }
         }
     }

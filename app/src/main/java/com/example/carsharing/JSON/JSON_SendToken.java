@@ -25,12 +25,13 @@ public class JSON_SendToken {
 
 
     Context con = null;
-    String User ="",Token="";
+    String User ="",Token="",AppVer="";
     TextView er=null;
-    public void StartUpdate(String Login, String Password, Context context) {
+    public void StartUpdate(String Login, String Password, Context context, String wersjaAplikacji) {
         con = context;
         User=Login;
         Token=Password;
+        AppVer = wersjaAplikacji;
         new JSON_SendToken.HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppSendToken");
         Log.d("kroki","A1");
     }
@@ -46,6 +47,7 @@ public class JSON_SendToken {
             JSONObject jsonObject = new JSONObject();
             jsonObject.accumulate("Username",User);
             jsonObject.accumulate("Token",Token);
+            jsonObject.accumulate("AppVersion",AppVer);
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json);
             httpPost.setEntity(se);

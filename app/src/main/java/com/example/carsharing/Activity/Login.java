@@ -26,13 +26,13 @@ import android.widget.ImageView;
 
 import com.example.carsharing.DataHandler.LoginDataHandler;
 import com.example.carsharing.DataHandler.Logs_DataHandler;
-import com.example.carsharing.JSON.JSON_Login;
 import com.example.carsharing.JSON.JSON_SendLog;
 import com.example.carsharing.JSON.JSON_check_version;
 import com.example.carsharing.JSON.JSON_lista_czas_powiadomien;
 import com.example.carsharing.JSON.JSON_lista_parkingow;
-import com.example.carsharing.R;
+import com.example.carsharing.JSON.JSON_Login;
 import com.example.carsharing.Other.getNetworkType;
+import com.example.carsharing.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -43,7 +43,7 @@ public class Login extends AppCompatActivity {
     /** Poniżej wartość Wersji aplikacji - musi być zgodna z wartością dostępną w procedurze cs.pCheckVersion
      * w celu wypuszczenia nowej wersji oprogramowania zmieniamy poniższą wartosć na nową, aplikację generujemy i wystawiamy w nc.sng.com.pl
      * i w wyżej wspomnianej procedurze wprowadzamy nową wartosć w wskazane miejsce*/
-String WersjaAplikacji = "Wersja Alfa4";
+String WersjaAplikacji = "Wersja Alfa5";
 
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
         @Override
@@ -224,7 +224,7 @@ cv.StartUpdate(WersjaAplikacji,te,this);
                                         String token = task.getResult().getToken();
                                         JSON_Login logowanie = new JSON_Login();
                                         Log.d("token", token);
-                                        logowanie.StartUpdate(Logi, Haslo, getApplicationContext(), error, token,pg);
+                                        logowanie.StartUpdate(Logi, Haslo, getApplicationContext(), error, token,pg,WersjaAplikacji);
                                     } else {
                                         JSON_Login logowanie = new JSON_Login();
                                     }
