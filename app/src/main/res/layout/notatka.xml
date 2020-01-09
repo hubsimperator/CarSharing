@@ -9,25 +9,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:weightSum="4"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
         android:orientation="vertical">
 
+
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25dp"
             android:gravity="center"
-            android:text="Lista dostępnych samochodów" />
+            android:text="Wprowadź notatkę" />
 
-    -<LinearLayout android:layout_height="match_parent" android:layout_width="match_parent"  android:id="@+id/mainLayout" android:orientation="vertical">
+        <EditText
+            android:layout_weight="3"
+            android:inputType="textMultiLine"
+            android:id="@+id/notatka"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Wprowadź tekst..."
+            />
 
-    <ListView
-        android:id="@+id/checkable_list"
-        android:dividerHeight="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+
+
+
     </LinearLayout>
 
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
