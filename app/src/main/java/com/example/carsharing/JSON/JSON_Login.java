@@ -1,10 +1,13 @@
-package com.example.carsharing;
+package com.example.carsharing.JSON;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.TextView;
+
+import com.example.carsharing.DataHandler.Logs_DataHandler;
+
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,16 +21,17 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 public class JSON_Login {
     Context con = null;
-    String User ="",Pass="",Token="";
+    String User ="",Pass="",Token="",AppVer="";
     TextView er=null;
     ProgressDialog progressDialog;
-    public void StartUpdate(String Login, String Password, Context context, TextView error, String Tok, ProgressDialog pg) {
+    public void StartUpdate(String Login, String Password, Context context, TextView error, String Tok, ProgressDialog pg, String wersjaAplikacji) {
         con = context;
         User=Login;
         Pass=Password;
         er=error;
         Token=Tok;
         progressDialog=pg;
+        AppVer=wersjaAplikacji;
         new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/GetUsercs");
     }
     public String POST(String url) {
@@ -69,7 +73,7 @@ public class JSON_Login {
             {
                 try {
                     JSON_lista_projektow_check lpc = new JSON_lista_projektow_check();
-                    lpc.StartUpdate(con,progressDialog,Token);
+                    lpc.StartUpdate(con,progressDialog,Token,AppVer);
                     Log.d("kroki","2");
                 } catch(Exception e){Logs_DataHandler log = new Logs_DataHandler(con);
                     log.inputLog( "JSON_Login.class 002: "+e.toString());

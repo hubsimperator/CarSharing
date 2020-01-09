@@ -1,4 +1,4 @@
-package com.example.carsharing;
+package com.example.carsharing.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -23,6 +23,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.widget.ImageView;
+
+import com.example.carsharing.DataHandler.LoginDataHandler;
+import com.example.carsharing.DataHandler.Logs_DataHandler;
+import com.example.carsharing.JSON.JSON_SendLog;
+import com.example.carsharing.JSON.JSON_check_version;
+import com.example.carsharing.JSON.JSON_lista_czas_powiadomien;
+import com.example.carsharing.JSON.JSON_lista_parkingow;
+import com.example.carsharing.JSON.JSON_Login;
+import com.example.carsharing.Other.getNetworkType;
+import com.example.carsharing.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -214,7 +224,7 @@ cv.StartUpdate(WersjaAplikacji,te,this);
                                         String token = task.getResult().getToken();
                                         JSON_Login logowanie = new JSON_Login();
                                         Log.d("token", token);
-                                        logowanie.StartUpdate(Logi, Haslo, getApplicationContext(), error, token,pg);
+                                        logowanie.StartUpdate(Logi, Haslo, getApplicationContext(), error, token,pg,WersjaAplikacji);
                                     } else {
                                         JSON_Login logowanie = new JSON_Login();
                                     }

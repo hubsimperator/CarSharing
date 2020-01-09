@@ -14,6 +14,7 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
+import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.R;
 
 import java.io.BufferedInputStream;

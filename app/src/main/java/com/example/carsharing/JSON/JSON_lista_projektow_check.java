@@ -33,11 +33,12 @@ public class JSON_lista_projektow_check{
     int CProj;
     Context con = null;
     ArrayList<String> lista_grupa_projektowa;
-    String USER="",Token="";
+    String USER="",Token="",wersjaAplikacji="";
     String currentDate;
     ProgressDialog pg;
-    public void StartUpdate( Context context,ProgressDialog progressDialog,String tok) {
+    public void StartUpdate(Context context, ProgressDialog progressDialog, String tok, String appVer) {
         Token = tok;
+        wersjaAplikacji=appVer;
         pg = progressDialog;
         Date todayDate = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -137,7 +138,7 @@ public class JSON_lista_projektow_check{
 
             }else {
                 JSON_SendToken st = new JSON_SendToken();
-                st.StartUpdate(USER, Token, con);
+                st.StartUpdate(USER, Token, con,wersjaAplikacji);
             }
         }
     }
