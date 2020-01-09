@@ -22,18 +22,79 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentActivity;
+
+import com.example.carsharing.Activity.OcenaAuta;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class TakePhoto {
+public class TakePhoto extends AppCompatActivity {
 
     private static final int CAMERA_PHOTO = 111;
     private static Uri imageToUploadUri;
     public static String path=null;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CAMERA_PHOTO && resultCode == Activity.RESULT_OK) {
+            if(imageToUploadUri != null){
+                Uri selectedImage = imageToUploadUri;
+                con1.getContentResolver().notifyChange(selectedImage, null);
+                Bitmap reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
+                if(reducedSizeBitmap != null){
+                    AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(con1,android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen);
+                    dialogBuilder1.setNegativeButton("Powrót",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNeutralButton("Rysuj", null)
+                            .setPositiveButton("Wyślij", null);
+
+
+
+                    LayoutInflater inflater1 = (LayoutInflater) con1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View dialogView1 = inflater1.inflate(R.layout.paint_layout, null);
+                    dialogBuilder1.setView(dialogView1);
+
+                    final ImageView img=(ImageView) dialogView1.findViewById(R.id.imageViewid);
+                    //  img.setImageBitmap(bitmap);
+                    img.setImageBitmap(reducedSizeBitmap);
+                    final AlertDialog alertDialog = dialogBuilder1.create();
+                    alertDialog.show();
+
+                    //wyslij button
+                    Button positiveButton=alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                    positiveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            CodePhotoBase64 cpb=new CodePhotoBase64();
+                            cpb.encode2(con1,path,parametr,podparametr,mslink,null,null);
+                            alertDialog.dismiss();
+                        }
+                    });
+
+
+                }else{
+                    Toast.makeText(con1,"Error while capturing Image",Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Toast.makeText(con1,"Error while capturing Image",Toast.LENGTH_LONG).show();
+            }
+        }
+
+
+    }
 
     private void captureCameraImage() {
         Intent chooserIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -41,6 +102,7 @@ public class TakePhoto {
         path=f.toString();
         chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
         imageToUploadUri = Uri.fromFile(f);
+
         if (con1 instanceof Activity) {
             try {
                 ((Activity) con1).startActivityForResult(chooserIntent, CAMERA_PHOTO);
@@ -58,21 +120,16 @@ public static String podparametr;
 public static String mslink;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
 
+
+
+
     public void TakePhoto(Context con,String param,String popdaram, String _mslink){
         con1=con;
         parametr=param;
         podparametr=popdaram;
         mslink=_mslink;
         znajdzKamere();
-       Intent fotkejszyn = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (con instanceof Activity) {
-            ((Activity) con).startActivityForResult(fotkejszyn, 1);
-        } else {
-
-        }
-
-
-captureCameraImage();
+      captureCameraImage();
     }
 
     private static Bitmap getBitmap(String path) {
@@ -180,7 +237,7 @@ captureCameraImage();
                     dialogBuilder1.setView(dialogView1);
 
                     final ImageView img=(ImageView) dialogView1.findViewById(R.id.imageViewid);
-                  //  img.setImageBitmap(bitmap);
+                    //  img.setImageBitmap(bitmap);
                     img.setImageBitmap(reducedSizeBitmap);
                     final AlertDialog alertDialog = dialogBuilder1.create();
                     alertDialog.show();
@@ -197,9 +254,11 @@ captureCameraImage();
                     });
 
 
-                }else{
-                    Toast.makeText(con1,"Error while capturing Image",Toast.LENGTH_LONG).show();
                 }
+                OcenaAuta ocenaAuta=new OcenaAuta();
+                ocenaAuta.setphoto();
+
+
             }else{
                 Toast.makeText(con1,"Error while capturing Image",Toast.LENGTH_LONG).show();
             }

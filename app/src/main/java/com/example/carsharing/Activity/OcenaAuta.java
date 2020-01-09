@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -46,6 +47,19 @@ public class OcenaAuta extends AppCompatActivity {
     EditText note01;
 
 ArrayList<Integer> switch_on;
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Log.d("asdaas","a");
+        TakePhoto tp=new TakePhoto();
+        tp.activityResult( requestCode, resultCode,  data);
+    }
+
+    public void setphoto(){
+        photo0.setText("Zdjęcie");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
