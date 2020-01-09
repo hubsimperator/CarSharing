@@ -1,14 +1,9 @@
 package com.example.carsharing;
-import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Gravity;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -20,8 +15,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import androidx.core.app.ActivityCompat;
 
 public class JSON_Login {
     Context con = null;
@@ -72,7 +65,6 @@ public class JSON_Login {
 
     @Override
     protected void onPostExecute(String result) {
-        Log.d("kroki","1");
             if(result.contains("true"))
             {
                 try {
@@ -92,7 +84,6 @@ public class JSON_Login {
                 er.setText("Błędny Login lub Hasło");
                 progressDialog.hide();
             }
-        Log.d("kroki","5");
     }
     }
 

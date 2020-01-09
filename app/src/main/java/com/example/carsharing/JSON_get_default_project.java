@@ -66,7 +66,7 @@ public String POST(String url) {
         else result = "Nie działa";
         } catch (Exception e) {
         Logs_DataHandler log = new Logs_DataHandler(con);
-        log.inputLog( "JSON_Login.class 001: "+e.toString());
+        log.inputLog( "JSON_get_default_project 001: "+e.toString());
         log.close();
         }
         return result;
@@ -93,7 +93,9 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
                 }
                 rez.wyswietl_projekt(con,numer,grupa);
             } catch (JSONException e) {
-                e.printStackTrace();
+                Logs_DataHandler log = new Logs_DataHandler(con);
+                log.inputLog( "JSON_get_default_project 002: "+e.toString());
+                log.close();
             }
         }
 

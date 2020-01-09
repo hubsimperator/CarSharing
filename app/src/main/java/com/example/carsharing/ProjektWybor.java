@@ -80,7 +80,7 @@ public class ProjektWybor {
                     }catch (Exception ne){
                         alertDialog.dismiss();
                         Logs_DataHandler log = new Logs_DataHandler(con1);
-                        log.inputLog( "PROJEKTWYBOR.class 002: "+ne.toString());
+                        log.inputLog( "ProjektWybor.class 002: "+ne.toString());
                         log.close();
 
                     }
@@ -100,7 +100,7 @@ public class ProjektWybor {
         myDB.close();
     } catch (Exception e) {
         Logs_DataHandler log = new Logs_DataHandler(con1);
-        log.inputLog("Login.class 006: " + e.toString());
+        log.inputLog("ProjektWybor.class 003: " + e.toString());
         log.close();
     }
         //*********************************
@@ -126,7 +126,7 @@ public class ProjektWybor {
         myDB.close();
     } catch (Exception e) {
         Logs_DataHandler log = new Logs_DataHandler(con1);
-        log.inputLog("Login.class 006: " + e.toString());
+        log.inputLog("ProjektWybor.class 004: " + e.toString());
         log.close();
     }
 
@@ -145,7 +145,7 @@ public class ProjektWybor {
                 myDB.close();
             } catch (Exception e) {
                 Logs_DataHandler log = new Logs_DataHandler(con1);
-                log.inputLog("Login.class 006: " + e.toString());
+                log.inputLog("ProjektWybor.class 005: " + e.toString());
                 log.close();
             }
             adapter.clear();

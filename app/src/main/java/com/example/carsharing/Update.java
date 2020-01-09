@@ -113,7 +113,9 @@ public class Update extends Activity {
                 input.close();
 
             } catch (Exception e) {
-                Log.e("Error: ", e.getMessage());
+                Logs_DataHandler log = new Logs_DataHandler(getApplicationContext());
+                log.inputLog( "Update.class 001: "+e.toString());
+                log.close();
             }
 
             return null;

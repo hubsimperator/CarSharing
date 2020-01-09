@@ -12,19 +12,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.p2p.WifiP2pInfo;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Handler;
-import android.os.Looper;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -33,24 +23,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.widget.ImageView;
-
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.List;
 
 
 public class Login extends AppCompatActivity {
     /** Poniżej wartość Wersji aplikacji - musi być zgodna z wartością dostępną w procedurze cs.pCheckVersion
      * w celu wypuszczenia nowej wersji oprogramowania zmieniamy poniższą wartosć na nową, aplikację generujemy i wystawiamy w nc.sng.com.pl
      * i w wyżej wspomnianej procedurze wprowadzamy nową wartosć w wskazane miejsce*/
-String WersjaAplikacji = "Wersja Alfa4";
+String WersjaAplikacji = "Wersja Alfa5";
 
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
         @Override
