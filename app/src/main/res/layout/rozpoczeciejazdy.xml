@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/tlo"
-    tools:context=".MainActivity">
+    tools:context=".Other.MainActivity">
 
 
     <LinearLayout
@@ -42,7 +42,7 @@
                 android:textSize="15dp" />
 
             <EditText
-                android:id="@+id/projekt_et"
+                android:id="@+id/notatka"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
