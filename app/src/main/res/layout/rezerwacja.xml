@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/tlo"
+    android:background="@drawable/tlo2"
     tools:context=".Other.MainActivity">
 
     <ScrollView
@@ -19,6 +19,7 @@
         android:layout_marginLeft="20dp"
         android:weightSum="10"
         android:orientation="vertical"
+
         tools:layout_editor_absoluteX="20dp">
 
         <TextView
@@ -222,6 +223,7 @@
                 android:layout_width="166dp"
                 android:layout_height="wrap_content"
                 android:textColor="#1f90cc"
+                android:background="@color/cardview_light_background"
                 android:text="Wybrany samochód"
                 android:textSize="15dp"
                 android:visibility="invisible" />
