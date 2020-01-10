@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:textColor="#9e9191"
+            android:textColor="#1f90cc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25dp"
@@ -37,7 +37,7 @@
 
             <TextView
                 android:id="@+id/textView42"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:layout_width="74dp"
                 android:layout_height="wrap_content"
                 android:text="Projekt"
@@ -45,7 +45,7 @@
 
             <EditText
                 android:id="@+id/notatka"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"

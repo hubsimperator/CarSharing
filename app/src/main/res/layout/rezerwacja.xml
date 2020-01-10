@@ -25,7 +25,7 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#9e9191"
+            android:textColor="#1f90cc"
             android:gravity="center"
             android:text="Zaplanuj rezerwację"
             android:textSize="25dp" />
@@ -41,7 +41,7 @@
                 android:id="@+id/textView222"
                 android:layout_width="74dp"
                 android:layout_height="wrap_content"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:text="Tytuł"
                 android:textSize="15dp" />
 
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="#9e9191"
-
+                android:textColor="#1f90cc"
                 android:hint="Tytuł" />
         </LinearLayout>
 
@@ -65,7 +65,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:text="Cały dzień"
                 android:textSize="15dp" />
 
@@ -73,6 +73,7 @@
                 android:id="@+id/switch1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#1f90cc"
                 android:gravity="" />
 
         </LinearLayout>
@@ -87,13 +88,13 @@
             <TextView
                 android:id="@+id/textView42"
                 android:layout_width="74dp"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:layout_height="wrap_content"
                 android:text="Projekt"
                 android:textSize="15dp" />
 
             <EditText
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:id="@+id/notatka"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,13 +113,13 @@
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="74dp"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:layout_height="wrap_content"
                 android:text="Początek"
                 android:textSize="15dp" />
 
             <EditText
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:id="@+id/poczatek_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,13 +138,13 @@
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="74dp"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:layout_height="wrap_content"
                 android:text="Koniec"
                 android:textSize="15dp" />
 
             <EditText
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:id="@+id/koniec_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -162,13 +163,13 @@
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="74dp"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:layout_height="match_parent"
                 android:text="Jadę z parkingu :"
                 android:textSize="15dp" />
 
             <Spinner
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:id="@+id/parking_sp"
                 android:layout_width="match_parent"
                 android:textColorHint="#9e9191"
@@ -185,7 +186,7 @@
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="166dp"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:layout_height="wrap_content"
                 android:text="Przewidywany dystans"
                 android:textSize="15dp" />
@@ -193,6 +194,7 @@
             <EditText
                 android:id="@+id/dystans"
                 android:layout_width="50dp"
+                android:textColor="#1f90cc"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:text="" />
@@ -202,7 +204,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="[km]"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:textSize="15dp" />
 
 
@@ -219,7 +221,7 @@
                 android:id="@+id/label_wybrany_tv"
                 android:layout_width="166dp"
                 android:layout_height="wrap_content"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:text="Wybrany samochód"
                 android:textSize="15dp"
                 android:visibility="invisible" />
@@ -228,7 +230,7 @@
                 android:id="@+id/wybor_samochodu_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:text=""
                 android:textSize="15dp" />
 
@@ -245,7 +247,7 @@
                 android:id="@+id/label_przypomnienie_tv"
                 android:layout_width="166dp"
                 android:layout_height="wrap_content"
-                android:textColor="#9e9191"
+                android:textColor="#1f90cc"
                 android:text="Ustaw przypomnienie"
                 android:textSize="15dp"
                 android:visibility="invisible" />
