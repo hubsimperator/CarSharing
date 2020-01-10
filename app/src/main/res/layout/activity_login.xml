@@ -24,7 +24,7 @@
             android:ems="10"
             android:textColorHint="#9e9191"
             android:hint="login"
-
+            android:textColor="#9e9191"
             android:layout_marginTop="50sp"
             android:inputType="textPersonName" />
 
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:textColorHint="#9e9191"
-
+            android:textColor="#9e9191"
             android:hint="hasło"
             android:inputType="textPassword" />
 
@@ -57,6 +57,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
         <LinearLayout
             android:layout_width="match_parent"
+            android:textColor="#9e9191"
             android:layout_height="wrap_content"
             android:gravity="right"
             >

@@ -13,5 +13,6 @@
         android:paddingRight="8dp"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
+        android:textColor="#9e9191"
         android:id="@+id/lbl_name" />
 </RelativeLayout>

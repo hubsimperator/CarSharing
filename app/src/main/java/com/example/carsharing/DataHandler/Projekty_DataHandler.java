@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class Projekty_DataHandler  extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "CSProj.db";
@@ -45,6 +46,7 @@ public class Projekty_DataHandler  extends SQLiteOpenHelper {
         return res;
     }
     public void dropdatabase(){
+        Log.d("Datahandler","DropDatabase");
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("drop table if exists "+TABLE_NAME);
         onCreate(db);

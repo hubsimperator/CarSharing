@@ -15,6 +15,7 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#9e9191"
             android:textSize="25dp"
             android:gravity="center"
             android:text="Lista dostępnych samochodów" />
@@ -23,6 +24,7 @@
 
     <ListView
         android:id="@+id/checkable_list"
+        android:textColor="#9e9191"
         android:dividerHeight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
