@@ -174,8 +174,9 @@ numer_proj=new ArrayList<>();
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, parkingi);
+                R.layout.spinner_item, parkingi);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         parking_sp.setAdapter(adapter);
 
         parking_sp.setSelection(parkingi.indexOf(DEFAULT_PARKING_NAME));
@@ -217,7 +218,7 @@ numer_proj=new ArrayList<>();
 
 
        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, powiadomienie_nazwa);
+                R.layout.spinner_item, powiadomienie_nazwa);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         minuty_sp.setAdapter(adapter);
         minuty_sp.setSelection(powiadomienie_nazwa.indexOf(DEFAULT_PRZYPOMNIENIE));
