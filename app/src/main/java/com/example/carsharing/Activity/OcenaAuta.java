@@ -9,15 +9,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carsharing.DataHandler.Logs_DataHandler;
+import com.example.carsharing.JSON.JSON_ocen_auto;
 import com.example.carsharing.R;
 import com.example.carsharing.TakePhoto;
 
@@ -37,29 +41,85 @@ public class OcenaAuta extends AppCompatActivity {
     public static Switch switch3;
 
     public static TextView note0;
+    public static TextView note1;
+    public static TextView note2;
+
 
     public static TextView photo0;
+    public static TextView photo1;
+    public static TextView photo2;
 
-    public String notatka;
+
+    public String notatka="";
+    public String notatka1="";
+    public String notatka2="";
+
+    public static Context con;
 
     AlertDialog alertDialog;
 
     EditText note01;
 
-ArrayList<Integer> switch_on;
+    ArrayList<Integer> switch_on;
+   public static ArrayList<Integer> switch_off;
+    public static ArrayList<String> note_on=new ArrayList<>();
 
+    ArrayList<Integer> phote_on;
+
+    ArrayList<String> blob_list;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         Log.d("asdaas","a");
         TakePhoto tp=new TakePhoto();
-        tp.activityResult( requestCode, resultCode,  data);
+        tp.activityResult(requestCode, resultCode,  data);
     }
 
-    public void setphoto(){
-        photo0.setText("Zdjęcie");
+    public void setBlobImage(ArrayList<String> _bloblist,ArrayList<Integer> _bloblist_size,ArrayList<String> _bloblist_name){
+        JSON_ocen_auto json_ocen_auto=new JSON_ocen_auto();
+        json_ocen_auto.StartUpdate(BookingId,switch_off,note_on,_bloblist,_bloblist_size,_bloblist_name,OcenaAuta.this);
     }
+
+    public void setphoto(Integer _param,Integer _podparam){
+        switch (_podparam){
+            case 0:
+            {
+                if(_param==0) {
+                    photo0.setText("Zdjęcie");
+                }
+                else{
+                    photo0.setText("+ Dodaj zdjęcie");
+
+                }
+                break;
+            }
+            case 1:
+            {
+                if(_param==0) {
+                    photo1.setText("Zdjęcie");
+                }
+                else{
+                    photo1.setText("+ Dodaj zdjęcie");
+
+                }
+                break;
+            }
+            case 2:
+            {
+                if(_param==0) {
+                    photo2.setText("Zdjęcie");
+                }
+                else{
+                    photo2.setText("+ Dodaj zdjęcie");
+
+                }
+                break;
+            }
+        }
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,21 +137,59 @@ ArrayList<Integer> switch_on;
 
 
         switch_on=new ArrayList<>();
+        switch_off=new ArrayList<>();
+      //  note_on=new ArrayList<>();
+
+        phote_on=new ArrayList<>();
         switch1=(Switch) findViewById(R.id.switch1);
         switch2=(Switch) findViewById(R.id.switch2);
         switch3=(Switch) findViewById(R.id.switch3);
 
         note0=(TextView) findViewById(R.id.addnote0);
         photo0=(TextView) findViewById(R.id.addphoto0);
-
+        note1=(TextView) findViewById(R.id.addnote1);
+        photo1=(TextView) findViewById(R.id.addphoto1);
+        note2=(TextView) findViewById(R.id.addnote2);
+        photo2=(TextView) findViewById(R.id.addphoto2);
 
 
         photo0.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                TakePhoto tp=new TakePhoto();
-                tp.TakePhoto(OcenaAuta.this,"","","");
+                TakePhoto tp = new TakePhoto();
+
+                if(photo0.getText().equals("Zdjęcie")){
+                    tp.showPicOrTakeNew(0,OcenaAuta.this);
+                }else {
+                    tp.TakePhoto(OcenaAuta.this, 0, "", "");
+                }
+            }
+        });
+        photo1.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                TakePhoto tp = new TakePhoto();
+
+                if(photo1.getText().equals("Zdjęcie")){
+                    tp.showPicOrTakeNew(1,OcenaAuta.this);
+                }else {
+                    tp.TakePhoto(OcenaAuta.this, 1, "", "");
+                }
+            }
+        });
+        photo2.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                TakePhoto tp = new TakePhoto();
+
+                if(photo2.getText().equals("Zdjęcie")){
+                    tp.showPicOrTakeNew(2,OcenaAuta.this);
+                }else {
+                    tp.TakePhoto(OcenaAuta.this, 2, "", "");
+                }
             }
         });
 
@@ -131,20 +229,161 @@ ArrayList<Integer> switch_on;
         });
 
 
+        note1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OcenaAuta.this)
+                        .setNeutralButton("Zamknij", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                alertDialog.dismiss();
 
+                            }
+                        })
+                        .setNegativeButton("Wybierz", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                notatka1=note01.getText().toString();
+                                note1.setText("Notatka");
+                            }
+                        });
+
+                LayoutInflater inflater = (LayoutInflater)   OcenaAuta.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.notatka,null);
+
+
+                note01=view.findViewById(R.id.notatka);
+                if(notatka1!=null) {
+                    note01.setText(notatka1);
+                }
+                dialogBuilder.setView(view);
+
+                alertDialog =dialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+
+        note2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OcenaAuta.this)
+                        .setNeutralButton("Zamknij", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                alertDialog.dismiss();
+
+                            }
+                        })
+                        .setNegativeButton("Wybierz", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                notatka2=note01.getText().toString();
+                                note2.setText("Notatka");
+                            }
+                        });
+
+                LayoutInflater inflater = (LayoutInflater)   OcenaAuta.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.notatka,null);
+
+
+                note01=view.findViewById(R.id.notatka);
+                if(notatka2!=null) {
+                    note01.setText(notatka2);
+                }
+                dialogBuilder.setView(view);
+
+                alertDialog =dialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+
+        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.opcjesw1);
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    linearLayout.setVisibility(View.INVISIBLE);
+
+                }else{
+                    linearLayout.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
+
+        switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.opcjesw2);
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    linearLayout.setVisibility(View.INVISIBLE);
+
+                }else{
+                    linearLayout.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
 
         ImageView rozpocznij_jazde=(ImageView) findViewById(R.id.rezerwuj_bt);
         rozpocznij_jazde.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
 
                 if(switch1.isChecked()) switch_on.add(0);
+                else switch_off.add(3);
 
                 if(switch2.isChecked()) switch_on.add(1);
+                else switch_off.add(4);
 
-                if(switch3.isChecked()) switch_on.add(2);
+
+           //     if(switch3.isChecked()) switch_on.add(2);
+         //       else switch_off.add(2);
+
+                // Co do wyslania
+           //     if(note0.getText().equals("Notatka")) note_on.add(notatka);
+                //if(note1.getText().equals("Notatka")) note_on.add(notatka1);
+               // if(note2.getText().equals("Notatka")) note_on.add(notatka2);
+
+                note_on.add(notatka);
+                note_on.add(notatka1);
+                note_on.add(notatka2);
 
 
+                if(photo0.getText().equals("Zdjęcie")) phote_on.add(0);
+                if(photo1.getText().equals("Zdjęcie")) phote_on.add(1);
+                if(photo2.getText().equals("Zdjęcie")) phote_on.add(2);
+
+
+
+
+                //czy wysyłać
+                if((switch_on.contains(0)) && (switch_on.contains(1))){
+                    //w przypadku braku zastrzezen
+                    Log.d("a","a");
+                    Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("StartDate", PoczatekRezerwacji);
+                    intent.putExtra("EndDate", KoniecRezerwacji);
+                    intent.putExtra("BookingId", BookingId);
+                    intent.putExtra("GrupaProjektu", GrupaProjektu);
+                    intent.putExtra("NrProjektu", NrProjektu);
+                    startActivity(intent);
+
+                }else{
+
+                    con=OcenaAuta.this;
+                    TakePhoto tp = new TakePhoto();
+                       tp.sendToEncode(phote_on);
+                }
+
+                Log.d("a","a");
+
+
+/*
                 Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("StartDate", PoczatekRezerwacji);
@@ -153,6 +392,12 @@ ArrayList<Integer> switch_on;
                 intent.putExtra("GrupaProjektu", GrupaProjektu);
                 intent.putExtra("NrProjektu", NrProjektu);
                 startActivity(intent);
+
+
+
+
+ */
+
             }
         });
 
@@ -167,6 +412,20 @@ ArrayList<Integer> switch_on;
         });
 
 
+    }
+
+    public void startTrip(String result){
+        Intent intent = new Intent(con, RozpoczecieJazdy.class);
+
+        Toast.makeText(con,result,Toast.LENGTH_LONG).show();
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("StartDate", PoczatekRezerwacji);
+        intent.putExtra("EndDate", KoniecRezerwacji);
+        intent.putExtra("BookingId", BookingId);
+        intent.putExtra("GrupaProjektu", GrupaProjektu);
+        intent.putExtra("NrProjektu", NrProjektu);
+        con.startActivity(intent);
     }
 
 }
