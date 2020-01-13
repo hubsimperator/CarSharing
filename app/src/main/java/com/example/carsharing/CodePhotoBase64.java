@@ -8,59 +8,79 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 
+import com.example.carsharing.Activity.OcenaAuta;
+
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 public class CodePhotoBase64 {
     public static Context con1;
     Bitmap selectedImage;
+    public  ArrayList<String> path_list=new ArrayList<>();;
+    public  ArrayList<String> photo_name=new ArrayList<>();
+    ArrayList<String> blob_list=new ArrayList<>();
+
+    public  ArrayList<Integer> blob_size_list=new ArrayList<>();
+
     @SuppressLint("StaticFieldLeak")
-    public void encode2(Context con, String fileName, final String parametr, final String podparametr, final String mslink, final String latitude, final String longitude) {
+    public void encode2(Context con, ArrayList<String> fileName) {
+        path_list=fileName;
         con1=con;
-        String filePath = fileName;//"/storage/emulated/0/POST_IMAGE.jpg";
-        selectedImage = BitmapFactory.decodeFile(filePath);
-
-        new AsyncTask<Void, Void, String>() {
+        String filePath ="";
+        new AsyncTask<Void, Void, ArrayList>() {
             @Override
-            protected String doInBackground(Void... voids) {
-                int width=selectedImage.getWidth();
-                int height=selectedImage.getHeight();
+            protected ArrayList<String> doInBackground(Void... voids) {
 
-                Bitmap resizedBitmap;
-                if(width>height) {
-                     resizedBitmap = Bitmap.createScaledBitmap(
-                            selectedImage, 800, 600, false);
-                }else{
-                     resizedBitmap = Bitmap.createScaledBitmap(
-                            selectedImage, 600, 800, false);
-                }
+                for(int i=0;i<path_list.size();i++) {
 
+                    String [] s=path_list.get(i).split("/");
+                    Log.d("aa",s[4]);
+                    Log.d("aa",s[s.length-1]);
+                     photo_name.add(s[s.length-1]);
 
-             //   Bitmap resizedBitmap1= BitmapFactory.decodeResource(con1.getResources(), R.drawable.studzienka);
-              //  resizedBitmap = Bitmap.createScaledBitmap(resizedBitmap1, 16, 16, false);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                String strBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                BufferedWriter writer = null;
-                try {
-                    writer = new BufferedWriter(new FileWriter("/storage/emulated/0/22.txt"));
-                    writer.write(strBase64);
-                    writer.close();
-                    Log.d("Zapis","Zapisano pomyslnie");
+                   if(selectedImage != null) {
+                       selectedImage.recycle();
+                   }
+                    selectedImage = BitmapFactory.decodeFile(path_list.get(i));
+                    int width = selectedImage.getWidth();
+                    int height = selectedImage.getHeight();
+//800 600
+                    Bitmap resizedBitmap;
+                    if (width > height) {
+                        resizedBitmap = Bitmap.createScaledBitmap(
+                                selectedImage, 800, 600, false);
+                    } else {
+                        resizedBitmap = Bitmap.createScaledBitmap(
+                                selectedImage, 600, 800, false);
+                    }
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    String strBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                    byte[] b = new byte[0];
+                    try {
+                        b = strBase64.getBytes("UTF-8");
+                        Log.d("a",Integer.toString(b.length));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    blob_list.add(strBase64);
+                    blob_size_list.add(b.length);
+
                 }
-                 catch (IOException e) {
-                     Log.d("Zapis","Blad zapisu");
-                }
-                return strBase64;
+                return blob_list;// strBase64;
             }
+
             @Override
-            protected void onPostExecute(String s) {
-                Log.d("POST",Integer.toString(s.length()));
-               // JSONrequest_insert_photo json_photos=new JSONrequest_insert_photo();
-                //json_photos.Send(con1,s,parametr,podparametr,mslink,latitude,longitude);
+            protected void onPostExecute(ArrayList arrayList) {
+             //   super.onPostExecute(arrayList);
+                OcenaAuta ocenaAuta=new OcenaAuta();
+                ocenaAuta.setBlobImage(arrayList,blob_size_list,photo_name);
             }
         }.execute();
 

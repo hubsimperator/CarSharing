@@ -12,7 +12,7 @@
         android:id="@+id/imageViewid">
     </ImageView>
 
-    <com.example.drawingmap.SimpleDrawingView
+    <com.example.carsharing.SimpleDrawingView
         android:id="@+id/simpleDrawingView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -22,25 +22,125 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentActivity;
+
+import com.example.carsharing.Activity.OcenaAuta;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class TakePhoto {
-
+public class TakePhoto extends AppCompatActivity {
+    ArrayList<String> path_list;
     private static final int CAMERA_PHOTO = 111;
     private static Uri imageToUploadUri;
     public static String path=null;
+    Integer param;
+    public static String[] PATH={"OcenaPrzed0","OcenaPrzed1","OcenaPrzed2"};
+
+    public void sendToEncode(ArrayList<Integer> _param){
+
+        path_list=new ArrayList<>();
+
+        for(int i=0;i<_param.size();i++){
+            File f = new File(Environment.getExternalStorageDirectory(), PATH[_param.get(i)]+".jpg");
+            path=f.toString();
+            path_list.add(path);
+        }
+
+        CodePhotoBase64 codePhotoBase64=new CodePhotoBase64();
+        codePhotoBase64.encode2(con1,path_list);
+
+    }
+
+    public void showPicOrTakeNew(Integer _param,final Context con){
+        param=_param;
+        con1=con;
+        File f = new File(Environment.getExternalStorageDirectory(), PATH[param]+".jpg");
+        path=f.toString();
+        imageToUploadUri = Uri.fromFile(f);
+        Bitmap reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
+        if(reducedSizeBitmap != null){
+            AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(con1,android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen);
+            dialogBuilder1.setNegativeButton("Powrót",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNeutralButton("Usuń zdjęcie",null
+                    );
+
+
+
+            LayoutInflater inflater1 = (LayoutInflater) con1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View dialogView1 = inflater1.inflate(R.layout.paint_layout, null);
+            dialogBuilder1.setView(dialogView1);
+
+            final ImageView img=(ImageView) dialogView1.findViewById(R.id.imageViewid);
+            //  img.setImageBitmap(bitmap);
+            img.setImageBitmap(reducedSizeBitmap);
+            final AlertDialog alertDialog = dialogBuilder1.create();
+            alertDialog.show();
+
+            Button removePhoto=alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+            removePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("k","h");
+                    OcenaAuta ocenaAuta=new OcenaAuta();
+                    ocenaAuta.setphoto(1,param);
+                    alertDialog.dismiss();
+
+                }
+            });
+
+
+            //wyslij button
+            Button positiveButton=alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CodePhotoBase64 cpb=new CodePhotoBase64();
+                 //   cpb.encode2(con1,path,parametr,podparametr,mslink,null,null);
+                    alertDialog.dismiss();
+                }
+            });
+
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CAMERA_PHOTO && resultCode == Activity.RESULT_OK) {
+            if(imageToUploadUri != null){
+                Uri selectedImage = imageToUploadUri;
+                con1.getContentResolver().notifyChange(selectedImage, null);
+
+            }else{
+                Toast.makeText(con1,"Error while capturing Image",Toast.LENGTH_LONG).show();
+            }
+        }
+
+
+    }
 
     private void captureCameraImage() {
         Intent chooserIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File f = new File(Environment.getExternalStorageDirectory(), "POST_IMAGE.jpg");
+        File f = new File(Environment.getExternalStorageDirectory(), PATH[parametr]+".jpg");
         path=f.toString();
         chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
         imageToUploadUri = Uri.fromFile(f);
+
         if (con1 instanceof Activity) {
             try {
                 ((Activity) con1).startActivityForResult(chooserIntent, CAMERA_PHOTO);
@@ -53,26 +153,21 @@ public class TakePhoto {
         }
     }
 public static Context con1;
-public static String parametr;
+public static Integer parametr;
 public static String podparametr;
 public static String mslink;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
 
-    public void TakePhoto(Context con,String param,String popdaram, String _mslink){
+
+
+
+    public void TakePhoto(Context con,Integer param,String popdaram, String _mslink){
         con1=con;
         parametr=param;
         podparametr=popdaram;
         mslink=_mslink;
         znajdzKamere();
-       Intent fotkejszyn = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (con instanceof Activity) {
-            ((Activity) con).startActivityForResult(fotkejszyn, 1);
-        } else {
-
-        }
-
-
-captureCameraImage();
+      captureCameraImage();
     }
 
     private static Bitmap getBitmap(String path) {
@@ -161,136 +256,16 @@ captureCameraImage();
             if(imageToUploadUri != null){
                 Uri selectedImage = imageToUploadUri;
                 con1.getContentResolver().notifyChange(selectedImage, null);
-                Bitmap reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
-                if(reducedSizeBitmap != null){
-                    AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(con1,android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen);
-                    dialogBuilder1.setNegativeButton("Powrót",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .setNeutralButton("Rysuj", null)
-                            .setPositiveButton("Wyślij", null);
 
-
-
-                    LayoutInflater inflater1 = (LayoutInflater) con1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View dialogView1 = inflater1.inflate(R.layout.paint_layout, null);
-                    dialogBuilder1.setView(dialogView1);
-
-                    final ImageView img=(ImageView) dialogView1.findViewById(R.id.imageViewid);
-                  //  img.setImageBitmap(bitmap);
-                    img.setImageBitmap(reducedSizeBitmap);
-                    final AlertDialog alertDialog = dialogBuilder1.create();
-                    alertDialog.show();
-
-                    //wyslij button
-
-                    Button positiveButton=alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                    positiveButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            CodePhotoBase64 cpb=new CodePhotoBase64();
-                            cpb.encode2(con1,path,parametr,podparametr,mslink,null,null);
-                            alertDialog.dismiss();
-                        }
-                    });
-
-
-                }else{
-                    Toast.makeText(con1,"Error while capturing Image",Toast.LENGTH_LONG).show();
                 }
+                OcenaAuta ocenaAuta=new OcenaAuta();
+                ocenaAuta.setphoto(0,parametr);
+
+
             }else{
-                Toast.makeText(con1,"Error while capturing Image",Toast.LENGTH_LONG).show();
+//                Toast.makeText(con1,"Error while capturing Image",Toast.LENGTH_LONG).show();
             }
-        }
 
-
-
-        /*
-        if (requestCode == 1) {
-
-            if (resultCode == RESULT_OK) {
-                Bundle extras=data.getExtras();
-
-
-                final Bitmap bitmap =(Bitmap) extras.get("data");
-                //imageView.setImageBitmap(bitmap);
-
-
-                AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(con1,android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen);
-                dialogBuilder1.setNegativeButton("Powrót",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNeutralButton("Rysuj", null)
-                        .setPositiveButton("Wyślij", null);
-
-
-
-                LayoutInflater inflater1 = (LayoutInflater) con1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View dialogView1 = inflater1.inflate(R.layout.paint_layout, null);
-                dialogBuilder1.setView(dialogView1);
-
-                final ImageView img=(ImageView) dialogView1.findViewById(R.id.imageViewid);
-                img.setImageBitmap(bitmap);
-
-                final AlertDialog alertDialog = dialogBuilder1.create();
-                alertDialog.show();
-
-                Button neutralButton=alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                neutralButton.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("TAG","*********************");
-                        Log.d("TAG","jestem w srodku");
-                        Log.d("TAG","*********************");
-                        new AlertDialog.Builder(con1)
-                                .setMessage("Czy chcesz dokonać adnotacji ?")
-                                .setPositiveButton("Tak",null)
-                                .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // User cancelled the dialog
-                                    }
-                                })
-                                .setNeutralButton("Nie,kontynuuj wysyłanie", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // User cancelled the dialog
-                                    }
-                                })
-                                .show();
-                    }
-                });
-
-                Button positiveButton=alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                positiveButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-            }
-        }
-        */
     }
-
-public void test(String base64){
-    byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
-    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-   // image.setImageBitmap(decodedByte);
-    AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(con1,android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen);
-
-    LayoutInflater inflater1 = (LayoutInflater) con1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    View dialogView1 = inflater1.inflate(R.layout.paint_layout, null);
-    dialogBuilder1.setView(dialogView1);
-
-    final ImageView img=(ImageView) dialogView1.findViewById(R.id.imageViewid);
-     img.setImageBitmap(decodedByte);
-
-}
 
 }
