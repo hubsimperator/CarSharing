@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:textSize="25dp"
             android:gravity="center"
+            android:textColor="#1f90cc"
             android:text="Wybór projektu" />
 
 
@@ -37,12 +38,13 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textColor="#1f90cc"
                 android:text="Grupa projektowa" />
 
             <Spinner
                 android:id="@+id/spinner2"
                 android:layout_width="match_parent"
+                android:textColor="#1f90cc"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
@@ -50,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_marginTop="30dp"
             android:layout_height="wrap_content"
+            android:textColor="#1f90cc"
             android:orientation="horizontal">
 
 
@@ -57,20 +60,19 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textColor="#1f90cc"
                 android:text="Numer Projektu" />
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextView"
-
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-
                 android:layout_below="@+id/textView"
                 android:layout_alignParentLeft="true"
                 android:dropDownHorizontalOffset="100dp"
                 android:dropDownVerticalOffset="-250dp"
                 android:ems="10"
+                android:textColor="#1f90cc"
                 android:hint="Wpisz projekt"
                 android:textColorHint="#9e9191"
 

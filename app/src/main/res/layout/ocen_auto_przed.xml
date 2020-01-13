@@ -24,9 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40sp"
-            android:weightSum="4"
-
+            android:layout_marginTop="50sp"
             android:orientation="horizontal">
 
             <TextView
@@ -48,7 +46,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
-            android:id="@+id/opcjesw1"
             android:orientation="horizontal">
 
             <TextView
@@ -72,8 +69,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40sp"
-            android:weightSum="4"
+            android:layout_marginTop="50sp"
             android:orientation="horizontal">
 
             <TextView
@@ -90,79 +86,27 @@
                 android:gravity="" />
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
-            android:id="@+id/opcjesw2"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/addphoto1"
-                android:layout_width="wrap_content"
-                android:textSize="10dp"
-                android:layout_height="wrap_content"
-                android:text="+ Dodaj zdjęcie" />
-
-            <TextView
-                android:id="@+id/addnote1"
-                android:layout_width="wrap_content"
-                android:textSize="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_height="wrap_content"
-                android:text="+ Dodaj notatkę" />
-
-        </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="4"
-            android:layout_marginTop="40sp"
+            android:layout_marginTop="50sp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView31"
                 android:layout_width="wrap_content"
+                android:textSize="20dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Kabel ładujący (dotyczy samochodów elektrycznych)"
-                android:textSize="20dp" />
+                android:text="Kabel ładujący" />
 
             <Switch
                 android:id="@+id/switch3"
-                android:layout_weight="3"
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="" />
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginTop="10sp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/addphoto2"
-                android:layout_width="wrap_content"
-                android:textSize="10dp"
-                android:layout_height="wrap_content"
-                android:text="+ Dodaj zdjęcie" />
-
-            <TextView
-                android:id="@+id/addnote2"
-                android:layout_width="wrap_content"
-                android:textSize="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_height="wrap_content"
-                android:text="+ Dodaj notatkę" />
-
-        </LinearLayout>
-
 
 
 
