@@ -152,7 +152,7 @@ public class OcenaAuta extends AppCompatActivity {
         note2=(TextView) findViewById(R.id.addnote2);
         photo2=(TextView) findViewById(R.id.addphoto2);
 
-
+/*
         photo0.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -227,7 +227,7 @@ public class OcenaAuta extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-
+*/
 
         note1.setOnClickListener(new View.OnClickListener() {
             @Override

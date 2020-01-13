@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:textSize="25dp"
             android:gravity="center"
+            android:textColor="#1f90cc"
             android:text="Stan pojazdu przed rozpoczęciem rezerwacji" />
 
         <LinearLayout
@@ -32,6 +33,7 @@
                 android:layout_width="wrap_content"
                 android:textSize="20dp"
                 android:layout_height="wrap_content"
+                android:textColor="#1f90cc"
                 android:text="Samochód nieuszkodzony" />
 
             <Switch
@@ -53,10 +55,14 @@
                 android:layout_width="wrap_content"
                 android:textSize="10dp"
                 android:layout_height="wrap_content"
+                android:textColor="#1f90cc"
+                android:visibility="gone"
                 android:text="+ Dodaj zdjęcie" />
 
             <TextView
                 android:id="@+id/addnote0"
+                android:textColor="#1f90cc"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginLeft="10dp"
@@ -77,6 +83,7 @@
                 android:layout_width="wrap_content"
                 android:textSize="20dp"
                 android:layout_height="wrap_content"
+                android:textColor="#1f90cc"
                 android:text="Samochód czysty" />
 
             <Switch
@@ -120,12 +127,14 @@
                 android:layout_width="wrap_content"
                 android:textSize="20dp"
                 android:layout_height="wrap_content"
+                android:textColor="#1f90cc"
                 android:text="Kabel ładujący" />
 
             <Switch
                 android:id="@+id/switch3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:textColor="#9e9191"
                 android:gravity="" />
 
         </LinearLayout>
