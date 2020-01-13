@@ -35,7 +35,7 @@
                 android:text="Samochód nieuszkodzony" />
 
             <Switch
-                android:id="@+id/switch1"
+                android:id="@+id/opcjesw1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="" />
@@ -80,10 +80,32 @@
                 android:text="Samochód czysty" />
 
             <Switch
-                android:id="@+id/switch2"
+                android:id="@+id/opcjesw2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/addphoto1"
+                android:layout_width="wrap_content"
+                android:textSize="10dp"
+                android:layout_height="wrap_content"
+                android:text="+ Dodaj zdjęcie" />
+
+            <TextView
+                android:id="@+id/addnote1"
+                android:layout_width="wrap_content"
+                android:textSize="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:text="+ Dodaj notatkę" />
 
         </LinearLayout>
 
@@ -105,6 +127,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/addphoto2"
+                android:layout_width="wrap_content"
+                android:textSize="10dp"
+                android:layout_height="wrap_content"
+                android:text="+ Dodaj zdjęcie" />
+
+            <TextView
+                android:id="@+id/addnote2"
+                android:layout_width="wrap_content"
+                android:textSize="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:text="+ Dodaj notatkę" />
 
         </LinearLayout>
 
