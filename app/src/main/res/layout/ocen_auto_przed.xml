@@ -56,11 +56,13 @@
                 android:textSize="10dp"
                 android:layout_height="wrap_content"
                 android:textColor="#1f90cc"
+                android:visibility="gone"
                 android:text="+ Dodaj zdjęcie" />
 
             <TextView
                 android:id="@+id/addnote0"
                 android:textColor="#1f90cc"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:textSize="10dp"
                 android:layout_marginLeft="10dp"

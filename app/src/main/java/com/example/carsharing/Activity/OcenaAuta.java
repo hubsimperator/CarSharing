@@ -71,7 +71,7 @@ ArrayList<Integer> switch_on;
         photo0=(TextView) findViewById(R.id.addphoto0);
 
 
-
+/*
         photo0.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -115,7 +115,7 @@ ArrayList<Integer> switch_on;
                 alertDialog.show();
             }
         });
-
+*/
 
 
 

@@ -186,6 +186,7 @@ captureCameraImage();
                     alertDialog.show();
 
                     //wyslij button
+
                     Button positiveButton=alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
                     positiveButton.setOnClickListener(new View.OnClickListener() {
                         @Override
