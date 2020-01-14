@@ -507,9 +507,6 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
                 alertDialog.dismiss();
             }
 
-
-
-
         }
     })
             .setNeutralButton("Powrót",null)
