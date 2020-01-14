@@ -27,6 +27,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.carsharing.Activity.OcenaAuta;
+import com.example.carsharing.Other.Update;
 
 import java.io.File;
 import java.io.IOException;
@@ -238,6 +239,12 @@ public static String mslink;
             Camera.getCameraInfo(i,info);
 
             if(info.facing== Camera.CameraInfo.CAMERA_FACING_BACK){
+                Log.d("TAG","*********************");
+                Log.d("TAG","Jest kamera tylna");
+                Log.d("TAG","*********************");
+                cameraID=i;
+                break;
+            }else if(info.facing== Camera.CameraInfo.CAMERA_FACING_FRONT){
                 Log.d("TAG","*********************");
                 Log.d("TAG","Jest kamera tylna");
                 Log.d("TAG","*********************");

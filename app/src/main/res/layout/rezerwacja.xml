@@ -223,7 +223,6 @@
                 android:layout_width="166dp"
                 android:layout_height="wrap_content"
                 android:textColor="#1f90cc"
-                android:background="@color/cardview_light_background"
                 android:text="Wybrany samochód"
                 android:textSize="15dp"
                 android:visibility="invisible" />

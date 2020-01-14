@@ -6,9 +6,11 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,10 +34,12 @@ import com.example.carsharing.DataHandler.Lista_parking_DataHandler;
 import com.example.carsharing.DataHandler.LoginDataHandler;
 import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.DataHandler.Projekty_DataHandler;
+import com.example.carsharing.DostepnoscListAdapter;
 import com.example.carsharing.JSON.JSON_get_default_project;
 import com.example.carsharing.JSON.JSON_lista_przypomnien;
 import com.example.carsharing.JSON.JSON_lista_samochodow;
 import com.example.carsharing.JSON.JSON_potwierdzenie_rezerwacji;
+import com.example.carsharing.Obiekt_Dostepnosc;
 import com.example.carsharing.Other.ProjektWybor;
 import com.example.carsharing.R;
 
@@ -45,6 +49,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -90,6 +95,9 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public static ArrayList<String> numer_proj;
 
 
+    Integer position=null;
+
+
     boolean start_date=false;
      boolean end_date=false;
 
@@ -102,15 +110,6 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         setContentView(R.layout.rezerwacja);
         Bundle extras= getIntent().getExtras();
         DEFAULT_PARKING_NAME=extras.getString("nearestParking");
-/*
-        try {
-            getLocationFromAddress("Straszyn");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
- */
 
         JSON_lista_przypomnien json_lista_przypomnien=new JSON_lista_przypomnien();
         json_lista_przypomnien.StartUpdate(Rezerwacja.this);
@@ -214,9 +213,6 @@ numer_proj=new ArrayList<>();
         }
 
 
-
-
-
        adapter = new ArrayAdapter<String>(this,
                 R.layout.spinner_item, powiadomienie_nazwa);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -262,12 +258,6 @@ numer_proj=new ArrayList<>();
 
 
         dystans_et.setText(DEFAULT_DISTANCE);
-
-
-
-
-
-
 
         start_date=false;
         end_date=false;
@@ -490,6 +480,98 @@ public boolean sprawdz_czy_dane_niepuste(int param) {
 
     }
 }
+
+public ArrayList<Obiekt_Dostepnosc> dostepnoscList=new ArrayList<>();
+public DostepnoscListAdapter adapter;
+
+public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostepnoscListsc){
+
+    Toast.makeText(con,"Brak dostępnych samochodów w wybranym terminie. Sprawdzam dostępność w najbliższym czasie ...",Toast.LENGTH_LONG).show();
+
+    dostepnoscList=_dostepnoscListsc;
+    adapter=new DostepnoscListAdapter(con,R.layout.dostepnosc_layout_adapter,_dostepnoscListsc,con);
+
+    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con).setPositiveButton("Potwierdź", new DialogInterface.OnClickListener() {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if(position != null){
+                label_samochod_tv.setVisibility(View.VISIBLE);
+                wybrany_samochod_tv.setText(dostepnoscList.get(position).getSamochod());
+                rezerwuj_bt.setVisibility(View.VISIBLE);
+                minuty_sp.setVisibility(View.VISIBLE);
+                label_minuty_tv.setVisibility(View.VISIBLE);
+                poczatek_et.setText(dostepnoscList.get(position).getStart_date()+":00");
+                koniec_et.setText(dostepnoscList.get(position).getEnd_date()+":00");
+
+                alertDialog.dismiss();
+            }
+
+
+
+
+        }
+    })
+            .setNeutralButton("Powrót",null)
+            .setNegativeButton("Szczegóły", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
+                }
+            })
+            ;
+    LayoutInflater inflater = (LayoutInflater)   con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    view = inflater.inflate(R.layout.dostepnosc_layout,null);
+    dialogBuilder.setView(view);
+
+
+    final ListView mListView = (ListView) view.findViewById(R.id.listview);
+    mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    mListView.setAdapter(adapter);
+
+    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int _position, long id) {
+            for (int i = 0; i < mListView.getChildCount(); i++) {
+                if(_position == i ){
+                    position=_position;
+                    mListView.getChildAt(i).setBackgroundColor(Color.GREEN);
+                }else{
+                    mListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                }
+            }
+        }
+    });
+
+    //  ch1.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+
+    /*
+
+    ArrayAdapter<String> adapter = new ArrayAdapter<String >(con, R.layout.listlayoutitem, R.id.txt_lan,lista);
+    ch1.setAdapter(adapter);
+    ch1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            eit_Resource=lista_id.get(position);
+            label_samochod_tv.setVisibility(View.VISIBLE);
+            wybrany_samochod_tv.setText(lista.get(position));
+            rezerwuj_bt.setVisibility(View.VISIBLE);
+            minuty_sp.setVisibility(View.VISIBLE);
+            label_minuty_tv.setVisibility(View.VISIBLE);
+
+
+        }
+    });
+
+     */
+
+    alertDialog =dialogBuilder.create();
+    alertDialog.show();
+
+    Log.d("a","a");
+    }
+
 
 public void wyswietl_liste(Context con, final ArrayList<String> lista, final ArrayList<String> lista_id){
 

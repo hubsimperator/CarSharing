@@ -3,6 +3,7 @@ package com.example.carsharing.JSON;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.Activity.Rezerwacja;
@@ -95,10 +96,17 @@ public class JSON_lista_samochodow {
     @Override
     protected void onPostExecute(String result) {
         alertDialog.dismiss();
-        Rezerwacja res=new Rezerwacja();
-        res.wyswietl_liste(con,lista_samochodow,lista_samochodow_id);
 
-    }
+        if(result !=null) {
+            Rezerwacja res = new Rezerwacja();
+            res.wyswietl_liste(con, lista_samochodow, lista_samochodow_id);
+        }
+        else{
+            //Toast.makeText(con,"ADSdas",Toast.LENGTH_LONG);
+            JSON_dostepnosc_aut json_dostepnosc_aut=new JSON_dostepnosc_aut();
+            json_dostepnosc_aut.StartUpdate(StartDate,Parking,con);
+        }
+        }
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {

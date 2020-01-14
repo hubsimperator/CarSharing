@@ -39,6 +39,8 @@
             <Switch
                 android:id="@+id/switch1"
                 android:gravity=""
+                android:thumbTint="#1f90cc"
+                android:trackTint="#1f90cc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
