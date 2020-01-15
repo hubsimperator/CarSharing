@@ -70,7 +70,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public static EditText subject_et;
     public static EditText dystans_et;
 
-    String data_poczatkowa;
+    public static String data_poczatkowa;
     String data_bez_godzin;
     String godzina_poczatkowa;
     String data_koncowa;
@@ -271,10 +271,24 @@ numer_proj=new ArrayList<>();
                 }
                 start_date=true;
                 end_date=false;
+
                 Calendar c= Calendar.getInstance();
+             /*
                 year=c.get(Calendar.YEAR);
                 month=c.get(Calendar.MONTH);
                 day=c.get(Calendar.DAY_OF_MONTH);
+
+              */
+                String ss[]=data_poczatkowa.split(" ");
+                String s[]=ss[0].split("-");
+                year=Integer.valueOf(s[0]);
+                month=Integer.valueOf(s[1])-1;
+                day=Integer.valueOf(s[2]);
+                Log.d("a","f");
+
+                c.set(Calendar.YEAR,year);
+                c.set(Calendar.MONTH,month);
+                c.set(Calendar.DAY_OF_MONTH,day);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(Rezerwacja.this,Rezerwacja.this,year,month,day);
                 datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
@@ -306,7 +320,9 @@ numer_proj=new ArrayList<>();
             }
         });
 
+
         setCurrentDate();
+
 
         try {
             LoginDataHandler LDH = new LoginDataHandler(this);
@@ -502,7 +518,9 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
                 minuty_sp.setVisibility(View.VISIBLE);
                 label_minuty_tv.setVisibility(View.VISIBLE);
                 poczatek_et.setText(dostepnoscList.get(position).getStart_date()+":00");
+                data_poczatkowa=dostepnoscList.get(position).getStart_date()+":00";
                 koniec_et.setText(dostepnoscList.get(position).getEnd_date()+":00");
+                data_koncowa=dostepnoscList.get(position).getEnd_date()+":00";
 
                 alertDialog.dismiss();
             }
@@ -539,29 +557,6 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
             }
         }
     });
-
-    //  ch1.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
-
-    /*
-
-    ArrayAdapter<String> adapter = new ArrayAdapter<String >(con, R.layout.listlayoutitem, R.id.txt_lan,lista);
-    ch1.setAdapter(adapter);
-    ch1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            eit_Resource=lista_id.get(position);
-            label_samochod_tv.setVisibility(View.VISIBLE);
-            wybrany_samochod_tv.setText(lista.get(position));
-            rezerwuj_bt.setVisibility(View.VISIBLE);
-            minuty_sp.setVisibility(View.VISIBLE);
-            label_minuty_tv.setVisibility(View.VISIBLE);
-
-
-        }
-    });
-
-     */
 
     alertDialog =dialogBuilder.create();
     alertDialog.show();
@@ -646,6 +641,13 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
      Calendar c= Calendar.getInstance();
      hour=c.get(Calendar.HOUR_OF_DAY);
      minute=c.get(Calendar.MINUTE);
+
+        String a[]=data_poczatkowa.split(" ");
+        String ss[]=a[1].split(":");
+
+        hour=Integer.valueOf(ss[0]);
+        minute=Integer.valueOf(ss[1]);
+        Log.d("a","f");
 
      TimePickerDialog timePickerDialog = new TimePickerDialog(Rezerwacja.this,Rezerwacja.this,hour,minute,DateFormat.is24HourFormat(this));
     if(end_date){

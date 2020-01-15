@@ -96,16 +96,19 @@ public class JSON_lista_samochodow {
     @Override
     protected void onPostExecute(String result) {
         alertDialog.dismiss();
-
-        if(result !=null) {
+        JSON_dostepnosc_aut json_dostepnosc_aut=new JSON_dostepnosc_aut();
+        json_dostepnosc_aut.StartUpdate(StartDate,Parking,con);
+        /*
+        if(lista_samochodow .size()>0) {
             Rezerwacja res = new Rezerwacja();
             res.wyswietl_liste(con, lista_samochodow, lista_samochodow_id);
         }
         else{
-            //Toast.makeText(con,"ADSdas",Toast.LENGTH_LONG);
             JSON_dostepnosc_aut json_dostepnosc_aut=new JSON_dostepnosc_aut();
             json_dostepnosc_aut.StartUpdate(StartDate,Parking,con);
         }
+
+         */
         }
     }
 
