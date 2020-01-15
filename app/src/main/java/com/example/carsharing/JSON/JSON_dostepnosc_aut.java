@@ -42,10 +42,14 @@ public class JSON_dostepnosc_aut extends AppCompatActivity {
     HttpAsyncTask2 mTask;
 
     ArrayList<Obiekt_Dostepnosc> lista_obiektowdostepnosc;
+    String Data;
+    String Parking;
 
 
     public void StartUpdate(String _Data, String _Parking, Context context) {
         con = context;
+        Data=_Data;
+        Parking=_Parking;
 
         mTask=new HttpAsyncTask2();
 
@@ -60,8 +64,8 @@ public class JSON_dostepnosc_aut extends AppCompatActivity {
             HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("Data","2020-01-14 10:12:00");
-            jsonObject.accumulate("parking","wałowa 46");
+            jsonObject.accumulate("Data",Data);
+            jsonObject.accumulate("parking",Parking);
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json,"UTF-8");
 
