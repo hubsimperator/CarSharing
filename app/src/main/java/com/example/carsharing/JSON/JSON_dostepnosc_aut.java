@@ -1,6 +1,7 @@
 package com.example.carsharing.JSON;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -89,7 +90,6 @@ public class JSON_dostepnosc_aut extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
 
 
@@ -114,7 +114,7 @@ public class JSON_dostepnosc_aut extends AppCompatActivity {
     @Override
     protected void onPostExecute(String result) {
         Rezerwacja rezerwacja=new Rezerwacja();
-        rezerwacja.wyswietl_dostepnosc(con,lista_obiektowdostepnosc);
+        rezerwacja.wyswietl_dostepnosc(con,lista_obiektowdostepnosc,Parking);
     }
     }
 
@@ -152,8 +152,9 @@ public class JSON_dostepnosc_aut extends AppCompatActivity {
             String startDate=row.getString("WolnyOd");
             String endDate=row.getString("WolnyDo");
 
-
-            lista_obiektowdostepnosc.add(new Obiekt_Dostepnosc(samochod,samochodID,startDate,endDate));
+            if((samochod != null) && (samochodID!= null) && (startDate!= null) &&(endDate!= null )) {
+                lista_obiektowdostepnosc.add(new Obiekt_Dostepnosc(samochod, samochodID, startDate, endDate));
+            }
         }
 
     }catch (NullPointerException ne){

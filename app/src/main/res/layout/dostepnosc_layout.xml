@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/dostepneAutaParking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -14,7 +14,7 @@
         android:layout_marginBottom="20dp"
         android:textSize="25dp"
         android:gravity="center"
-        android:text="Samochody dostępne w najbliższym czasie :" />
+        android:text="Samochody dostępne w najbliższym czasie na parkingu : " />
 
     <ListView
         android:layout_width="match_parent"

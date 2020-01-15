@@ -49,7 +49,6 @@ public final class SimpleTableDataAdapter extends TableDataAdapter<String[]> {
     public View getCellView(final int rowIndex, final int columnIndex, final ViewGroup parentView) {
         final TextView textView = new TextView(getContext());
 
-
         textView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
         textView.setTypeface(textView.getTypeface(), typeface);
         textView.setTextSize(textSize);
@@ -58,12 +57,6 @@ public final class SimpleTableDataAdapter extends TableDataAdapter<String[]> {
       //  textView.setHeight(180);
         textView.setBackgroundColor(kolory.get(rowIndex));
      //   parentView.setBackgroundColor(kolory.get(rowIndex));
-
-
-        int a;
-
-        Log.d("test",Integer.toString(parentView.getChildCount()));
-
 
         textView.setEllipsize(TextUtils.TruncateAt.END);
 

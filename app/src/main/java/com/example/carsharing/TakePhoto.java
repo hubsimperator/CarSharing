@@ -57,7 +57,7 @@ public class TakePhoto extends AppCompatActivity {
         }
 
         CodePhotoBase64 codePhotoBase64=new CodePhotoBase64();
-        codePhotoBase64.encode2(con1,path_list);
+        codePhotoBase64.encode2(TakePhoto.this,path_list);
 
     }
 

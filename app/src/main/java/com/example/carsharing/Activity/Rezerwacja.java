@@ -500,7 +500,7 @@ public boolean sprawdz_czy_dane_niepuste(int param) {
 public ArrayList<Obiekt_Dostepnosc> dostepnoscList=new ArrayList<>();
 public DostepnoscListAdapter adapter;
 
-public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostepnoscListsc){
+public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostepnoscListsc,String _parking){
 
     Toast.makeText(con,"Brak dostępnych samochodów w wybranym terminie. Sprawdzam dostępność w najbliższym czasie ...",Toast.LENGTH_LONG).show();
 
@@ -539,6 +539,9 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
     view = inflater.inflate(R.layout.dostepnosc_layout,null);
     dialogBuilder.setView(view);
 
+    TextView info=(TextView) view.findViewById(R.id.dostepneAutaParking);
+    String s=info.getText().toString()+_parking;
+    info.setText(s);
 
     final ListView mListView = (ListView) view.findViewById(R.id.listview);
     mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);

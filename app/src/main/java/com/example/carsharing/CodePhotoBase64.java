@@ -1,6 +1,7 @@
 package com.example.carsharing;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,11 +28,18 @@ public class CodePhotoBase64 {
     public  ArrayList<Integer> blob_size_list=new ArrayList<>();
 
     @SuppressLint("StaticFieldLeak")
-    public void encode2(Context con, ArrayList<String> fileName) {
+    public void encode2(final Context con, ArrayList<String> fileName) {
         path_list=fileName;
         con1=con;
         String filePath ="";
         new AsyncTask<Void, Void, ArrayList>() {
+            @Override
+            protected void onPreExecute() {
+
+                super.onPreExecute();
+
+            }
+
             @Override
             protected ArrayList<String> doInBackground(Void... voids) {
 

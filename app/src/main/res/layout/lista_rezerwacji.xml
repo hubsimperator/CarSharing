@@ -15,7 +15,6 @@
 
         <de.codecrafters.tableview.TableView
             android:id="@+id/lista_rezerwacji_tabela"
-
             android:layout_width="wrap_content"
             android:layout_height="400dp"
 
