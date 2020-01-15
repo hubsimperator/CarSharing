@@ -2,6 +2,7 @@ package com.example.carsharing;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -68,6 +69,21 @@ public class TakePhoto extends AppCompatActivity {
         path=f.toString();
         imageToUploadUri = Uri.fromFile(f);
         Bitmap reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
+
+/*
+        ContentValues values = new ContentValues(1);
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
+        //    values.put(MediaStore.Images.Media.MIME_TYPE,PATH[parametr]+".jpg");
+
+        imageToUploadUri = con1.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        Bitmap reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
+        try {
+            reducedSizeBitmap = MediaStore.Images.Media.getBitmap(con1.getContentResolver(), imageToUploadUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+ */
         if(reducedSizeBitmap != null){
             AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(con1,android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen);
             dialogBuilder1.setNegativeButton("Powrót",
@@ -86,7 +102,6 @@ public class TakePhoto extends AppCompatActivity {
             dialogBuilder1.setView(dialogView1);
 
             final ImageView img=(ImageView) dialogView1.findViewById(R.id.imageViewid);
-            //  img.setImageBitmap(bitmap);
             img.setImageBitmap(reducedSizeBitmap);
             final AlertDialog alertDialog = dialogBuilder1.create();
             alertDialog.show();
@@ -134,24 +149,44 @@ public class TakePhoto extends AppCompatActivity {
 
 
     }
+    static Uri outputFileUri;
 
     private void captureCameraImage() {
         Intent chooserIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File f = new File(Environment.getExternalStorageDirectory(), PATH[parametr]+".jpg");
         path=f.toString();
         chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-        imageToUploadUri = Uri.fromFile(f);
+       // imageToUploadUri = Uri.fromFile(f);
 
-        if (con1 instanceof Activity) {
-            try {
-                ((Activity) con1).startActivityForResult(chooserIntent, CAMERA_PHOTO);
-            }
-            catch (FileUriExposedException fileUriExposedException){
-                Log.d("Alarm","Nie mozna wlaczyc aparatu");
-            }
-        } else {
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            if (con1 instanceof Activity) {
+                try {
+                    ((Activity) con1).startActivityForResult(chooserIntent, CAMERA_PHOTO);
+
+                }
+                catch (FileUriExposedException fileUriExposedException){
+                    Log.d("Alarm","Nie mozna wlaczyc aparatu");
+                }
+            } else {
+
+            }
+        }else{ // dla wersji powyzej N
+
+
+
+            ContentValues values = new ContentValues(1);
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
+        //    values.put(MediaStore.Images.Media.MIME_TYPE,PATH[parametr]+".jpg");
+
+            outputFileUri = con1.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            imageToUploadUri=outputFileUri;
+            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            captureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            ((Activity) con1).startActivityForResult(captureIntent, CAMERA_PHOTO);
         }
+
     }
 public static Context con1;
 public static Integer parametr;
@@ -261,7 +296,7 @@ public static String mslink;
 
         if (requestCode == CAMERA_PHOTO && resultCode == Activity.RESULT_OK) {
             if(imageToUploadUri != null){
-                Uri selectedImage = imageToUploadUri;
+                Uri selectedImage = outputFileUri;
                 con1.getContentResolver().notifyChange(selectedImage, null);
 
                 }
