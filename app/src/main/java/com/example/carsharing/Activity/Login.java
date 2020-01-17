@@ -15,10 +15,13 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.os.Bundle;
@@ -44,6 +47,10 @@ public class Login extends AppCompatActivity {
      * w celu wypuszczenia nowej wersji oprogramowania zmieniamy poniższą wartosć na nową, aplikację generujemy i wystawiamy w nc.sng.com.pl
      * i w wyżej wspomnianej procedurze wprowadzamy nową wartosć w wskazane miejsce*/
 String WersjaAplikacji = "Wersja Alfa6";
+
+
+EditText Password;
+
 
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
         @Override
@@ -87,6 +94,12 @@ String WersjaAplikacji = "Wersja Alfa6";
         if (!checkPermissions()) {
             setPermissions();
         }
+//zmiana huberta
+
+        Password=(EditText) findViewById(R.id.Passwordtxt);
+
+
+//przypal na mnie
         if (isConnected()) {
 try{
     TextView te = (TextView)findViewById(R.id.Versionerror);
@@ -194,7 +207,23 @@ cv.StartUpdate(WersjaAplikacji,te,this);
         }
 
 
+        CheckBox pokazHaslo = (CheckBox) findViewById(R.id.showPassword);
+        pokazHaslo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // show password
+                    Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    // hide password
+                    Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
+
+
         ImageView zaloguj = (ImageView) findViewById(R.id.Loginbtn);
+
 
         zaloguj.setOnClickListener(new View.OnClickListener() {
             @Override
