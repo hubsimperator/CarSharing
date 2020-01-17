@@ -15,10 +15,17 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.os.Bundle;
@@ -44,6 +51,10 @@ public class Login extends AppCompatActivity {
      * w celu wypuszczenia nowej wersji oprogramowania zmieniamy poniższą wartosć na nową, aplikację generujemy i wystawiamy w nc.sng.com.pl
      * i w wyżej wspomnianej procedurze wprowadzamy nową wartosć w wskazane miejsce*/
 String WersjaAplikacji = "Wersja Alfa6";
+
+
+EditText Password;
+
 
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
         @Override
@@ -87,6 +98,12 @@ String WersjaAplikacji = "Wersja Alfa6";
         if (!checkPermissions()) {
             setPermissions();
         }
+//zmiana huberta
+
+        Password=(EditText) findViewById(R.id.Passwordtxt);
+
+
+//przypal na mnie
         if (isConnected()) {
 try{
     TextView te = (TextView)findViewById(R.id.Versionerror);
@@ -184,6 +201,8 @@ cv.StartUpdate(WersjaAplikacji,te,this);
                     ((EditText) findViewById(R.id.Logintxt)).setText(getdata.getString(1));
                     ((EditText) findViewById(R.id.Passwordtxt)).setText(getdata.getString(2));
                     ((CheckBox) findViewById(R.id.zapamietajchbox)).setChecked(true);
+
+
                 }
             }
             LDH.close();
@@ -192,9 +211,35 @@ cv.StartUpdate(WersjaAplikacji,te,this);
             log.inputLog("Login.class 006: " + e.toString());
             log.close();
         }
+        final TextView poka = (TextView) findViewById(R.id.poka);
+        poka.setVisibility(View.INVISIBLE);
 
+            ((EditText) findViewById(R.id.Passwordtxt)).addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    if(((EditText) findViewById(R.id.Passwordtxt)).length()==0){
+                        poka.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if(((EditText) findViewById(R.id.Passwordtxt)).getText().length()==0){
+                        poka.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if(((EditText) findViewById(R.id.Passwordtxt)).getText().length()==0){
+                        poka.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        poka.setOnTouchListener(show_text);
 
         ImageView zaloguj = (ImageView) findViewById(R.id.Loginbtn);
+
 
         zaloguj.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -324,6 +369,20 @@ cv.StartUpdate(WersjaAplikacji,te,this);
         else
             return false;
     }
+    private View.OnTouchListener show_text = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (v.getId() == R.id.poka) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+                return true;
+            }
+            return false;
+        }
+    };
 
 }
 

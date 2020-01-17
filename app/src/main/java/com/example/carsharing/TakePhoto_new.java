@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
@@ -33,7 +34,9 @@ import com.example.carsharing.Other.Update;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -41,7 +44,7 @@ public class TakePhoto_new extends AppCompatActivity {
 
     ArrayList<String> path_list;
     private static final int CAMERA_PHOTO = 111;
-    public  Uri imageToUploadUri;
+    public static  Uri imageToUploadUri;
     public static String path=null;
     Integer param;
     public static String[] PATH={"OcenaPrzed0","OcenaPrzed1","OcenaPrzed2"};
@@ -107,11 +110,21 @@ public class TakePhoto_new extends AppCompatActivity {
 
             ContentValues values = new ContentValues(1);
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-            values.put(MediaStore.Images.Media.DISPLAY_NAME,"hubsonkrol232.jpg");
-            values.put(MediaStore.Images.Media.TITLE,"hubsonkrol232tit.jpg");
-            values.put(MediaStore.Images.Media.DESCRIPTION,"hubsonkrol232op.jpg");
-
+            //   values.put(MediaStore.Images.Media.DISPLAY_NAME,"hubsonkrol232.jpg");
+            values.put(MediaStore.Images.Media.TITLE,"aaaa1");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+            String format = simpleDateFormat.format(new Date());
+            values.put(MediaStore.Images.Media.DISPLAY_NAME,"Przed"+format+".jpg");
+           Boolean a= con1.getContentResolver().equals(values);
             imageToUploadUri = con1.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+           // imageToUploadUri = con1.getContentResolver().update(imageToUploadUri,values,null,"");
+
+
+
+
+            if(imageToUploadUri==null){
+                con1.getContentResolver().delete(imageToUploadUri,null,null);
+            }
 
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             captureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -121,11 +134,42 @@ public class TakePhoto_new extends AppCompatActivity {
 
     }
 
+    public String getRealPathFromURI(Uri contentUri) {
+        try {
+            String[] proj = null;
+            proj = new String[]{MediaStore.Images.Media.DATA};
+            if (!proj.equals(null)) {
+                Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+                int column_index = 0;
+                column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+
+                return cursor.getString(column_index);
+            } else
+                return null;
+        }catch (Exception e){
+        }
+        return null;
+    }
+
+    Obiekt_Photo obiekt_photo;
+
     public void activityResult(int requestCode, int resultCode, Intent data){
+
+        String imageurl = getRealPathFromURI(imageToUploadUri);
+        Integer i=parametr;
+         Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+
+        obiekt_photo=new Obiekt_Photo(parametr,imageBitmap);
+       // Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+
+
         if (requestCode == CAMERA_PHOTO && resultCode == Activity.RESULT_OK) {
             if((imageToUploadUri != null) &&(Build.VERSION.SDK_INT < Build.VERSION_CODES.N)){
                 con1.getContentResolver().notifyChange(imageToUploadUri, null);
             }
+
+
             OcenaAuta ocenaAuta=new OcenaAuta();
             ocenaAuta.setphoto(0,parametr);
 
@@ -149,7 +193,10 @@ public class TakePhoto_new extends AppCompatActivity {
             // dla wersji powyzej  N
             ContentValues values = new ContentValues(1);
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
+         //   values.put(MediaStore.Images.Media.DISPLAY_NAME,"hubsonkrol232.jpg");
+            values.put(MediaStore.Images.Media.TITLE,"hubsonkrol232.jpg");
             values.put(MediaStore.Images.Media.DISPLAY_NAME,"hubsonkrol232.jpg");
+
 
             imageToUploadUri = con1.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
