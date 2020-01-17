@@ -24,6 +24,7 @@ import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.JSON.JSON_ocen_auto;
 import com.example.carsharing.R;
 import com.example.carsharing.TakePhoto;
+import com.example.carsharing.TakePhoto_new;
 
 import java.util.ArrayList;
 
@@ -70,9 +71,8 @@ public class OcenaAuta extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         Log.d("asdaas","a");
-        TakePhoto tp=new TakePhoto();
+        TakePhoto_new tp=new TakePhoto_new();
         tp.activityResult(requestCode, resultCode,  data);
     }
 
@@ -157,7 +157,7 @@ public class OcenaAuta extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                TakePhoto tp = new TakePhoto();
+                TakePhoto_new tp = new TakePhoto_new();
 
                 if(photo0.getText().equals("Zdjęcie")){
                     tp.showPicOrTakeNew(0,OcenaAuta.this);
@@ -170,7 +170,7 @@ public class OcenaAuta extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                TakePhoto tp = new TakePhoto();
+                TakePhoto_new tp = new TakePhoto_new();
 
                 if(photo1.getText().equals("Zdjęcie")){
                     tp.showPicOrTakeNew(1,OcenaAuta.this);
@@ -183,7 +183,7 @@ public class OcenaAuta extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                TakePhoto tp = new TakePhoto();
+                TakePhoto_new tp = new TakePhoto_new();
 
                 if(photo2.getText().equals("Zdjęcie")){
                     tp.showPicOrTakeNew(2,OcenaAuta.this);
@@ -339,15 +339,6 @@ public class OcenaAuta extends AppCompatActivity {
                 if(switch2.isChecked()) switch_on.add(1);
                 else switch_off.add(4);
 
-
-           //     if(switch3.isChecked()) switch_on.add(2);
-         //       else switch_off.add(2);
-
-                // Co do wyslania
-           //     if(note0.getText().equals("Notatka")) note_on.add(notatka);
-                //if(note1.getText().equals("Notatka")) note_on.add(notatka1);
-               // if(note2.getText().equals("Notatka")) note_on.add(notatka2);
-
                 note_on.add(notatka);
                 note_on.add(notatka1);
                 note_on.add(notatka2);
@@ -376,28 +367,9 @@ public class OcenaAuta extends AppCompatActivity {
                 }else{
 
                     con=OcenaAuta.this;
-                    TakePhoto tp = new TakePhoto();
-                       tp.sendToEncode(phote_on);
+                    TakePhoto_new tp = new TakePhoto_new();
+                     //  tp.sendToEncode(phote_on);
                 }
-
-                Log.d("a","a");
-
-
-/*
-                Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("StartDate", PoczatekRezerwacji);
-                intent.putExtra("EndDate", KoniecRezerwacji);
-                intent.putExtra("BookingId", BookingId);
-                intent.putExtra("GrupaProjektu", GrupaProjektu);
-                intent.putExtra("NrProjektu", NrProjektu);
-                startActivity(intent);
-
-
-
-
- */
-
             }
         });
 
@@ -418,7 +390,6 @@ public class OcenaAuta extends AppCompatActivity {
         Intent intent = new Intent(con, RozpoczecieJazdy.class);
 
         Toast.makeText(con,result,Toast.LENGTH_LONG).show();
-
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("StartDate", PoczatekRezerwacji);
         intent.putExtra("EndDate", KoniecRezerwacji);

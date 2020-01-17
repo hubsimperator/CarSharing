@@ -15,6 +15,9 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,6 +28,11 @@
         <activity android:name=".Activity.ZmienCzasRezerwacji" android:screenOrientation="portrait"></activity>
         <activity android:name=".Other.QRScanner" />
         <activity android:name=".Other.Update" />
+
+
+        <activity android:name=".Activity.Alarm" />
+
+
         <activity android:name=".Activity.RozpoczecieJazdy" android:screenOrientation="portrait" />
         <activity android:name=".Activity.Login"     android:screenOrientation="portrait"  >
             <intent-filter>

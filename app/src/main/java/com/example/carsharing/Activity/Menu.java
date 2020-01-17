@@ -140,10 +140,11 @@ public class Menu extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-
                                 JSON_telefon_dyspozytor json_telefon_dyspozytor=new JSON_telefon_dyspozytor();
                                 json_telefon_dyspozytor.StartUpdate(Menu.this);
 
+                          //      Alarm alarm=new Alarm();
+                            //    alarm.SetAlarm(Menu.this);
                             }
                         })
                         .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {

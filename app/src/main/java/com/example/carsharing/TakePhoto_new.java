@@ -36,33 +36,101 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class TakePhoto extends AppCompatActivity {
+public class TakePhoto_new extends AppCompatActivity {
+
     ArrayList<String> path_list;
     private static final int CAMERA_PHOTO = 111;
     public  Uri imageToUploadUri;
     public static String path=null;
     Integer param;
     public static String[] PATH={"OcenaPrzed0","OcenaPrzed1","OcenaPrzed2"};
+    Bitmap reducedSizeBitmap;
 
-    public void sendToEncode(ArrayList<Integer> _param){
+    public static Context con1;
+    public static Integer parametr;
+    public static String podparametr;
+    public static String mslink;
 
-        path_list=new ArrayList<>();
+    public void TakePhoto(Context con,Integer param,String popdaram, String _mslink){
+        con1=con;
+        parametr=param;
+        podparametr=popdaram;
+        mslink=_mslink;
+        znajdzKamere();
+        captureCameraImage();
+    }
 
-        for(int i=0;i<_param.size();i++){
-            File f = new File(Environment.getExternalStorageDirectory(), PATH[_param.get(i)]+".jpg");
-            path=f.toString();
-            path_list.add(path);
+    private int znajdzKamere(){
+        int cameraID= -1;
+        for(int i = 0; i< Camera.getNumberOfCameras(); i++){
+            Camera.CameraInfo info=new Camera.CameraInfo();
+            Camera.getCameraInfo(i,info);
+
+            if(info.facing== Camera.CameraInfo.CAMERA_FACING_BACK){
+                Log.d("TAG","*********************");
+                Log.d("TAG","Jest kamera tylna");
+                Log.d("TAG","*********************");
+                cameraID=i;
+                break;
+            }else if(info.facing== Camera.CameraInfo.CAMERA_FACING_FRONT){
+                Log.d("TAG","*********************");
+                Log.d("TAG","Jest kamera przednia");
+                Log.d("TAG","*********************");
+                cameraID=i;
+                break;
+            }
+
+
         }
+        return cameraID;
+    }
+    private void captureCameraImage() {
 
-        CodePhotoBase64 codePhotoBase64=new CodePhotoBase64();
-        codePhotoBase64.encode2(TakePhoto.this,path_list);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) { // dla wersji ponizej N
+            if (con1 instanceof Activity) {
+                try {
+                    Intent chooserIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File f = new File(Environment.getExternalStorageDirectory(), PATH[parametr]+".jpg");
+                    path=f.toString();
+                    chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    ((Activity) con1).startActivityForResult(chooserIntent, CAMERA_PHOTO);
+                }
+                catch (FileUriExposedException fileUriExposedException){
+                    Log.d("Alarm","Nie mozna wlaczyc aparatu");
+                }
+            } else {
+
+            }
+        }
+        else{ // dla wersji powyzej N android
+
+            ContentValues values = new ContentValues(1);
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
+            values.put(MediaStore.Images.Media.DISPLAY_NAME,"hubsonkrol232.jpg");
+
+            imageToUploadUri = con1.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            captureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageToUploadUri);
+            ((Activity) con1).startActivityForResult(captureIntent, CAMERA_PHOTO);
+        }
 
     }
 
-    Bitmap reducedSizeBitmap;
+    public void activityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == CAMERA_PHOTO && resultCode == Activity.RESULT_OK) {
+            if((imageToUploadUri != null) &&(Build.VERSION.SDK_INT < Build.VERSION_CODES.N)){
+                con1.getContentResolver().notifyChange(imageToUploadUri, null);
+            }
+            OcenaAuta ocenaAuta=new OcenaAuta();
+            ocenaAuta.setphoto(0,parametr);
+
+        }else {
+            Toast.makeText(con1, "Error while capturing Image", Toast.LENGTH_LONG).show();
+        }
+    }
 
     public void showPicOrTakeNew(Integer _param,final Context con){
         param=_param;
@@ -73,12 +141,13 @@ public class TakePhoto extends AppCompatActivity {
             File f = new File(Environment.getExternalStorageDirectory(), PATH[param] + ".jpg");
             path = f.toString();
             imageToUploadUri = Uri.fromFile(f);
-             reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
-        }else{// dla wersji powyzej  N
+            reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
+        }
+        else {
+            // dla wersji powyzej  N
             ContentValues values = new ContentValues(1);
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-            values.put(MediaStore.Images.Media.DISPLAY_NAME,"hubsonkrol2.jpg");
-            //    values.put(MediaStore.Images.Media.MIME_TYPE,PATH[parametr]+".jpg");
+            values.put(MediaStore.Images.Media.DISPLAY_NAME,"hubsonkrol232.jpg");
 
             imageToUploadUri = con1.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
@@ -88,12 +157,6 @@ public class TakePhoto extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            // reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
-            try {
-                reducedSizeBitmap = MediaStore.Images.Media.getBitmap(con1.getContentResolver(), imageToUploadUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         if(reducedSizeBitmap != null){
@@ -137,85 +200,13 @@ public class TakePhoto extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     CodePhotoBase64 cpb=new CodePhotoBase64();
-                 //   cpb.encode2(con1,path,parametr,podparametr,mslink,null,null);
+                    //   cpb.encode2(con1,path,parametr,podparametr,mslink,null,null);
                     alertDialog.dismiss();
                 }
             });
 
 
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == CAMERA_PHOTO && resultCode == Activity.RESULT_OK) {
-            if(imageToUploadUri != null){
-                Uri selectedImage = imageToUploadUri;
-                con1.getContentResolver().notifyChange(selectedImage, null);
-
-            }else{
-                Toast.makeText(con1,"Error while capturing Image",Toast.LENGTH_LONG).show();
-            }
-        }
-
-
-    }
-     Uri outputFileUri;
-
-    private void captureCameraImage() {
-        Intent chooserIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File f = new File(Environment.getExternalStorageDirectory(), PATH[parametr]+".jpg");
-        path=f.toString();
-        chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) { // dla wersji ponizej N
-            if (con1 instanceof Activity) {
-                try {
-                    ((Activity) con1).startActivityForResult(chooserIntent, CAMERA_PHOTO);
-
-                }
-                catch (FileUriExposedException fileUriExposedException){
-                    Log.d("Alarm","Nie mozna wlaczyc aparatu");
-                }
-            } else {
-
-            }
-        }
-        else{ // dla wersji powyzej N android
-
-            ContentValues values = new ContentValues(1);
-            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-            values.put(MediaStore.Images.Media.DISPLAY_NAME,"hubsonkrol2.jpg");
-
-            outputFileUri = con1.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-            imageToUploadUri=outputFileUri;
-
-         //   outputFileUri=Uri.fromFile(f);
-
-            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            captureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            ((Activity) con1).startActivityForResult(captureIntent, CAMERA_PHOTO);
-        }
-
-    }
-public static Context con1;
-public static Integer parametr;
-    public static String podparametr;
-    public static String mslink;
-    private static final int MY_CAMERA_REQUEST_CODE = 100;
-
-
-
-
-    public void TakePhoto(Context con,Integer param,String popdaram, String _mslink){
-        con1=con;
-        parametr=param;
-        podparametr=popdaram;
-        mslink=_mslink;
-        znajdzKamere();
-      captureCameraImage();
     }
 
     private static Bitmap getBitmap(String path) {
@@ -279,49 +270,6 @@ public static Integer parametr;
         }
     }
 
-    private int znajdzKamere(){
-        int cameraID= -1;
-        for(int i = 0; i< Camera.getNumberOfCameras(); i++){
-            Camera.CameraInfo info=new Camera.CameraInfo();
-            Camera.getCameraInfo(i,info);
 
-            if(info.facing== Camera.CameraInfo.CAMERA_FACING_BACK){
-                Log.d("TAG","*********************");
-                Log.d("TAG","Jest kamera tylna");
-                Log.d("TAG","*********************");
-                cameraID=i;
-                break;
-            }else if(info.facing== Camera.CameraInfo.CAMERA_FACING_FRONT){
-                Log.d("TAG","*********************");
-                Log.d("TAG","Jest kamera tylna");
-                Log.d("TAG","*********************");
-                cameraID=i;
-                break;
-            }
-
-
-        }
-        return cameraID;
-    }
-
-    public void activityResult(int requestCode, int resultCode, Intent data){
-
-        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            if (requestCode == CAMERA_PHOTO && resultCode == Activity.RESULT_OK) {
-                if((imageToUploadUri != null) &&(Build.VERSION.SDK_INT < Build.VERSION_CODES.N)){
-                    Uri selectedImage = outputFileUri;
-                     con1.getContentResolver().notifyChange(selectedImage, null);
-                }
-                OcenaAuta ocenaAuta=new OcenaAuta();
-                ocenaAuta.setphoto(0,parametr);
-
-
-            }else{
-//                Toast.makeText(con1,"Error while capturing Image",Toast.LENGTH_LONG).show();
-            }
-
-
-
-    }
 
 }
