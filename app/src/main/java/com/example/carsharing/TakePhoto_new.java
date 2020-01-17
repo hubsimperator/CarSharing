@@ -108,6 +108,8 @@ public class TakePhoto_new extends AppCompatActivity {
             ContentValues values = new ContentValues(1);
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
             values.put(MediaStore.Images.Media.DISPLAY_NAME,"hubsonkrol232.jpg");
+            values.put(MediaStore.Images.Media.TITLE,"hubsonkrol232tit.jpg");
+            values.put(MediaStore.Images.Media.DESCRIPTION,"hubsonkrol232op.jpg");
 
             imageToUploadUri = con1.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
