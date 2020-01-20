@@ -1,6 +1,7 @@
 package com.example.carsharing.JSON;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class JSON_ocen_auto {
 
 
-    Context con = null;
+    Context con ;
 
     public static String BookingID = null;
     public static ArrayList<Integer> CommentID=new ArrayList<>();
@@ -104,12 +105,27 @@ public class JSON_ocen_auto {
         Results+=result;
         return result;
     }
+
+
     private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
         AlertDialog alertDialog;
+        ProgressDialog progressDialog;
         @Override
         protected void onPreExecute() {
-
             super.onPreExecute();
+
+            progressDialog=new ProgressDialog(con);
+            progressDialog.setMessage("Wysyłanie danych.Proszę czekać");
+            progressDialog.show();
+            /*
+            alertDialog=new AlertDialog.Builder(con)
+                    .setTitle("Proszę czekać ")
+                    .setMessage("Wysyłanie danych ...")
+                    .setIcon(android.R.drawable.ic_menu_upload)
+                    .setCancelable(false)
+                    .show();\
+
+             */
         }
 
         @Override
@@ -125,8 +141,11 @@ public class JSON_ocen_auto {
 
         @Override
         protected void onPostExecute(String result) {
+           // alertDialog.dismiss();
+            progressDialog.dismiss();
             OcenaAuta ocenaAuta=new OcenaAuta();
             ocenaAuta.startTrip(Results);
+
           //  alertDialog.dismiss();
           /*
             if (result.contains("False")) {
