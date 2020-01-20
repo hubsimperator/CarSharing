@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,7 +72,9 @@ public class OcenaAuta extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         Log.d("asdaas","a");
+
         TakePhoto_new tp=new TakePhoto_new();
         tp.activityResult(requestCode, resultCode,  data);
     }
@@ -368,7 +371,7 @@ public class OcenaAuta extends AppCompatActivity {
 
                     con=OcenaAuta.this;
                     TakePhoto_new tp = new TakePhoto_new();
-                     //  tp.sendToEncode(phote_on);
+                    tp.sendToEncode(phote_on);
                 }
             }
         });
