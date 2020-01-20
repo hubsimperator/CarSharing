@@ -93,5 +93,74 @@ public class CodePhotoBase64 {
         }.execute();
 
     }
+    ProgressDialog pg;
 
+    @SuppressLint("StaticFieldLeak")
+    public void encode_morethanNandroid(final Context con, final ArrayList<Integer> file) {
+
+        con1=con;
+        String filePath ="";
+        new AsyncTask<Void, Void, ArrayList>() {
+            @Override
+            protected void onPreExecute() {
+
+                super.onPreExecute();
+
+              //   pg = new ProgressDialog(con1);
+            }
+
+            @Override
+            protected ArrayList<String> doInBackground(Void... voids) {
+
+                for(int i=0;i<file.size();i++) {
+
+                    if(selectedImage != null) {
+                        selectedImage.recycle();
+                    }
+                    Obiekt_Photo obiekt_photo=new Obiekt_Photo();
+                    selectedImage =obiekt_photo.getPhoto(i); //BitmapFactory.decodeFile(path_list.get(i));
+                    int width = selectedImage.getWidth();
+                    int height = selectedImage.getHeight();
+//800 600
+
+                    photo_name.add(i+"zdjecie");
+
+                    Bitmap resizedBitmap;
+                    if (width > height) {
+                        resizedBitmap = Bitmap.createScaledBitmap(
+                                selectedImage, 800, 600, false);
+                    } else {
+                        resizedBitmap = Bitmap.createScaledBitmap(
+                                selectedImage, 600, 800, false);
+                    }
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    String strBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                    byte[] b = new byte[0];
+                    try {
+                        b = strBase64.getBytes("UTF-8");
+                        Log.d("a",Integer.toString(b.length));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    blob_list.add(strBase64);
+                    blob_size_list.add(b.length);
+
+                }
+                return blob_list;// strBase64;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList arrayList) {
+
+                //   super.onPostExecute(arrayList);
+        //        pg.dismiss();
+                OcenaAuta ocenaAuta=new OcenaAuta();
+                ocenaAuta.setBlobImage(arrayList,blob_size_list,photo_name);
+            }
+        }.execute();
+
+    }
 }

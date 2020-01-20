@@ -57,6 +57,7 @@ public class TakePhoto_new extends AppCompatActivity {
     public static String podparametr;
     public static String mslink;
 
+
     public void TakePhoto(Context con,Integer param,String popdaram, String _mslink){
         con1=con;
         parametr=param;
@@ -64,6 +65,7 @@ public class TakePhoto_new extends AppCompatActivity {
         mslink=_mslink;
         znajdzKamere();
         captureCameraImage();
+
     }
 
     private int znajdzKamere(){
@@ -111,7 +113,7 @@ public class TakePhoto_new extends AppCompatActivity {
         else{ // dla wersji powyzej N android
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
             String format = simpleDateFormat.format(new Date());
-            ContentValues values = new ContentValues(1);
+            ContentValues values = new ContentValues();
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
           //  values.put(MediaStore.Images.Media.DESCRIPTION,"aa");
            // values.put(MediaStore.Images.Media.TITLE,"aaaa1");
@@ -135,23 +137,7 @@ public class TakePhoto_new extends AppCompatActivity {
         }
 
     }
-    public String getRealPathFromURI2(Uri contentUri) {
-        try {
-            String[] proj = null;
-            proj = new String[]{MediaStore.Images.Media.DATA};
-            if (!proj.equals(null)) {
-                Cursor cursor = managedQuery(contentUri, proj, null, null, null);
-                int column_index = 0;
-                column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
 
-                return cursor.getString(column_index);
-            } else
-                return null;
-        }catch (Exception e){
-        }
-        return null;
-    }
 
     public String getRealPathFromURI(Uri contentUri) {
         Cursor cursor = con1.getContentResolver().query(contentUri, null, null, null, null);
@@ -168,27 +154,42 @@ public class TakePhoto_new extends AppCompatActivity {
 
         return path;
     }
+     public static Obiekt_Photo obiekt_photo=new Obiekt_Photo();
 
-    Obiekt_Photo obiekt_photo;
 
     public void activityResult(int requestCode, int resultCode, Intent data){
 
-        String imageurl = getRealPathFromURI(imageToUploadUri);
+        //String imageurl = getRealPathFromURI(imageToUploadUri);
         Integer i=parametr;
-         Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+        // Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
 
-        obiekt_photo=new Obiekt_Photo(parametr,imageBitmap);
+      //  obiekt_photo=new Obiekt_Photo(parametr,imageBitmap);
        // Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
 
 
         if (requestCode == CAMERA_PHOTO && resultCode == Activity.RESULT_OK) {
-            if((imageToUploadUri != null) &&(Build.VERSION.SDK_INT < Build.VERSION_CODES.N)){
-                con1.getContentResolver().notifyChange(imageToUploadUri, null);
+
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(con1.getContentResolver(), imageToUploadUri);
+              } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }catch (NullPointerException ne)
+            {
+                Log.d("aa","sralibaba");
             }
 
 
+            if((imageToUploadUri != null) &&(Build.VERSION.SDK_INT < Build.VERSION_CODES.N)){
+                con1.getContentResolver().notifyChange(imageToUploadUri, null);
+            }
+            obiekt_photo.setPhoto(bitmap,parametr);
+
             OcenaAuta ocenaAuta=new OcenaAuta();
             ocenaAuta.setphoto(0,parametr);
+            obiekt_photo.getPhoto(parametr);
 
         }else {
             Toast.makeText(con1, "Error while capturing Image", Toast.LENGTH_LONG).show();
@@ -207,6 +208,7 @@ public class TakePhoto_new extends AppCompatActivity {
             reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
         }
         else {
+         /*
             // dla wersji powyzej  N
             ContentValues values = new ContentValues(1);
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
@@ -216,6 +218,8 @@ public class TakePhoto_new extends AppCompatActivity {
 
 
             imageToUploadUri = con1.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+*/
+         /*
 
             try {
                 reducedSizeBitmap = MediaStore.Images.Media.getBitmap(con1.getContentResolver(), imageToUploadUri);
@@ -223,6 +227,12 @@ public class TakePhoto_new extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+
+          */
+
+
+       //  obiekt_photo=new Obiekt_Photo();
+         reducedSizeBitmap=obiekt_photo.getPhoto(param);
         }
 
         if(reducedSizeBitmap != null){
@@ -272,8 +282,36 @@ public class TakePhoto_new extends AppCompatActivity {
             });
 
 
+        }else{
+            Log.d("aa","USUNTO");
         }
     }
+
+
+    public void sendToEncode(ArrayList<Integer> _param){
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) { // dla wersji ponizej N
+
+            path_list=new ArrayList<>();
+
+        for(int i=0;i<_param.size();i++){
+            File f = new File(Environment.getExternalStorageDirectory(), PATH[_param.get(i)]+".jpg");
+            path=f.toString();
+            path_list.add(path);
+        }
+
+        CodePhotoBase64 codePhotoBase64=new CodePhotoBase64();
+        codePhotoBase64.encode2(TakePhoto_new.this,path_list);
+
+        }else{// dla wersji ponad N
+
+            CodePhotoBase64 codePhotoBase64=new CodePhotoBase64();
+            codePhotoBase64.encode_morethanNandroid(TakePhoto_new.this,_param);
+
+        }
+    }
+
+
 
     private static Bitmap getBitmap(String path) {
 
