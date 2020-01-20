@@ -238,9 +238,11 @@ numer_proj=new ArrayList<>();
         search_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sprawdz_czy_dane_niepuste(1)) {
-                    JSON_lista_samochodow json_lista_samochodow = new JSON_lista_samochodow();
-                    json_lista_samochodow.StartUpdate(data_poczatkowa, data_koncowa,parking,dystans_et.getText().toString(), Rezerwacja.this);
+                if(sprawdz_czy_data_poprawna()) {
+                    if (sprawdz_czy_dane_niepuste(1)) {
+                        JSON_lista_samochodow json_lista_samochodow = new JSON_lista_samochodow();
+                        json_lista_samochodow.StartUpdate(data_poczatkowa, data_koncowa, parking, dystans_et.getText().toString(), Rezerwacja.this);
+                    }
                 }
             }
         });
@@ -466,6 +468,29 @@ public long convert_epoch_date(){
     }
     return milliseconds;
 }
+
+public boolean sprawdz_czy_data_poprawna(){
+
+       String s1= poczatek_et.getText().toString();
+    String s2= koniec_et.getText().toString();
+
+    try {
+        Date date1=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(s1);
+        Date date2=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(s2);
+        if(date1.compareTo(date2)>0){
+            alertDialog = new AlertDialog.Builder(Rezerwacja.this)
+                    .setTitle("Uwaga")
+                    .setMessage("Data końcowa musi być większa niż data początkowa !")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+            return false;
+        }else return true;
+
+    } catch (ParseException e) {
+        e.printStackTrace();
+        return false;
+    }
+    }
 
 public boolean sprawdz_czy_dane_niepuste(int param) {
     if (param == 0) {

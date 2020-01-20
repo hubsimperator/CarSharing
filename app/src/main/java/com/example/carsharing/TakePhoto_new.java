@@ -2,6 +2,7 @@ package com.example.carsharing;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,6 +33,7 @@ import com.example.carsharing.Activity.OcenaAuta;
 import com.example.carsharing.Other.Update;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Timestamp;
@@ -107,24 +109,24 @@ public class TakePhoto_new extends AppCompatActivity {
             }
         }
         else{ // dla wersji powyzej N android
-
-            ContentValues values = new ContentValues(1);
-            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-            //   values.put(MediaStore.Images.Media.DISPLAY_NAME,"hubsonkrol232.jpg");
-            values.put(MediaStore.Images.Media.TITLE,"aaaa1");
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
             String format = simpleDateFormat.format(new Date());
+            ContentValues values = new ContentValues(1);
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
+          //  values.put(MediaStore.Images.Media.DESCRIPTION,"aa");
+           // values.put(MediaStore.Images.Media.TITLE,"aaaa1");
             values.put(MediaStore.Images.Media.DISPLAY_NAME,"Przed"+format+".jpg");
-           Boolean a= con1.getContentResolver().equals(values);
             imageToUploadUri = con1.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-           // imageToUploadUri = con1.getContentResolver().update(imageToUploadUri,values,null,"");
+
+            ContentResolver cr=con1.getContentResolver();
 
 
-
-
-            if(imageToUploadUri==null){
-                con1.getContentResolver().delete(imageToUploadUri,null,null);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, imageToUploadUri);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
 
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             captureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -133,8 +135,7 @@ public class TakePhoto_new extends AppCompatActivity {
         }
 
     }
-
-    public String getRealPathFromURI(Uri contentUri) {
+    public String getRealPathFromURI2(Uri contentUri) {
         try {
             String[] proj = null;
             proj = new String[]{MediaStore.Images.Media.DATA};
@@ -150,6 +151,22 @@ public class TakePhoto_new extends AppCompatActivity {
         }catch (Exception e){
         }
         return null;
+    }
+
+    public String getRealPathFromURI(Uri contentUri) {
+        Cursor cursor = con1.getContentResolver().query(contentUri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":")+1);
+        cursor.close();
+
+        cursor = con1.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,null
+                , MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
     }
 
     Obiekt_Photo obiekt_photo;
