@@ -124,9 +124,7 @@ public class JSON_lista_projektow_check{
                     log.close();
                 }
             }
-            Cursor test = myDB.getGrup();
-            int testowy = test.getCount();
-            testowy = testowy;
+
             myDB.close();
 
             pg.hide();
