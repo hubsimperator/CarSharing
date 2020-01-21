@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.DataHandler.Projekty_DataHandler;
+import com.example.carsharing.Other.Model_comment;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -21,6 +22,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class JSON_lista_sprawdz_auto {
     Context con = null;
@@ -29,6 +38,7 @@ public void StartUpdate(Context context) {
         con = context;
 
         new HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppGetCommentsList");
+
         }
 
 
@@ -65,6 +75,9 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
+
+        ArrayList<Model_comment> modelComment = new ArrayList<>();
+
         if (!result.equals("null")) {
             try {
                 JSONArray jsonArray = new JSONArray(result);
@@ -79,8 +92,6 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
                                 jsonobject.getString("Status");
 
                             i++;
-
-
 
                     }
                 }
