@@ -573,20 +573,17 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
     final ListView mListView = (ListView) view.findViewById(R.id.listview);
     mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     mListView.setAdapter(adapter);
-    Integer ilosc=mListView.getChildCount();
 
     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int _position, long id) {
-            for (int i = 0; i < dostepnoscList.size(); i++) {
-                if(_position == i ){
-                    position=_position;
-                    getViewByPosition(_position,mListView).setBackgroundColor(Color.GREEN);
-                 //   mListView.getChildAt(i).setBackgroundColor(Color.GREEN);
-                }else{
-                    getViewByPosition(_position,mListView).setBackgroundColor(Color.TRANSPARENT);
 
-                    //  mListView.getChildAt(i).setBackgroundColor(Color.RED);
+            for (int i = 0; i < mListView.getChildCount(); i++) {
+                if(_position == i+mListView.getFirstVisiblePosition() ){
+                    position=_position;
+                    mListView.getChildAt(i).setBackgroundColor(Color.GREEN);
+                }else{
+                     mListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
                 }
             }
         }
@@ -596,17 +593,6 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
     alertDialog.show();
  }
 
-    public View getViewByPosition(int pos, ListView listView) {
-        final int firstListItemPosition = listView.getFirstVisiblePosition();
-        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
-
-        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
-            return listView.getAdapter().getView(pos, null, listView);
-        } else {
-            final int childIndex = pos - firstListItemPosition;
-            return listView.getChildAt(childIndex);
-        }
-    }
 
 public void wyswietl_liste(Context con, final ArrayList<String> lista, final ArrayList<String> lista_id){
 
