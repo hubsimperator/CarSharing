@@ -81,7 +81,7 @@ public class OcenaAuta extends AppCompatActivity {
 
     public void setBlobImage(ArrayList<String> _bloblist,ArrayList<Integer> _bloblist_size,ArrayList<String> _bloblist_name){
         JSON_ocen_auto json_ocen_auto=new JSON_ocen_auto();
-        json_ocen_auto.StartUpdate(BookingId,switch_off,note_on,_bloblist,_bloblist_size,_bloblist_name,OcenaAuta.this);
+        json_ocen_auto.StartUpdate(BookingId,switch_off,note_on,_bloblist,_bloblist_size,_bloblist_name,con);
     }
 
     public void setphoto(Integer _param,Integer _podparam){
