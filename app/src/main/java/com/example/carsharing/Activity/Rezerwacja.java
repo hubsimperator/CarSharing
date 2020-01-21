@@ -560,14 +560,8 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
 
         }
     })
-            .setNeutralButton("Powrót",null)
-            .setNegativeButton("Szczegóły", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    alertDialog.dismiss();
-                }
-            })
-            ;
+            .setNeutralButton("Powrót",null);
+
     LayoutInflater inflater = (LayoutInflater)   con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     view = inflater.inflate(R.layout.dostepnosc_layout,null);
     dialogBuilder.setView(view);
@@ -610,12 +604,6 @@ public void wyswietl_liste(Context con, final ArrayList<String> lista, final Arr
         }
     })
             .setNeutralButton("Powrót",null)
-            .setNegativeButton("Szczegóły", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    alertDialog.dismiss();
-                }
-            })
             ;
     LayoutInflater inflater = (LayoutInflater)   con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     view = inflater.inflate(R.layout.dostepne_samochody,null);
