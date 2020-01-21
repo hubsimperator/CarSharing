@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -509,7 +510,6 @@ public boolean sprawdz_czy_dane_niepuste(int param) {
                     .setMessage("Pola : 'Tytuł','Projekt','Początek','Koniec' oraz 'Wybrany samochód' nie mogą być puste !")
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
-
             return false;
         }
     }
