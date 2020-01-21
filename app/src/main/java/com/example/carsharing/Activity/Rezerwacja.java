@@ -546,7 +546,7 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
             if(position != null){
                 label_samochod_tv.setVisibility(View.VISIBLE);
                 wybrany_samochod_tv.setText(dostepnoscList.get(position).getSamochod());
-                eit_Resource=dostepnoscList.get(position).getSamochod();
+                eit_Resource=dostepnoscList.get(position).getSamochodID();
                 rezerwuj_bt.setVisibility(View.VISIBLE);
                 minuty_sp.setVisibility(View.VISIBLE);
                 label_minuty_tv.setVisibility(View.VISIBLE);
