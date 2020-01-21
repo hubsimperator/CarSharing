@@ -16,7 +16,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CodePhotoBase64 {
     public static Context con1;
@@ -24,6 +26,8 @@ public class CodePhotoBase64 {
     public  ArrayList<String> path_list=new ArrayList<>();;
     public  ArrayList<String> photo_name=new ArrayList<>();
     ArrayList<String> blob_list=new ArrayList<>();
+    public static String[] PATH={"OcenaPrzed0","OcenaPrzed1","OcenaPrzed2"};
+
 
     public  ArrayList<Integer> blob_size_list=new ArrayList<>();
 
@@ -100,12 +104,12 @@ public class CodePhotoBase64 {
 
         con1=con;
         String filePath ="";
+
         new AsyncTask<Void, Void, ArrayList>() {
             @Override
             protected void onPreExecute() {
 
                 super.onPreExecute();
-
               //   pg = new ProgressDialog(con1);
             }
 
@@ -123,7 +127,10 @@ public class CodePhotoBase64 {
                     int height = selectedImage.getHeight();
 //800 600
 
-                    photo_name.add(i+"zdjecie");
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+                    String format = simpleDateFormat.format(new Date());
+
+                    photo_name.add(PATH[file.get(i)]+format);
 
                     Bitmap resizedBitmap;
                     if (width > height) {
