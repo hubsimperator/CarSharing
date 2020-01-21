@@ -10,6 +10,8 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -265,6 +267,9 @@ numer_proj=new ArrayList<>();
         end_date=false;
 
         poczatek_et=(EditText) findViewById(R.id.poczatek_et);
+
+
+
         poczatek_et.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -451,6 +456,8 @@ public void setCurrentDate(){
 
     koniec_et.setText(data+" "+godzina+":00");
 }
+
+
 public long convert_epoch_date(){
     String[] s= (poczatek_et.getText().toString()).split(" ");
    // String string_date = data_bez_godzin;
@@ -539,6 +546,7 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
             if(position != null){
                 label_samochod_tv.setVisibility(View.VISIBLE);
                 wybrany_samochod_tv.setText(dostepnoscList.get(position).getSamochod());
+                eit_Resource=dostepnoscList.get(position).getSamochod();
                 rezerwuj_bt.setVisibility(View.VISIBLE);
                 minuty_sp.setVisibility(View.VISIBLE);
                 label_minuty_tv.setVisibility(View.VISIBLE);

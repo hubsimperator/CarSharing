@@ -137,5 +137,4 @@ public class JSON_start_trip {
         inputStream.close();
         return result;
     }
-
 }
