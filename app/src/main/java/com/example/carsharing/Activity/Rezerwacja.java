@@ -560,14 +560,8 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
 
         }
     })
-            .setNeutralButton("Powrót",null)
-            .setNegativeButton("Szczegóły", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    alertDialog.dismiss();
-                }
-            })
-            ;
+            .setNeutralButton("Powrót",null);
+
     LayoutInflater inflater = (LayoutInflater)   con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     view = inflater.inflate(R.layout.dostepnosc_layout,null);
     dialogBuilder.setView(view);
@@ -579,16 +573,20 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
     final ListView mListView = (ListView) view.findViewById(R.id.listview);
     mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     mListView.setAdapter(adapter);
+    Integer ilosc=mListView.getChildCount();
 
     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int _position, long id) {
-            for (int i = 0; i < mListView.getChildCount(); i++) {
+            for (int i = 0; i < dostepnoscList.size(); i++) {
                 if(_position == i ){
                     position=_position;
-                    mListView.getChildAt(i).setBackgroundColor(Color.GREEN);
+                    getViewByPosition(_position,mListView).setBackgroundColor(Color.GREEN);
+                 //   mListView.getChildAt(i).setBackgroundColor(Color.GREEN);
                 }else{
-                    mListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                    getViewByPosition(_position,mListView).setBackgroundColor(Color.TRANSPARENT);
+
+                    //  mListView.getChildAt(i).setBackgroundColor(Color.RED);
                 }
             }
         }
@@ -596,10 +594,19 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
 
     alertDialog =dialogBuilder.create();
     alertDialog.show();
+ }
 
-    Log.d("a","a");
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
     }
-
 
 public void wyswietl_liste(Context con, final ArrayList<String> lista, final ArrayList<String> lista_id){
 
@@ -610,12 +617,6 @@ public void wyswietl_liste(Context con, final ArrayList<String> lista, final Arr
         }
     })
             .setNeutralButton("Powrót",null)
-            .setNegativeButton("Szczegóły", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    alertDialog.dismiss();
-                }
-            })
             ;
     LayoutInflater inflater = (LayoutInflater)   con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     view = inflater.inflate(R.layout.dostepne_samochody,null);
