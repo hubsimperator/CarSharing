@@ -3,6 +3,7 @@ package com.example.carsharing.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +26,8 @@ public class MojeRezerwacje extends AppCompatActivity {
     ImageView anuluj_rezerwacje_bt;
     ImageView zakoncz_rezerwacje_bt;
 
+    ImageView lokalizacja_bt;
+
     AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,17 @@ public class MojeRezerwacje extends AppCompatActivity {
        Status=extras.getString("Status");
        GrupaProjektu=extras.getString("GrupaProjektu");
        NrProjektu=extras.getString("NrProjektu");
+
+
+       lokalizacja_bt=(ImageView) findViewById(R.id.lokalizuj_bt);
+       lokalizacja_bt.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent mapIntent = new Intent(getApplicationContext(),Mapa.class);
+               mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+               startActivity(mapIntent);
+           }
+       });
 
 
        zakoncz_rezerwacje_bt=(ImageView) findViewById(R.id.zakoncz_bt);

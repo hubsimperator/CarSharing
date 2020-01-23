@@ -10,17 +10,23 @@
     <TextView
         android:id="@+id/textView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         android:textColor="#1f90cc"
-        android:textSize="23dp"
+
+        android:layout_weight="30"
+        android:textSize="25dp"
         android:text="TextView1" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="20dp"
+        android:layout_weight="30"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
 
 
         android:orientation="horizontal">
@@ -28,9 +34,10 @@
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="20dp"
             android:textColor="#aeaead"
+
             android:textStyle="bold"
             android:maxLines="2"
             android:singleLine="false"
@@ -40,13 +47,12 @@
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="#aeaead"
             android:singleLine="false"
             android:maxLines="4"
-
             android:layout_weight="1"
             android:text="TextView3" />
     </LinearLayout>
