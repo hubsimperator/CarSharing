@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.carsharing.JSON.JSON_moje_rezerwacje_new;
 import com.example.carsharing.Other.GeoProcessing;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje;
 import com.example.carsharing.JSON.JSON_telefon_dyspozytor;
@@ -114,8 +115,10 @@ public class Menu extends AppCompatActivity {
         mojerezerwacje_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSON_moje_rezerwacje json_moje_rezerwacje = new JSON_moje_rezerwacje();
-                json_moje_rezerwacje.StartUpdate("", "", Menu.this);
+               // JSON_moje_rezerwacje json_moje_rezerwacje = new JSON_moje_rezerwacje();
+                //json_moje_rezerwacje.StartUpdate("", "", Menu.this);
+                JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
+                json_moje_rezerwacje_new.StartUpdate(Menu.this);
             }
         });
 

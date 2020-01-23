@@ -1,6 +1,8 @@
 package com.example.carsharing.Other;
 
-public class Obiekt_Rezerwacja {
+import java.io.Serializable;
+
+public class Obiekt_Rezerwacja implements Serializable {
 	private Long nr;
 	private String BookingId;
 	private String StartDate;
