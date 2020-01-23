@@ -554,10 +554,8 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
                 data_poczatkowa=dostepnoscList.get(position).getStart_date()+":00";
                 koniec_et.setText(dostepnoscList.get(position).getEnd_date()+":00");
                 data_koncowa=dostepnoscList.get(position).getEnd_date()+":00";
-
                 alertDialog.dismiss();
             }
-
         }
     })
             .setNeutralButton("Powrót",null);
@@ -582,8 +580,7 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
                 if(_position == i+mListView.getFirstVisiblePosition() ){
                     position=_position;
                     mListView.getChildAt(i).setBackgroundColor(Color.GREEN);
-                }else{
-                     mListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                }else{                     mListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
                 }
             }
         }
@@ -716,7 +713,6 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
            poczatek_et.setText(data_poczatkowa);
 
        }else{
-
            data_koncowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minuteFinal)+":00";
            koniec_et.setText(data_koncowa);
        }

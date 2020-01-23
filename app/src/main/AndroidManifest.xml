@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.carsharing">
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -12,11 +17,11 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
-
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -25,35 +30,68 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".Activity.ZmienCzasRezerwacji" android:screenOrientation="portrait"></activity>
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".Activity.Mapa"
+            android:label="@string/title_activity_mapa"></activity>
+        <activity
+            android:name=".Activity.ZmienCzasRezerwacji"
+            android:screenOrientation="portrait" />
         <activity android:name=".Other.QRScanner" />
         <activity android:name=".Other.Update" />
-
-
         <activity android:name=".Activity.Alarm" />
-
-
-        <activity android:name=".Activity.RozpoczecieJazdy" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.Login"     android:screenOrientation="portrait"  >
+        <activity
+            android:name=".Activity.RozpoczecieJazdy"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="Login" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TakePhoto" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.Menu" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.MojeRezerwacje" android:screenOrientation="portrait" />
+        <activity
+            android:name=".TakePhoto"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Menu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MojeRezerwacje"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Rezerwacja"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-        <activity android:name=".Activity.ListaRezerwacji" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.OcenaAuta" android:screenOrientation="portrait" />
-        <activity android:name=".Activity.OcenaAuta_po" android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ListaRezerwacji"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.OcenaAuta"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.OcenaAuta_po"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -64,6 +102,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -74,4 +113,5 @@
             </intent-filter>
         </service>
     </application>
+
 </manifest>
