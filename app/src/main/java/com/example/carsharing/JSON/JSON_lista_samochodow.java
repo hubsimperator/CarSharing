@@ -95,10 +95,12 @@ public class JSON_lista_samochodow {
 
     @Override
     protected void onPostExecute(String result) {
-        alertDialog.dismiss();
+        alertDialog.dismiss();/*
         JSON_dostepnosc_aut json_dostepnosc_aut=new JSON_dostepnosc_aut();
         json_dostepnosc_aut.StartUpdate(StartDate,Parking,con);
-        /*
+
+        */
+
         if(lista_samochodow .size()>0) {
             Rezerwacja res = new Rezerwacja();
             res.wyswietl_liste(con, lista_samochodow, lista_samochodow_id);
@@ -108,7 +110,7 @@ public class JSON_lista_samochodow {
             json_dostepnosc_aut.StartUpdate(StartDate,Parking,con);
         }
 
-         */
+
         }
     }
 
