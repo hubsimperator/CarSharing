@@ -87,6 +87,9 @@
             android:name=".Activity.ListaRezerwacji"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Activity.ListaRezerwacji_new"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Activity.OcenaAuta"
             android:screenOrientation="portrait" />
         <activity

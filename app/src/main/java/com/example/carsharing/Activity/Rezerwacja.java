@@ -532,7 +532,7 @@ public boolean sprawdz_czy_dane_niepuste(int param) {
 }
 
 public ArrayList<Obiekt_Dostepnosc> dostepnoscList=new ArrayList<>();
-public DostepnoscListAdapter adapter;
+    public DostepnoscListAdapter adapter;
 
 public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostepnoscListsc,String _parking){
 

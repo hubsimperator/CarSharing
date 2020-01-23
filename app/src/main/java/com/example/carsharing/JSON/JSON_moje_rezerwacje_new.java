@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carsharing.Activity.ListaRezerwacji;
+import com.example.carsharing.Activity.ListaRezerwacji_new;
 import com.example.carsharing.DataHandler.LoginDataHandler;
 import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.Other.Obiekt_Rezerwacja;
@@ -32,29 +34,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class JSON_moje_rezerwacje extends AppCompatActivity {
+public class JSON_moje_rezerwacje_new extends AppCompatActivity {
 
     Obiekt_Rezerwacja rezerwacja;
-    ArrayList<HashMap<String, String>> lista_rezerwacji;
-    HashMap<String, String> lista_pola_rezerwacji;
 
     String user_name;
-
     Context con ;
     HttpAsyncTask2 mTask;
-    public static ArrayList<String> lista_samochodow;
+    public ArrayList<Obiekt_Rezerwacja> lista_rezerwacji;
 
-    public void StartUpdate(String Login, String Password, Context context) {
+    public void StartUpdate(Context context) {
         con = context;
-     //   er=error;
-        lista_samochodow=new ArrayList<>();
-
-
-
-
-
         mTask=new HttpAsyncTask2();
-
         mTask.execute("https://notif2.sng.com.pl/api/CsAppGetMyBookings");
     }
 
@@ -85,7 +76,7 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
 
         return result;
     }
-    private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
+    private class HttpAsyncTask2 extends AsyncTask<String, String, ArrayList<Obiekt_Rezerwacja>> {
         public AlertDialog alertDialog;
         @Override
         protected void onPreExecute() {
@@ -98,7 +89,6 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
                     .setIcon(android.R.drawable.ic_input_add)
                     .setCancelable(false)
                     .show();
-
             try {
                 LoginDataHandler LDH = new LoginDataHandler(con);
                 Cursor getdata = LDH.getData();
@@ -115,29 +105,27 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
         }
 
 
-
         String post_result;
 
 
         @Override
-        protected String doInBackground(String... urls) {
+        protected ArrayList<Obiekt_Rezerwacja> doInBackground(String... urls) {
             post_result=POST(urls[0]);
+            ArrayList<Obiekt_Rezerwacja> rezerwacjalist=new ArrayList<>();
             if(post_result==null){
-
                 alertDialog.dismiss();
-
                 finish();
                 mTask.cancel(true);
             }else {
-                deserialize_json(post_result);
+               rezerwacjalist= deserialize_json(post_result);
                 Log.d("aaa", "a");
             }
-            return null;
+            return rezerwacjalist;
         }
 
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(ArrayList<Obiekt_Rezerwacja> result) {
 
             Log.d("tt","aa");
         if(post_result.equals("[]")){
@@ -151,10 +139,12 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
             log.close();
         }
 
-        ListaRezerwacji listaRezerwacji;
-//        listaRezerwacji=new ListaRezerwacji(lista_rezerwacji);
-        Intent intent= new Intent(con,ListaRezerwacji.class);
-        intent.putExtra("lista_rezerwacji",lista_rezerwacji);
+     //   Bundle bundle = new Bundle();
+      ///  bundle.s("KEY", lista_rezerwacji);
+
+        Intent intent= new Intent(con,ListaRezerwacji_new.class);
+     //   intent.putExtras(bundle);
+         intent.putExtra("lista_rezerwacji",lista_rezerwacji);
         con.startActivity(intent);
     }
     }
@@ -169,34 +159,22 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
     }
 
 
-    public void deserialize_json(String input)
+    public ArrayList<Obiekt_Rezerwacja> deserialize_json(String input)
     {
-        Log.d("output",input);
-
-
         JSONArray array = null;
-        String dataname;
-
         try {
             array = new JSONArray(input);
-
         } catch (JSONException e) {
             Logs_DataHandler log = new Logs_DataHandler(con);
             log.inputLog( "JSON_moje_rezerwacje.class 003: "+e.toString());
             log.close();
         }
-
         try {
-            rezerwacja=new Obiekt_Rezerwacja();
-            lista_rezerwacji=new ArrayList<>();
-
     try {
+        lista_rezerwacji=new ArrayList<>();
         for (int i = 0; i < array.length(); i++) {
-
-            lista_pola_rezerwacji = new HashMap<>();
-
-
             JSONObject row = array.getJSONObject(i);
+            rezerwacja=new Obiekt_Rezerwacja();
             rezerwacja.setBookingId(row.getString("BookingId"));
             rezerwacja.setStartDate(row.getString("StartDate"));
             rezerwacja.setEndDate(row.getString("EndDate"));
@@ -212,24 +190,7 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
             rezerwacja.setGrupaProjektu(row.getString("GRUPA_PROJEKTU"));
             rezerwacja.setNrProjektu(row.getString("NR_PROJEKTU"));
 
-            lista_pola_rezerwacji.put("BookingId", rezerwacja.getBookingId());
-            lista_pola_rezerwacji.put("StartDate", rezerwacja.getStartDate());
-            lista_pola_rezerwacji.put("EndDate", rezerwacja.getEndDate());
-            lista_pola_rezerwacji.put("AllDay", rezerwacja.getAllDay());
-            lista_pola_rezerwacji.put("Subject", rezerwacja.getSubject());
-            lista_pola_rezerwacji.put("Eit_Resource", rezerwacja.getEit_Resource());
-            lista_pola_rezerwacji.put("Eit_ResourceName", rezerwacja.getEit_ResourceName());
-            lista_pola_rezerwacji.put("Eit_Uzytkownik", rezerwacja.getEit_Uzytkownik());
-            lista_pola_rezerwacji.put("ReminderId", rezerwacja.getReminderId());
-            lista_pola_rezerwacji.put("Location", rezerwacja.getLocation());
-            lista_pola_rezerwacji.put("Description", rezerwacja.getDescription());
-            lista_pola_rezerwacji.put("Status", rezerwacja.getStatus());
-            lista_pola_rezerwacji.put("GrupaProjektu", rezerwacja.getGrupaProjektu());
-            lista_pola_rezerwacji.put("NrProjektu", rezerwacja.getNrProjektu());
-
-            lista_rezerwacji.add(lista_pola_rezerwacji);
-
-            Log.d("rezerwacja", rezerwacja.getStartDate());
+            lista_rezerwacji.add(rezerwacja);
         }
 
     }catch (NullPointerException ne){
@@ -243,5 +204,6 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
             log.close();
         }
 
+        return lista_rezerwacji;
     }
 }

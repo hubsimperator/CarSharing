@@ -1,5 +1,7 @@
 package com.example.carsharing;
 
+import java.io.Serializable;
+
 public class Obiekt_Dostepnosc {
     private String samochod;
     private String samochodID;
