@@ -49,6 +49,7 @@ public class MojeRezerwacje extends AppCompatActivity {
            public void onClick(View v) {
                Intent mapIntent = new Intent(getApplicationContext(),Mapa.class);
                mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+               mapIntent.putExtra("BookingId", BookingId);
                startActivity(mapIntent);
            }
        });

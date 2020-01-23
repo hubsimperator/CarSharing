@@ -2,8 +2,16 @@ package com.example.carsharing.Activity;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.carsharing.JSON.JSON_lokalizacja_samochodu;
+import com.example.carsharing.Obiekt_LokalizacjaSamochodu;
 import com.example.carsharing.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,9 +20,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Map;
+
 public class Mapa extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    public static GoogleMap mMap;
+String BookingId;
+
+    public static TextView samochod_tv;
+    public static TextView bateria_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +38,37 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Bundle extras= getIntent().getExtras();
+        BookingId=extras.getString("BookingId");
+
+        LayoutInflater inflater = (LayoutInflater)   Mapa.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View view = findViewById(R.id.maap);
+
+         samochod_tv=(TextView) view.findViewById(R.id.samochod_tv);
+         bateria_tv=(TextView) view.findViewById(R.id.bateria_tv);
+
+
+
+        ImageView back_bt = (ImageView) findViewById(R.id.back_bt);
+
     }
 
+    public void setCarPosition(Obiekt_LokalizacjaSamochodu obiekt_lokalizacjaSamochodu) {
+
+
+       samochod_tv.setText(obiekt_lokalizacjaSamochodu.getResourceName());
+       bateria_tv.setText(obiekt_lokalizacjaSamochodu.getBatery());
+
+       double Lat=Double.valueOf(obiekt_lokalizacjaSamochodu.getLatitude());
+       double Lon=Double.valueOf(obiekt_lokalizacjaSamochodu.getLatitude());
+
+        LatLng auto = new LatLng(Lat, Lon);
+
+        mMap.addMarker(new MarkerOptions().position(auto).title("auto"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(auto,18.0f));
+    }
 
     /**
      * Manipulates the map once available.
@@ -39,11 +82,9 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        JSON_lokalizacja_samochodu json_lokalizacja_samochodu=new JSON_lokalizacja_samochodu();
+        json_lokalizacja_samochodu.StartUpdate(BookingId, Mapa.this);
     }
 }
 

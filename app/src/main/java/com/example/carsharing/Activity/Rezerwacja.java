@@ -672,7 +672,6 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
 
         try {
             String s[]=godzina_poczatkowa.split(":");
-
             c.set(Calendar.HOUR_OF_DAY,Integer.valueOf(s[0]));
             c.set(Calendar.MINUTE,Integer.valueOf(s[1]));
             c.add(Calendar.MINUTE, DEFAULT_ADDTIME_MIN);
