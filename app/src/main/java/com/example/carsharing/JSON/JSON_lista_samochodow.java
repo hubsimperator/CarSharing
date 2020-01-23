@@ -2,9 +2,11 @@ package com.example.carsharing.JSON;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.example.carsharing.Activity.MojeRezerwacje;
 import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.Activity.Rezerwacja;
 
@@ -106,8 +108,23 @@ public class JSON_lista_samochodow {
             res.wyswietl_liste(con, lista_samochodow, lista_samochodow_id);
         }
         else{
-            JSON_dostepnosc_aut json_dostepnosc_aut=new JSON_dostepnosc_aut();
-            json_dostepnosc_aut.StartUpdate(StartDate,Parking,con);
+            alertDialog=new AlertDialog.Builder(con)
+                    .setTitle("Uwaga")
+                    .setMessage("Brak dostępnych pojazdów w podanym terminie. Czy chcesz sprawdzić dostępność pojazdów w najbliższym czasie ?")
+                    .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            JSON_dostepnosc_aut json_dostepnosc_aut=new JSON_dostepnosc_aut();
+                            json_dostepnosc_aut.StartUpdate(StartDate,Parking,con);
+                        }
+                    })
+                    .setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            alertDialog.dismiss();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
         }
 
 
