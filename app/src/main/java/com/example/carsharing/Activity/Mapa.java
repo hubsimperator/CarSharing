@@ -62,7 +62,7 @@ String BookingId;
        bateria_tv.setText(obiekt_lokalizacjaSamochodu.getBatery());
 
        double Lat=Double.valueOf(obiekt_lokalizacjaSamochodu.getLatitude());
-       double Lon=Double.valueOf(obiekt_lokalizacjaSamochodu.getLatitude());
+       double Lon=Double.valueOf(obiekt_lokalizacjaSamochodu.getLongitude());
 
         LatLng auto = new LatLng(Lat, Lon);
 
