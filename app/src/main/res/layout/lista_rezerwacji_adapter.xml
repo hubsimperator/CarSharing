@@ -15,7 +15,7 @@
         android:textStyle="bold"
         android:textSize="20dp"
         android:gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
 
         android:text="Temat rezerwacji" />
 
@@ -25,6 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="18dp"
+        android:layout_marginTop="10dp"
+
         android:layout_marginLeft="20dp"
 
         android:text="Data poczatkowa" />
