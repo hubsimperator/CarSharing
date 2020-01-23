@@ -114,6 +114,8 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         Bundle extras= getIntent().getExtras();
         DEFAULT_PARKING_NAME=extras.getString("nearestParking");
 
+
+
         JSON_lista_przypomnien json_lista_przypomnien=new JSON_lista_przypomnien();
         json_lista_przypomnien.StartUpdate(Rezerwacja.this);
 
@@ -683,7 +685,7 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
             timePickerDialog.updateTime(hour,minute);
         }catch (Exception ne){
             Logs_DataHandler log = new Logs_DataHandler(this);
-            log.inputLog( "Rezerwacja.class 005: "+ne.toString());
+            log.inputLog( "Rezerwacja.class 005: "+ne.toString()+"\n c: "+c.toString()+"\n hour: "+String.valueOf(hour)+"\n hour: "+String.valueOf(minute)+"\n hour: "+godzina_poczatkowa.toString());
             log.close();
         }
 
