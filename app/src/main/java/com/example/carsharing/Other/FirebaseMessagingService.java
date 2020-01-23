@@ -25,9 +25,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        Log.d("Firebase","****************");
-        Log.d("Firebase","Pacz dziala");
-        Log.d("Firebase","****************");
         if (remoteMessage.getData().size() > 0) {
             try {
                 JSONObject data = new JSONObject(remoteMessage.getData());
@@ -45,6 +42,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     String title = remoteMessage.getNotification().getTitle();
 
                     String message = remoteMessage.getNotification().getBody();
+                    //String Langi = remoteMessage.getNotification().;
+                    //String Longi;
                     String click_action = remoteMessage.getNotification().getClickAction();
                     sendNotification(title, message, click_action);
                 }catch(Exception e){
