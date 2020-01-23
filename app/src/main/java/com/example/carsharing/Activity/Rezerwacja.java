@@ -536,8 +536,6 @@ public DostepnoscListAdapter adapter;
 
 public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostepnoscListsc,String _parking){
 
-    Toast.makeText(con,"Brak dostępnych samochodów w wybranym terminie. Sprawdzam dostępność w najbliższym czasie ...",Toast.LENGTH_LONG).show();
-
     dostepnoscList=_dostepnoscListsc;
     adapter=new DostepnoscListAdapter(con,R.layout.dostepnosc_layout_adapter,_dostepnoscListsc,con);
 
@@ -676,7 +674,6 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
 
         try {
             String s[]=godzina_poczatkowa.split(":");
-
             c.set(Calendar.HOUR_OF_DAY,Integer.valueOf(s[0]));
             c.set(Calendar.MINUTE,Integer.valueOf(s[1]));
             c.add(Calendar.MINUTE, DEFAULT_ADDTIME_MIN);
