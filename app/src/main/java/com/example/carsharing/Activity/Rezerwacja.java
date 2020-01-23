@@ -534,8 +534,6 @@ public DostepnoscListAdapter adapter;
 
 public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostepnoscListsc,String _parking){
 
-    Toast.makeText(con,"Brak dostępnych samochodów w wybranym terminie. Sprawdzam dostępność w najbliższym czasie ...",Toast.LENGTH_LONG).show();
-
     dostepnoscList=_dostepnoscListsc;
     adapter=new DostepnoscListAdapter(con,R.layout.dostepnosc_layout_adapter,_dostepnoscListsc,con);
 
