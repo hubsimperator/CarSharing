@@ -46,3 +46,4 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
+
