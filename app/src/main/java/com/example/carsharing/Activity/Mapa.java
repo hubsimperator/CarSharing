@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +31,9 @@ String BookingId;
 
     public static TextView samochod_tv;
     public static TextView bateria_tv;
+    public static Button maptypes_bt;
+
+    int rodzaj_mapy=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,17 @@ String BookingId;
 
          samochod_tv=(TextView) view.findViewById(R.id.samochod_tv);
          bateria_tv=(TextView) view.findViewById(R.id.bateria_tv);
+         maptypes_bt=(Button) view.findViewById(R.id.maptypes_bt);
 
+         maptypes_bt.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 rodzaj_mapy++;
+                 if(rodzaj_mapy>1) rodzaj_mapy=0;
+                 if(rodzaj_mapy==0) mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                 else if(rodzaj_mapy==1) mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+             }
+         });
 
 
         ImageView back_bt = (ImageView) findViewById(R.id.back_bt);

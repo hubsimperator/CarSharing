@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:layout_height="90dp"
             android:visibility="visible"
-            app:srcCompat="@drawable/anuluj" />
+            app:srcCompat="@drawable/pokaznamapie" />
 
         <ImageView
             android:id="@+id/potwierdz_bt"
