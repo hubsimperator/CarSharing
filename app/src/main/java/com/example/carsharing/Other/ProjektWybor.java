@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.carsharing.Activity.Rezerwacja;
 import com.example.carsharing.Activity.RozpoczecieJazdy;
@@ -36,6 +37,8 @@ public class ProjektWybor {
     String grupa_projektu;
     private People selectedPerson;
 
+    AutoCompleteTextView actv;
+
 
     public void WyborProjektu(final Context con1,int _projekt){
     projekt=_projekt;
@@ -51,25 +54,32 @@ public class ProjektWybor {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
-                    try {
-                        grupa_projektu=projekt_sp.getSelectedItem().toString();
+                    if(actv.getText().length()>2){
+                        try {
+                            grupa_projektu=projekt_sp.getSelectedItem().toString();
 
-                        if(projekt==0) {
-                            Rezerwacja rez = new Rezerwacja();
-                            rez.wyswietl_projekt(con1, numer_projektu, grupa_projektu);
+                            if(projekt==0) {
+                                Rezerwacja rez = new Rezerwacja();
+                                rez.wyswietl_projekt(con1, numer_projektu, grupa_projektu);
+                            }
+                            else {
+                                RozpoczecieJazdy rez = new RozpoczecieJazdy();
+                                rez.wyswietl_projekt(con1, numer_projektu, grupa_projektu);
+                            }
+                            alertDialog.dismiss();
+                        }catch (Exception ne){
+                            alertDialog.dismiss();
+                            Logs_DataHandler log = new Logs_DataHandler(con1);
+                            log.inputLog( "ProjektWybor.class 002: "+ne.toString());
+                            log.close();
+
                         }
-                        else {
-                            RozpoczecieJazdy rez = new RozpoczecieJazdy();
-                            rez.wyswietl_projekt(con1, numer_projektu, grupa_projektu);
-                        }
-                        alertDialog.dismiss();
-                    }catch (Exception ne){
-                        alertDialog.dismiss();
-                        Logs_DataHandler log = new Logs_DataHandler(con1);
-                        log.inputLog( "ProjektWybor.class 002: "+ne.toString());
-                        log.close();
+                    }else{
+
+                        Toast.makeText(con1,"Wybierz projekt !",Toast.LENGTH_LONG).show();
 
                     }
+
 
                 }
             });
@@ -116,12 +126,13 @@ public class ProjektWybor {
         log.close();
     }
 
-    final AutoCompleteTextView actv = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
+   actv = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
 
     projekt_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             numer_proj.clear();
+            actv.setText("");
             try {
                 Projekty_DataHandler myDB = new Projekty_DataHandler(con1);
                 Cursor getdata = myDB.getNumber(projekt_sp.getSelectedItem().toString());
@@ -178,18 +189,6 @@ public class ProjektWybor {
     });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     dialogBuilder.setView(view);
 
     alertDialog =dialogBuilder.create();
@@ -197,7 +196,6 @@ public class ProjektWybor {
 
 
 }
-
 
     private List<People> retrievePeople() {
         List<People> list = new ArrayList<People>();

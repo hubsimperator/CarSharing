@@ -65,7 +65,6 @@ String BookingId;
              }
          });
 
-
         ImageView back_bt = (ImageView) findViewById(R.id.back_bt);
         back_bt.setOnClickListener(new View.OnClickListener() {
             @Override

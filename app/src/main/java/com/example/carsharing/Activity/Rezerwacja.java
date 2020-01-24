@@ -186,6 +186,8 @@ numer_proj=new ArrayList<>();
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 parking=parking_sp.getSelectedItem().toString();
+                wybrany_samochod_tv.setText("");
+
             }
 
             @Override
@@ -299,12 +301,12 @@ numer_proj=new ArrayList<>();
                 c.set(Calendar.DAY_OF_MONTH,day);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(Rezerwacja.this,Rezerwacja.this,year,month,day);
-                datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+
+                Calendar c2= Calendar.getInstance();
+                datePickerDialog.getDatePicker().setMinDate(c2.getTimeInMillis());
                 datePickerDialog.show();
             }
         });
-
-
 
         koniec_et=(EditText) findViewById(R.id.koniec_et);
         koniec_et.setOnClickListener(new View.OnClickListener() {
@@ -502,7 +504,7 @@ public boolean sprawdz_czy_data_poprawna(){
 
 public boolean sprawdz_czy_dane_niepuste(int param) {
     if (param == 0) {
-        if ((subject_et.length() > 1 || subject_et.getHint().length()>1) && poczatek_et.length() > 1 && koniec_et.length() > 1 && projekt_et.length() > 1) {
+        if ((subject_et.length() > 1 || subject_et.getHint().length()>1) && poczatek_et.length() > 1 && koniec_et.length() > 1 && projekt_et.length() > 1 && wybrany_samochod_tv.getText().length()>2) {
             return true;
         } else {
             alertDialog = new AlertDialog.Builder(Rezerwacja.this)
@@ -708,6 +710,32 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
            data_bez_godzin=yearFinal+"-"+monthFinal+"-"+dayFinal;
            godzina_poczatkowa=(hourFinal)+":"+(minuteFinal);
            poczatek_et.setText(data_poczatkowa);
+           try {
+               Calendar c= Calendar.getInstance();
+               String s[]=godzina_poczatkowa.split(":");
+               c.set(Calendar.HOUR_OF_DAY,Integer.valueOf(s[0]));
+               c.set(Calendar.MINUTE,Integer.valueOf(s[1]));
+               c.add(Calendar.MINUTE, DEFAULT_ADDTIME_MIN);
+               hour=c.get(Calendar.HOUR_OF_DAY);
+               minute=c.get(Calendar.MINUTE);
+               if(hour<10){
+                   hourFinal="0"+hour;
+               }else{
+                   hourFinal=Integer.toString(hour);
+               }
+               if(minute<10){
+                   minuteFinal="0"+Integer.toString(minute);
+               }else{
+                   minuteFinal=Integer.toString(minute);
+               }
+               String data_poczatkowa =yearFinal+"-"+monthFinal+"-"+dayFinal+" "+hourFinal+":"+(minuteFinal)+":00";
+               koniec_et.setText(data_poczatkowa);
+
+           }catch (Exception ne){
+               Logs_DataHandler log = new Logs_DataHandler(this);
+               log.inputLog( "Rezerwacja.class 006: "+ne.toString());
+               log.close();
+           }
 
        }else{
            data_koncowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minuteFinal)+":00";
