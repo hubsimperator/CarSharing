@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,9 +35,7 @@ public class ListaRezerwacji_new extends AppCompatActivity implements Serializab
     ArrayList<Obiekt_Rezerwacja> lista_rezerwacji;
     public ListaRezerwacjiAdapter adapter;
 
-
-    public static String[] headers={"Temat","Data","Samochód"};
-    public static String[][] dane;
+    Integer position=null;
 
     AlertDialog alertDialog;
     View view;
@@ -69,6 +69,22 @@ public class ListaRezerwacji_new extends AppCompatActivity implements Serializab
         final ListView mListView = (ListView) findViewById(R.id.listview);
         mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int _position, long id) {
+                finish();
+                Intent intent = new Intent(getApplicationContext(), MojeRezerwacje.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("BookingId",lista_rezerwacji.get(_position).getBookingId());
+                intent.putExtra("StartDate",lista_rezerwacji.get(_position).getStartDate());
+                intent.putExtra("EndDate",lista_rezerwacji.get(_position).getEndDate());
+                intent.putExtra("Status",lista_rezerwacji.get(_position).getStatus());
+                intent.putExtra("GrupaProjektu",lista_rezerwacji.get(_position).getGrupaProjektu());
+                intent.putExtra("NrProjektu",lista_rezerwacji.get(_position).getNrProjektu());
+
+                startActivity(intent);
+            }
+        });
 
      /*
      dane=new String[lista_rezerwacji.size()][3];
