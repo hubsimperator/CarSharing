@@ -69,15 +69,23 @@ Context con;
 
         for(int i=0;i<parkingi.size();i++){
             LatLng coordinates=ReverseGeoCoding(parkingi.get(i));
-            distance.add(distance(coordinates.latitude,coordinates.longitude,location.latitude,location.longitude));
+            if(coordinates != null) {
+                distance.add(distance(coordinates.latitude, coordinates.longitude, location.latitude, location.longitude));
+            }
         }
 
         Log.d("dystans",distance.toString());
 
-        int minIndex = distance.indexOf(Collections.min(distance));
+        String parking;
+        if(distance.size()==0) {
+            parking=parkingi.get(0);
+        }else{
+            int minIndex = distance.indexOf(Collections.min(distance));
+            parking=parkingi.get(minIndex);
 
+        }
         Menu menu = new Menu();
-        menu.setNearestParking(parkingi.get(minIndex));
+        menu.setNearestParking(parking);
     }
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {
