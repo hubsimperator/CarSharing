@@ -61,12 +61,12 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     String DEFAULT_DISTANCE="10";
     String DEFAULT_PARKING_NAME="Wałowa";
     String DEFAULT_PRZYPOMNIENIE="15 minut";
-    String DEFAULT_GRUPA_PROJ;
-    String DEFAULT_NUMER_PROJ;
+    String DEFAULT_GRUPA_PROJ="";
+    String DEFAULT_NUMER_PROJ="";
 
 
-    int year,month,day,hour,minute;
-    String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
+    int year=0,month=0,day=0,hour=0,minute=0;
+    String dayFinal="",monthFinal="",yearFinal="",hourFinal="",minuteFinal="";
     public static EditText poczatek_et;
     public static EditText koniec_et;
     public static EditText projekt_et;
@@ -74,14 +74,14 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public static EditText dystans_et;
 
     public static String data_poczatkowa;
-    String data_bez_godzin;
-    String godzina_poczatkowa;
-    String data_koncowa;
+    String data_bez_godzin="";
+    String godzina_poczatkowa="";
+    String data_koncowa="";
     String parking="";
     public static String eit_Resource="";
-    public static String grupa_projektu;
-    public static String nazwa_projektu;
-    public static String przypomnienie_id;
+    public static String grupa_projektu="";
+    public static String nazwa_projektu="";
+    public static String przypomnienie_id="";
 
     public static TextView label_samochod_tv;
     public static TextView wybrany_samochod_tv;
@@ -684,7 +684,7 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
             timePickerDialog.updateTime(hour,minute);
         }catch (Exception ne){
             Logs_DataHandler log = new Logs_DataHandler(this);
-            log.inputLog( "Rezerwacja.class 005: "+ne.toString()+"\n c: "+c.toString()+"\n hour: "+String.valueOf(hour)+"\n hour: "+String.valueOf(minute)+"\n hour: "+godzina_poczatkowa.toString());
+            log.inputLog( "Rezerwacja.class 005: "+ne.toString()+"\n c: "+c.toString()+"\n hour: "+String.valueOf(hour)+"\n minute: "+String.valueOf(minute)+"\n godzina_poczatkowa: "+godzina_poczatkowa.toString());
             log.close();
         }
 
