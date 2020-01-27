@@ -246,7 +246,7 @@ numer_proj=new ArrayList<>();
                 if(sprawdz_czy_data_poprawna()) {
                     if (sprawdz_czy_dane_niepuste(1)) {
                         JSON_lista_samochodow json_lista_samochodow = new JSON_lista_samochodow();
-                        json_lista_samochodow.StartUpdate(data_poczatkowa, data_koncowa, parking, dystans_et.getText().toString(), Rezerwacja.this);
+                        json_lista_samochodow.StartUpdate(poczatek_et.getText().toString(), koniec_et.getText().toString(), parking, dystans_et.getText().toString(), Rezerwacja.this);
                     }
                 }
             }
