@@ -363,7 +363,7 @@ numer_proj=new ArrayList<>();
                                 public void onClick(DialogInterface dialog, int which) {
                                     if(!eit_Resource.matches("") ) {
                                         JSON_potwierdzenie_rezerwacji json_potwierdzenie_rezerwacji = new JSON_potwierdzenie_rezerwacji();
-                                        json_potwierdzenie_rezerwacji.StartUpdate(data_poczatkowa, data_koncowa, "0", subject_et.getText().toString(), eit_Resource, "", przypomnienie_id, "", "", "", "", grupa_projektu, nazwa_projektu, Rezerwacja.this);
+                                        json_potwierdzenie_rezerwacji.StartUpdate(poczatek_et.getText().toString(), koniec_et.getText().toString(), "0", subject_et.getText().toString(), eit_Resource, "", przypomnienie_id, "", "", "", "", grupa_projektu, nazwa_projektu, Rezerwacja.this);
                                     }else{
                                         Toast.makeText(Rezerwacja.this,"Najpierw kliknij w lupę i wybierz auto",Toast.LENGTH_LONG).show();
                                         alertDialog.dismiss();
