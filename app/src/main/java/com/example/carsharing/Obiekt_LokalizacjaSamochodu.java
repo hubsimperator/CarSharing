@@ -6,6 +6,22 @@ public class Obiekt_LokalizacjaSamochodu {
     private String Latitude;
     private String Longitude;
     private String Batery;
+    private String CzasOdczytu;
+
+
+
+    public String getCzasOdczytu() {
+        return CzasOdczytu;
+    }
+
+    public void setCzasOdczytu(String czasOdczytu) {
+        CzasOdczytu = czasOdczytu;
+    }
+
+
+    public Obiekt_LokalizacjaSamochodu(String czasOdczytu) {
+        CzasOdczytu = czasOdczytu;
+    }
 
     public String getResourceName() {
         return ResourceName;
@@ -39,10 +55,11 @@ public class Obiekt_LokalizacjaSamochodu {
         Batery = batery;
     }
 
-    public Obiekt_LokalizacjaSamochodu(String resourceName, String latitude, String longitude, String batery) {
+    public Obiekt_LokalizacjaSamochodu(String resourceName, String latitude, String longitude, String batery,String czas) {
         ResourceName = resourceName;
         Latitude = latitude;
         Longitude = longitude;
         Batery = batery;
+        CzasOdczytu=czas;
     }
 }

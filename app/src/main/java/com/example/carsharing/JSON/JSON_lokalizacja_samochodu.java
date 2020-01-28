@@ -3,6 +3,7 @@ package com.example.carsharing.JSON;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.carsharing.Activity.Mapa;
 import com.example.carsharing.DataHandler.Logs_DataHandler;
@@ -107,28 +108,32 @@ public class JSON_lokalizacja_samochodu {
         Obiekt_LokalizacjaSamochodu obiekt_lokalizacjaSamochodu = null;
         try {
             array = new JSONArray(input);
+            try {
+                for (int i = 0; i <array.length(); i++) {
+                    JSONObject row = array.getJSONObject(i);
+                    String ResourceName = row.getString("ResourceName");
+                    String Latitude=row.getString("Latitude");
+                    String Longitude=row.getString("Longitude");
+                    String Batery=row.getString("Batery");
+                    String Czas=row.getString("CzasOdczytu");
+                    obiekt_lokalizacjaSamochodu=new Obiekt_LokalizacjaSamochodu(ResourceName,Latitude,Longitude,Batery,Czas);
+
+                }
+            }
+            catch (JSONException e) {                Logs_DataHandler log = new Logs_DataHandler(con);
+                log.inputLog( "JSON_lista_samochodow.class 003: "+e.toString());
+                log.close();
+            }
 
         } catch (JSONException e) {
             Logs_DataHandler log = new Logs_DataHandler(con);
             log.inputLog( "JSON_lokalizacja_samochodu.class 002: "+e.toString());
             log.close();
+        }catch (NullPointerException ne){
+            Log.d("a","Blad");
         }
 
-        try {
-            for (int i = 0; i <array.length(); i++) {
-                JSONObject row = array.getJSONObject(i);
-               String ResourceName = row.getString("ResourceName");
-               String Latitude=row.getString("Latitude");
-               String Longitude=row.getString("Longitude");
-               String Batery=row.getString("Batery");
-               obiekt_lokalizacjaSamochodu=new Obiekt_LokalizacjaSamochodu(ResourceName,Latitude,Longitude,Batery);
 
-            }
-        }
-        catch (JSONException e) {                Logs_DataHandler log = new Logs_DataHandler(con);
-            log.inputLog( "JSON_lista_samochodow.class 003: "+e.toString());
-            log.close();
-        }
 
         return obiekt_lokalizacjaSamochodu;
 

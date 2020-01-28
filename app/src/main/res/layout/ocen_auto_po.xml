@@ -18,8 +18,9 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Stan pojazdu przed zakończeniem rezerwacji"
+            android:text="Stan pojazdu po zakończeniu rezerwacji"
             android:textColor="#1f90cc"
             android:textSize="25dp" />
 
@@ -38,11 +39,10 @@
                 android:text="Samochód nieuszkodzony" />
             <Switch
                 android:id="@+id/switch1"
-                android:gravity=""
+                android:layout_width="match_parent"
                 android:thumbTint="#1f90cc"
                 android:trackTint="#1f90cc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 />
 
         </LinearLayout>
@@ -63,9 +63,10 @@
                 android:text="Samochód czysty" />
             <Switch
                 android:id="@+id/switch2"
-                android:gravity=""
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:thumbTint="#1f90cc"
+                android:trackTint="#1f90cc"
+                android:layout_height="match_parent"
                 />
 
         </LinearLayout>
@@ -73,6 +74,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginTop="50sp"
             android:orientation="horizontal">
 
@@ -85,10 +87,10 @@
                 android:text="Kabel ładujący" />
             <Switch
                 android:id="@+id/switch3"
-                android:gravity=""
                 android:layout_width="match_parent"
-                android:textColor="#1f90cc"
-                android:layout_height="wrap_content"
+                android:thumbTint="#1f90cc"
+                android:trackTint="#1f90cc"
+                android:layout_height="match_parent"
                 />
 
         </LinearLayout>

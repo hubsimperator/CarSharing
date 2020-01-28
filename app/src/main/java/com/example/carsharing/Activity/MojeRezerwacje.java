@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.carsharing.JSON.JSON_anuluj_rezerwacje;
 import com.example.carsharing.JSON.JSON_end_trip;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje;
+import com.example.carsharing.JSON.JSON_moje_rezerwacje_new;
 import com.example.carsharing.R;
 
 public class MojeRezerwacje extends AppCompatActivity {
@@ -126,8 +127,10 @@ public class MojeRezerwacje extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
-                json_moje_rezerwacje.StartUpdate("","",MojeRezerwacje.this);
+                JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
+                json_moje_rezerwacje_new.StartUpdate(MojeRezerwacje.this);
+                //JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+                //json_moje_rezerwacje.StartUpdate("","",MojeRezerwacje.this);
               //  finish();
             }
         });

@@ -30,6 +30,20 @@ public class ListaRezerwacjiAdapter extends ArrayAdapter<Obiekt_Rezerwacja> {
         String subject=getItem(position).getSubject();
        String start_date=getItem(position).getStartDate();
        String end_date=getItem(position).getEndDate();
+       String kolor_id=getItem(position).getStatus();
+
+       Integer kolor=Integer.valueOf(kolor_id);
+       switch (kolor){
+           case 0:
+               kolor=Color.GRAY;
+               break;
+           case 1:
+               kolor=Color.GREEN;
+               break;
+           case 2:
+               kolor=Color.YELLOW;
+               break;
+       }
 
     //   Obiekt_Dostepnosc obiekt_dostepnosc =new Obiekt_Dostepnosc(samochod,start_date,end_date);
         LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -42,7 +56,7 @@ public class ListaRezerwacjiAdapter extends ArrayAdapter<Obiekt_Rezerwacja> {
 
         LinearLayout llayout =(LinearLayout) convertView.findViewById(R.id.rezerwacja_layout);
 
-        llayout.setBackgroundColor(Color.GRAY);
+        llayout.setBackgroundColor(kolor);
 
         auto_tv.setText(samochod);
         subject_tv.setText(subject);
