@@ -42,8 +42,7 @@
             <Switch
                 android:id="@+id/switch1"
                 android:layout_width="match_parent"
-                android:thumbTint="#1f90cc"
-                android:trackTint="#1f90cc"
+                android:thumbTint="@xml/checker_track"
                 android:layout_height="match_parent"
                 android:gravity="" />
 
@@ -94,8 +93,7 @@
             <Switch
                 android:id="@+id/switch2"
                 android:layout_width="match_parent"
-                android:thumbTint="#1f90cc"
-                android:trackTint="#1f90cc"
+                android:thumbTint="@xml/checker_track"
                 android:layout_height="match_parent"
                 android:gravity="" />
 
@@ -129,6 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50sp"
             android:orientation="horizontal"
+            android:visibility="gone"
             tools:visibility="gone">
 
             <TextView
