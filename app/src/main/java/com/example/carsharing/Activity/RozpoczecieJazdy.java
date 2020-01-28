@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carsharing.JSON.JSON_moje_rezerwacje;
+import com.example.carsharing.JSON.JSON_moje_rezerwacje_new;
 import com.example.carsharing.JSON.JSON_start_trip;
 import com.example.carsharing.Other.ProjektWybor;
 import com.example.carsharing.Other.QRScanner;
@@ -92,8 +93,10 @@ public class RozpoczecieJazdy extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
-                json_moje_rezerwacje.StartUpdate("","",RozpoczecieJazdy.this);
+                //JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+              //  json_moje_rezerwacje.StartUpdate("","",RozpoczecieJazdy.this);
+                JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
+                json_moje_rezerwacje_new.StartUpdate(RozpoczecieJazdy.this);
 
             }
         });

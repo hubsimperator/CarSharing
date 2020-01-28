@@ -17,6 +17,8 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#1f90cc"
+
             android:textSize="25dp"
             android:gravity="center"
             android:layout_marginTop="20dp"
@@ -33,6 +35,8 @@
                 android:layout_width="wrap_content"
                 android:textSize="20dp"
                 android:layout_height="wrap_content"
+                android:textColor="#1f90cc"
+
                 android:text="Samochód nieuszkodzony" />
 
             <Switch
@@ -57,6 +61,7 @@
                 android:id="@+id/addphoto0"
                 android:layout_width="wrap_content"
                 android:textSize="10dp"
+
                 android:layout_height="wrap_content"
                 android:text="+ Dodaj zdjęcie" />
 
@@ -81,6 +86,8 @@
                 android:id="@+id/textView32"
                 android:layout_width="wrap_content"
                 android:textSize="20dp"
+                android:textColor="#1f90cc"
+
                 android:layout_height="wrap_content"
                 android:text="Samochód czysty" />
 

@@ -32,6 +32,7 @@ String BookingId;
     public static TextView samochod_tv;
     public static TextView bateria_tv;
     public static Button maptypes_bt;
+    public static TextView czasodczytu_tv;
 
     int rodzaj_mapy=0;
 
@@ -51,9 +52,12 @@ String BookingId;
 
         View view = findViewById(R.id.maap);
 
+        View view_map=findViewById(R.id.map);
+
          samochod_tv=(TextView) view.findViewById(R.id.samochod_tv);
          bateria_tv=(TextView) view.findViewById(R.id.bateria_tv);
          maptypes_bt=(Button) view.findViewById(R.id.maptypes_bt);
+         czasodczytu_tv=(TextView) view_map.findViewById(R.id.czas_odczytuTV);
 
          maptypes_bt.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -77,17 +81,22 @@ String BookingId;
 
     public void setCarPosition(Obiekt_LokalizacjaSamochodu obiekt_lokalizacjaSamochodu) {
 
+        try {
+            samochod_tv.setText(obiekt_lokalizacjaSamochodu.getResourceName());
+            bateria_tv.setText(obiekt_lokalizacjaSamochodu.getBatery());
+            czasodczytu_tv.setText(obiekt_lokalizacjaSamochodu.getCzasOdczytu());
 
-       samochod_tv.setText(obiekt_lokalizacjaSamochodu.getResourceName());
-       bateria_tv.setText(obiekt_lokalizacjaSamochodu.getBatery());
+            double Lat = Double.valueOf(obiekt_lokalizacjaSamochodu.getLatitude());
+            double Lon = Double.valueOf(obiekt_lokalizacjaSamochodu.getLongitude());
 
-       double Lat=Double.valueOf(obiekt_lokalizacjaSamochodu.getLatitude());
-       double Lon=Double.valueOf(obiekt_lokalizacjaSamochodu.getLongitude());
+            LatLng auto = new LatLng(Lat, Lon);
 
-        LatLng auto = new LatLng(Lat, Lon);
-
-        mMap.addMarker(new MarkerOptions().position(auto).title("auto").icon(BitmapDescriptorFactory.fromResource(R.drawable.znacznik)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(auto,18.0f));
+            mMap.addMarker(new MarkerOptions().position(auto).title("auto").icon(BitmapDescriptorFactory.fromResource(R.drawable.znacznik)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(auto, 18.0f));
+        }catch (NullPointerException ne){
+            String s= ne.toString();
+            Log.d("s","a00");
+        }
     }
 
     @Override

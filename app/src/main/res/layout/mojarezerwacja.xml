@@ -8,54 +8,66 @@
     tools:context=".Other.MainActivity">
 
     <LinearLayout
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_gravity="center"
+        android:weightSum="4.5"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/lokalizuj_bt"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_height="90dp"
-            android:visibility="visible"
-            app:srcCompat="@drawable/pokaznamapie" />
 
         <ImageView
             android:id="@+id/potwierdz_bt"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
 
-            android:layout_height="90dp" />
+
+        <ImageView
+            android:id="@+id/lokalizuj_bt"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="visible"
+            app:srcCompat="@drawable/pokaznamapie" />
 
         <ImageView
             android:id="@+id/zmiana_czasu_bt"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
 
-            android:layout_height="90dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:srcCompat="@drawable/zmien_czas" />
 
         <ImageView
             android:id="@+id/anuluj_bt"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
-            android:layout_height="90dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:srcCompat="@drawable/anuluj" />
 
         <ImageView
             android:id="@+id/zakoncz_bt"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
-            android:layout_height="90dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:visibility="gone"
             app:srcCompat="@drawable/zakonczrezerwacje" />
 
         <ImageView
             android:id="@+id/back_bt"
             android:layout_width="73dp"
-            android:layout_height="55dp"
+            android:layout_marginBottom="20sp"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
             android:layout_gravity="center"
             app:srcCompat="@drawable/back" />
 
