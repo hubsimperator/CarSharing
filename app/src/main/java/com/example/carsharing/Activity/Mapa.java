@@ -85,12 +85,9 @@ String BookingId;
             samochod_tv.setText(obiekt_lokalizacjaSamochodu.getResourceName());
             bateria_tv.setText(obiekt_lokalizacjaSamochodu.getBatery());
             czasodczytu_tv.setText(obiekt_lokalizacjaSamochodu.getCzasOdczytu());
-
             double Lat = Double.valueOf(obiekt_lokalizacjaSamochodu.getLatitude());
             double Lon = Double.valueOf(obiekt_lokalizacjaSamochodu.getLongitude());
-
             LatLng auto = new LatLng(Lat, Lon);
-
             mMap.addMarker(new MarkerOptions().position(auto).title("auto").icon(BitmapDescriptorFactory.fromResource(R.drawable.znacznik)));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(auto, 18.0f));
         }catch (NullPointerException ne){

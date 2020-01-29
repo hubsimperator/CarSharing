@@ -41,8 +41,11 @@ import com.example.carsharing.DostepnoscListAdapter;
 import com.example.carsharing.JSON.JSON_get_default_project;
 import com.example.carsharing.JSON.JSON_lista_przypomnien;
 import com.example.carsharing.JSON.JSON_lista_samochodow;
+import com.example.carsharing.JSON.JSON_lista_samochodow_new;
 import com.example.carsharing.JSON.JSON_potwierdzenie_rezerwacji;
+import com.example.carsharing.ListaSamochodowAdapter;
 import com.example.carsharing.Obiekt_Dostepnosc;
+import com.example.carsharing.Obiekt_Samochód;
 import com.example.carsharing.Other.ProjektWybor;
 import com.example.carsharing.R;
 
@@ -61,12 +64,12 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     String DEFAULT_DISTANCE="10";
     String DEFAULT_PARKING_NAME="Wałowa";
     String DEFAULT_PRZYPOMNIENIE="15 minut";
-    String DEFAULT_GRUPA_PROJ="";
-    String DEFAULT_NUMER_PROJ="";
+    String DEFAULT_GRUPA_PROJ;
+    String DEFAULT_NUMER_PROJ;
 
 
-    int year=0,month=0,day=0,hour=0,minute=0;
-    String dayFinal="",monthFinal="",yearFinal="",hourFinal="",minuteFinal="";
+    int year,month,day,hour,minute;
+    String dayFinal,monthFinal,yearFinal,hourFinal,minuteFinal;
     public static EditText poczatek_et;
     public static EditText koniec_et;
     public static EditText projekt_et;
@@ -74,14 +77,14 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public static EditText dystans_et;
 
     public static String data_poczatkowa;
-    String data_bez_godzin="";
-    String godzina_poczatkowa="";
-    String data_koncowa="";
+    String data_bez_godzin;
+    String godzina_poczatkowa;
+    String data_koncowa;
     String parking="";
     public static String eit_Resource="";
-    public static String grupa_projektu="";
-    public static String nazwa_projektu="";
-    public static String przypomnienie_id="";
+    public static String grupa_projektu;
+    public static String nazwa_projektu;
+    public static String przypomnienie_id;
 
     public static TextView label_samochod_tv;
     public static TextView wybrany_samochod_tv;
@@ -114,9 +117,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
         Bundle extras= getIntent().getExtras();
         DEFAULT_PARKING_NAME=extras.getString("nearestParking");
 
-
-
-        JSON_lista_przypomnien json_lista_przypomnien=new JSON_lista_przypomnien();
+        final JSON_lista_przypomnien json_lista_przypomnien=new JSON_lista_przypomnien();
         json_lista_przypomnien.StartUpdate(Rezerwacja.this);
 
         label_minuty_tv=(TextView) findViewById(R.id.label_przypomnienie_tv);
@@ -247,8 +248,10 @@ numer_proj=new ArrayList<>();
             public void onClick(View v) {
                 if(sprawdz_czy_data_poprawna()) {
                     if (sprawdz_czy_dane_niepuste(1)) {
-                        JSON_lista_samochodow json_lista_samochodow = new JSON_lista_samochodow();
-                        json_lista_samochodow.StartUpdate(poczatek_et.getText().toString(), koniec_et.getText().toString(), parking, dystans_et.getText().toString(), Rezerwacja.this);
+                       // JSON_lista_samochodow json_lista_samochodow = new JSON_lista_samochodow();
+                        //json_lista_samochodow.StartUpdate(poczatek_et.getText().toString(), koniec_et.getText().toString(), parking, dystans_et.getText().toString(), Rezerwacja.this);
+                        JSON_lista_samochodow_new json_lista_samochodow_new=new JSON_lista_samochodow_new();
+                        json_lista_samochodow_new.StartUpdate(poczatek_et.getText().toString(), koniec_et.getText().toString(), parking, dystans_et.getText().toString(), Rezerwacja.this);
                     }
                 }
             }
@@ -592,6 +595,60 @@ public void wyswietl_dostepnosc(Context con,ArrayList<Obiekt_Dostepnosc> _dostep
     alertDialog.show();
  }
 
+    public ArrayList<Obiekt_Samochód> listaSamochod=new ArrayList<>();
+    public ListaSamochodowAdapter adapterSamochod;
+
+    public void wyswietl_liste2(Context con, ArrayList<Obiekt_Samochód> _listaSamochod){
+
+        listaSamochod=_listaSamochod;
+        adapterSamochod=new ListaSamochodowAdapter(con,R.layout.lista_samochodow_adapter,_listaSamochod,con);
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(con).setPositiveButton("Potwierdź", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(position != null){
+                    eit_Resource=listaSamochod.get(position).getResourceId();
+                    label_samochod_tv.setVisibility(View.VISIBLE);
+                    wybrany_samochod_tv.setText(listaSamochod.get(position).getResourceName());
+                    rezerwuj_bt.setVisibility(View.VISIBLE);
+                    minuty_sp.setVisibility(View.VISIBLE);
+                    label_minuty_tv.setVisibility(View.VISIBLE);
+                    alertDialog.dismiss();
+                }
+            }
+        })
+                .setNeutralButton("Powrót",null);
+
+        LayoutInflater inflater = (LayoutInflater)   con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.lista_samochodow,null);
+        dialogBuilder.setView(view);
+
+        //TextView info=(TextView) view.findViewById(R.id.dostepneAutaParking);
+        //String s=info.getText().toString()+_parking;
+        //info.setText(s);
+
+        final ListView mListView = (ListView) view.findViewById(R.id.listview);
+        mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        mListView.setAdapter(adapterSamochod);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int _position, long id) {
+
+                for (int i = 0; i < mListView.getChildCount(); i++) {
+                    if(_position == i+mListView.getFirstVisiblePosition() ){
+                        position=_position;
+                        mListView.getChildAt(i).setBackgroundColor(Color.GREEN);
+                    }else{                     mListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                    }
+                }
+            }
+        });
+
+        alertDialog =dialogBuilder.create();
+        alertDialog.show();
+    }
 
 public void wyswietl_liste(Context con, final ArrayList<String> lista, final ArrayList<String> lista_id){
 
@@ -684,7 +741,7 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
             timePickerDialog.updateTime(hour,minute);
         }catch (Exception ne){
             Logs_DataHandler log = new Logs_DataHandler(this);
-            log.inputLog( "Rezerwacja.class 005: "+ne.toString()+"\n c: "+c.toString()+"\n hour: "+String.valueOf(hour)+"\n minute: "+String.valueOf(minute)+"\n godzina_poczatkowa: "+godzina_poczatkowa.toString());
+            log.inputLog( "Rezerwacja.class 005: "+ne.toString());
             log.close();
         }
 
