@@ -108,8 +108,10 @@ public class JSON_zmien_czas_rezerwacji {
                                 mojeRezerwacje.finish();
                                 ZmienCzasRezerwacji zmienCzasRezerwacji=new ZmienCzasRezerwacji();
                                 zmienCzasRezerwacji.finish();
-                                JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
-                                json_moje_rezerwacje.StartUpdate("","",con);
+                              //  JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+                                //json_moje_rezerwacje.StartUpdate("","",con);
+                                JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
+                                json_moje_rezerwacje_new.StartUpdate(con);
                             }
                         })
                         .setIcon(R.drawable.confirm)

@@ -114,11 +114,10 @@ public class JSON_lokalizacja_samochodu {
                     String ResourceName = row.getString("ResourceName");
                     String Latitude=row.getString("Latitude");
                     String Longitude=row.getString("Longitude");
-                    String Batery=row.getString("Batery");
-                    if(Batery.length()<1) Batery="Brak danych";
-                    else Batery=Batery+" %";
+                    String TypPaliwa=row.getString("Typ");
+                    String WartoscPaliwa=row.getString("Value");
                     String Czas=row.getString("CzasOdczytu");
-                    obiekt_lokalizacjaSamochodu=new Obiekt_LokalizacjaSamochodu(ResourceName,Latitude,Longitude,Batery,Czas);
+                    obiekt_lokalizacjaSamochodu=new Obiekt_LokalizacjaSamochodu(ResourceName,Latitude,Longitude,Czas,TypPaliwa,WartoscPaliwa);
 
                 }
             }
