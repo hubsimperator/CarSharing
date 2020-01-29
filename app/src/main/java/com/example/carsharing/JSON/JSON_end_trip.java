@@ -101,8 +101,10 @@ public class JSON_end_trip {
                                 //alertDialog.dismiss();
                                 MojeRezerwacje mojeRezerwacje=new MojeRezerwacje();
                                 mojeRezerwacje.finish();
-                                JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
-                                json_moje_rezerwacje.StartUpdate("","",con);
+                               // JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+                                //json_moje_rezerwacje.StartUpdate("","",con);
+                                JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
+                                json_moje_rezerwacje_new.StartUpdate(con);
                             }
                         })
                         .setIcon(R.drawable.confirm)

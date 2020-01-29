@@ -108,8 +108,10 @@ public class JSON_start_trip {
                                mojeRezerwacje.finish();
                                RozpoczecieJazdy rozpoczecieJazdy=new RozpoczecieJazdy();
                                rozpoczecieJazdy.finish();
-                               JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
-                               json_moje_rezerwacje.StartUpdate("","",con);
+                              // JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+                               //json_moje_rezerwacje.StartUpdate("","",con);
+                               JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
+                               json_moje_rezerwacje_new.StartUpdate(con);
                            }
                        })
                         .setTitle("Potwierdzenie ")

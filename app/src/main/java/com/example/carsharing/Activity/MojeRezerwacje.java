@@ -205,8 +205,10 @@ public class MojeRezerwacje extends AppCompatActivity {
 
     public void powrot_do_rezerwacji(){
         //finish();
-        JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
-        json_moje_rezerwacje.StartUpdate("","",MojeRezerwacje.this);
+        //JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
+        //json_moje_rezerwacje.StartUpdate("","",MojeRezerwacje.this);
+        JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
+        json_moje_rezerwacje_new.StartUpdate(MojeRezerwacje.this);
     }
 
 }

@@ -2,27 +2,6 @@ package com.example.carsharing;
 
 public class Obiekt_LokalizacjaSamochodu {
 
-    private String ResourceName;
-    private String Latitude;
-    private String Longitude;
-    private String Batery;
-    private String CzasOdczytu;
-
-
-
-    public String getCzasOdczytu() {
-        return CzasOdczytu;
-    }
-
-    public void setCzasOdczytu(String czasOdczytu) {
-        CzasOdczytu = czasOdczytu;
-    }
-
-
-    public Obiekt_LokalizacjaSamochodu(String czasOdczytu) {
-        CzasOdczytu = czasOdczytu;
-    }
-
     public String getResourceName() {
         return ResourceName;
     }
@@ -47,19 +26,44 @@ public class Obiekt_LokalizacjaSamochodu {
         Longitude = longitude;
     }
 
-    public String getBatery() {
-        return Batery;
+    public String getCzasOdczytu() {
+        return CzasOdczytu;
     }
 
-    public void setBatery(String batery) {
-        Batery = batery;
+    public void setCzasOdczytu(String czasOdczytu) {
+        CzasOdczytu = czasOdczytu;
     }
 
-    public Obiekt_LokalizacjaSamochodu(String resourceName, String latitude, String longitude, String batery,String czas) {
+    public String getTypPaliwa() {
+        return TypPaliwa;
+    }
+
+    public void setTypPaliwa(String typPaliwa) {
+        TypPaliwa = typPaliwa;
+    }
+
+    public String getWartoscPaliwa() {
+        return WartoscPaliwa;
+    }
+
+    public void setWartoscPaliwa(String wartoscPaliwa) {
+        WartoscPaliwa = wartoscPaliwa;
+    }
+
+    public Obiekt_LokalizacjaSamochodu(String resourceName, String latitude, String longitude, String czasOdczytu, String typPaliwa, String wartoscPaliwa) {
         ResourceName = resourceName;
         Latitude = latitude;
         Longitude = longitude;
-        Batery = batery;
-        CzasOdczytu=czas;
+        CzasOdczytu = czasOdczytu;
+        TypPaliwa = typPaliwa;
+        WartoscPaliwa = wartoscPaliwa;
     }
+
+    private String ResourceName;
+    private String Latitude;
+    private String Longitude;
+    private String CzasOdczytu;
+    private String TypPaliwa;
+    private String WartoscPaliwa;
+
 }

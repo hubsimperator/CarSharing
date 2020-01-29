@@ -49,10 +49,6 @@ public class JSON_moje_rezerwacje extends AppCompatActivity {
      //   er=error;
         lista_samochodow=new ArrayList<>();
 
-
-
-
-
         mTask=new HttpAsyncTask2();
 
         mTask.execute("https://notif2.sng.com.pl/api/CsAppGetMyBookings");

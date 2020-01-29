@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.carsharing.JSON.JSON_lokalizacja_samochodu;
 import com.example.carsharing.Obiekt_LokalizacjaSamochodu;
@@ -22,7 +23,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.Map;
+import java.time.Duration;
 
 public class Mapa extends FragmentActivity implements OnMapReadyCallback {
 
@@ -30,9 +31,11 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
 String BookingId;
 
     public static TextView samochod_tv;
-    public static TextView bateria_tv;
+    public static TextView wartoscPaliwa_tv;
+    public static TextView typPaliwa_tv;
     public static Button maptypes_bt;
     public static TextView czasodczytu_tv;
+
 
     int rodzaj_mapy=0;
 
@@ -48,6 +51,7 @@ String BookingId;
         Bundle extras= getIntent().getExtras();
         BookingId=extras.getString("BookingId");
 
+
         LayoutInflater inflater = (LayoutInflater)   Mapa.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = findViewById(R.id.maap);
@@ -55,7 +59,8 @@ String BookingId;
         View view_map=findViewById(R.id.map);
 
          samochod_tv=(TextView) view.findViewById(R.id.samochod_tv);
-         bateria_tv=(TextView) view.findViewById(R.id.bateria_tv);
+         wartoscPaliwa_tv=(TextView) view.findViewById(R.id.wartoscPaliwa_tv);
+         typPaliwa_tv=(TextView) view.findViewById(R.id.typPaliwa_tv);
          maptypes_bt=(Button) view.findViewById(R.id.maptypes_bt);
          czasodczytu_tv=(TextView) view_map.findViewById(R.id.czas_odczytuTV);
 
@@ -83,16 +88,27 @@ String BookingId;
 
         try {
             samochod_tv.setText(obiekt_lokalizacjaSamochodu.getResourceName());
-            bateria_tv.setText(obiekt_lokalizacjaSamochodu.getBatery());
+            wartoscPaliwa_tv.setText(obiekt_lokalizacjaSamochodu.getWartoscPaliwa());
+            typPaliwa_tv.setText(obiekt_lokalizacjaSamochodu.getTypPaliwa());
+
             czasodczytu_tv.setText(obiekt_lokalizacjaSamochodu.getCzasOdczytu());
-            double Lat = Double.valueOf(obiekt_lokalizacjaSamochodu.getLatitude());
-            double Lon = Double.valueOf(obiekt_lokalizacjaSamochodu.getLongitude());
-            LatLng auto = new LatLng(Lat, Lon);
-            mMap.addMarker(new MarkerOptions().position(auto).title("auto").icon(BitmapDescriptorFactory.fromResource(R.drawable.znacznik)));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(auto, 18.0f));
+            try{
+
+                double Lat = Double.valueOf(obiekt_lokalizacjaSamochodu.getLatitude());
+                double Lon = Double.valueOf(obiekt_lokalizacjaSamochodu.getLongitude());
+                LatLng auto = new LatLng(Lat, Lon);
+                mMap.addMarker(new MarkerOptions().position(auto).title("auto").icon(BitmapDescriptorFactory.fromResource(R.drawable.znacznik)));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(auto, 18.0f));
+            }catch (NumberFormatException ne){
+
+           //     Toast.makeText(Mapa.this,"Brak danych dotyczących lokalizacji pojazdu", Toast.LENGTH_LONG).show();
+            }
+
         }catch (NullPointerException ne){
+
             String s= ne.toString();
             Log.d("s","a00");
+
         }
     }
 
