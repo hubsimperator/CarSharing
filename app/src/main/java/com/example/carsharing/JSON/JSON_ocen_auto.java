@@ -84,7 +84,6 @@ public class JSON_ocen_auto {
             jsonObject.accumulate("Comment",_Note);
             jsonObject.accumulate("BlobImage",_Photo);
             jsonObject.accumulate("ByteSize",_ByteSize);
-
             jsonObject.accumulate("PhotoFileName",_PhotoName);
 
 

@@ -36,7 +36,6 @@ String BookingId;
     public static Button maptypes_bt;
     public static TextView czasodczytu_tv;
 
-
     int rodzaj_mapy=0;
 
     @Override
@@ -47,13 +46,10 @@ String BookingId;
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         Bundle extras= getIntent().getExtras();
         BookingId=extras.getString("BookingId");
 
-
         LayoutInflater inflater = (LayoutInflater)   Mapa.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         View view = findViewById(R.id.maap);
 
         View view_map=findViewById(R.id.map);
@@ -105,10 +101,8 @@ String BookingId;
             }
 
         }catch (NullPointerException ne){
-
             String s= ne.toString();
             Log.d("s","a00");
-
         }
     }
 

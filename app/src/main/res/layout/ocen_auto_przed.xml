@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:weightSum="3"
         android:layout_marginLeft="20sp"
         android:layout_marginRight="20dp"
         android:orientation="vertical">
@@ -25,107 +26,125 @@
             android:text="Stan pojazdu przed rozpoczęciem rezerwacji" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50sp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:textSize="20dp"
-                android:layout_height="wrap_content"
-                android:textColor="#1f90cc"
-
-                android:text="Samochód nieuszkodzony" />
-
-            <Switch
-                android:id="@+id/switch1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:thumbTint="@xml/checker_track"
-                android:layout_height="match_parent"
-                android:gravity="" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
-            android:id="@+id/opcjesw1"
-
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/addphoto0"
-                android:layout_width="wrap_content"
-                android:textSize="10dp"
-
                 android:layout_height="wrap_content"
-                android:text="+ Dodaj zdjęcie" />
+                android:layout_marginTop="40sp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/addnote0"
-                android:layout_width="wrap_content"
-                android:textSize="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_height="wrap_content"
-                android:text="+ Dodaj notatkę" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Samochód sprawny"
+                    android:textColor="#1f90cc"
 
-        </LinearLayout>
+                    android:textSize="20dp" />
 
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="match_parent"
+                    android:thumbTint="@xml/checker_track"
+                    android:checked="true"
+                    android:layout_height="match_parent"
+                    android:gravity="" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50sp"
-            android:orientation="horizontal">
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView32"
-                android:layout_width="wrap_content"
-                android:textSize="20dp"
-                android:textColor="#1f90cc"
-
-                android:layout_height="wrap_content"
-                android:text="Samochód czysty" />
-
-            <Switch
-                android:id="@+id/switch2"
+            <LinearLayout
+                android:id="@+id/opcjesw1"
                 android:layout_width="match_parent"
-                android:thumbTint="@xml/checker_track"
-                android:layout_height="match_parent"
-                android:gravity="" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <TextView
+                    android:id="@+id/addphoto0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+ Dodaj zdjęcie"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/addnote0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="+ Dodaj notatkę"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30sp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView32"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Samochód czysty"
+
+                    android:textColor="#1f90cc"
+                    android:textSize="20dp" />
+
+                <Switch
+                    android:id="@+id/switch2"
+                    android:layout_width="match_parent"
+                    android:thumbTint="@xml/checker_track"
+                    android:checked="true"
+                    android:layout_height="match_parent"
+                    android:gravity="" />
+
+            </LinearLayout>
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
             android:id="@+id/opcjesw2"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:orientation="vertical"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/addphoto1"
                 android:layout_width="wrap_content"
-                android:textSize="10dp"
                 android:layout_height="wrap_content"
-                android:text="+ Dodaj zdjęcie" />
+                android:text="+ Dodaj zdjęcie"
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/addnote1"
                 android:layout_width="wrap_content"
-                android:textSize="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
-                android:text="+ Dodaj notatkę" />
+                android:layout_marginTop="15dp"
+                android:text="+ Dodaj notatkę"
+                android:textSize="18dp" />
 
         </LinearLayout>
+
+    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50sp"
+            android:layout_marginTop="30sp"
             android:orientation="horizontal"
             android:visibility="gone"
             tools:visibility="gone">
@@ -172,7 +191,11 @@
 
         </LinearLayout>
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/rezerwuj_bt"
@@ -185,8 +208,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
             android:layout_gravity="center"
+
             android:orientation="horizontal">
 
             <ImageView
@@ -194,11 +217,13 @@
                 android:layout_width="73dp"
                 android:layout_height="55dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="0sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 app:srcCompat="@drawable/back" />
 
         </LinearLayout>
 
+    </LinearLayout>
 
     </LinearLayout>
 

@@ -3,8 +3,10 @@ package com.example.carsharing.JSON;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.example.carsharing.Activity.OcenaAuta;
 import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.Activity.MojeRezerwacje;
 import com.example.carsharing.R;
@@ -29,12 +31,14 @@ public class JSON_start_trip {
     String BookingID;
     String GrupaProjektu;
     String NrProjektu;
+    public static String Status;
 
-    public void StartUpdate(String _BookingID,String _GrupaProjektu,String _NrProjektu, Context context) {
+    public void StartUpdate(String _BookingID,String _GrupaProjektu,String _NrProjektu,String _Status, Context context) {
         con = context;
         BookingID=_BookingID;
         GrupaProjektu = _GrupaProjektu;
         NrProjektu=_NrProjektu;
+        Status=_Status;
         new JSON_start_trip.HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppInsertStartTrip");
     }
 
@@ -108,10 +112,25 @@ public class JSON_start_trip {
                                mojeRezerwacje.finish();
                                RozpoczecieJazdy rozpoczecieJazdy=new RozpoczecieJazdy();
                                rozpoczecieJazdy.finish();
-                              // JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
-                               //json_moje_rezerwacje.StartUpdate("","",con);
-                               JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
-                               json_moje_rezerwacje_new.StartUpdate(con);
+
+                               if(Status.equals("0") ){
+                                   Intent intent = new Intent(con, OcenaAuta.class);
+                                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                  // intent.putExtra("StartDate", PoczatekRezerwacji);
+                                 //  intent.putExtra("EndDate", KoniecRezerwacji);
+                                   intent.putExtra("BookingId", BookingID);
+                                   intent.putExtra("GrupaProjektu", GrupaProjektu);
+                                   intent.putExtra("NrProjektu", NrProjektu);
+                                   con.startActivity(intent);
+                               }   else if ( Status.equals("2")) {
+                                   JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
+                                   json_moje_rezerwacje_new.StartUpdate(con);
+                               } else if (Status.equals("1")) {
+                                   JSON_end_trip json_end_trip = new JSON_end_trip();
+                                   json_end_trip.StartUpdate(BookingID, con);
+                               }
+
+
                            }
                        })
                         .setTitle("Potwierdzenie ")

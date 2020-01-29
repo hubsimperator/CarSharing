@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carsharing.DataHandler.Logs_DataHandler;
+import com.example.carsharing.JSON.JSON_moje_rezerwacje_new;
 import com.example.carsharing.JSON.JSON_ocen_auto;
 import com.example.carsharing.R;
 import com.example.carsharing.TakePhoto;
@@ -131,8 +132,8 @@ public class OcenaAuta extends AppCompatActivity {
 
 
         Bundle extras= getIntent().getExtras();
-        PoczatekRezerwacji=extras.getString("StartDate");
-        KoniecRezerwacji=extras.getString("EndDate");
+       // PoczatekRezerwacji=extras.getString("StartDate");
+        //KoniecRezerwacji=extras.getString("EndDate");
         BookingId=extras.getString("BookingId");
         GrupaProjektu=extras.getString("GrupaProjektu");
         NazwaProjektu=extras.getString("NrProjektu");
@@ -357,18 +358,14 @@ public class OcenaAuta extends AppCompatActivity {
                 //czy wysyłać
                 if((switch_on.contains(0)) && (switch_on.contains(1))){
                     //w przypadku braku zastrzezen
-                    Log.d("a","a");
-                    Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("StartDate", PoczatekRezerwacji);
-                    intent.putExtra("EndDate", KoniecRezerwacji);
-                    intent.putExtra("BookingId", BookingId);
-                    intent.putExtra("GrupaProjektu", GrupaProjektu);
-                    intent.putExtra("NrProjektu", NrProjektu);
-                    startActivity(intent);
+                    alertDialog = new AlertDialog.Builder(con)
+                            .setTitle("Potwierdzenie ")
+                            .setMessage("Rozpoczęto jazdę, brak zastrzeżeń do stanu pojazdu")
+                            .setIcon(R.drawable.confirm)
+                            .setCancelable(true)
+                            .show();
 
                 }else{
-
                     con=OcenaAuta.this;
                     TakePhoto_new tp = new TakePhoto_new();
                     tp.sendToEncode(phote_on);
@@ -390,8 +387,12 @@ public class OcenaAuta extends AppCompatActivity {
     }
 
     public void startTrip(String result){
+        Toast.makeText(con, "Jazda rozpoczęta", Toast.LENGTH_LONG).show();
+        finish();
+        JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
+        json_moje_rezerwacje_new.StartUpdate(con);
+        /*
         Intent intent = new Intent(con, RozpoczecieJazdy.class);
-
         Toast.makeText(con,result,Toast.LENGTH_LONG).show();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("StartDate", PoczatekRezerwacji);
@@ -400,6 +401,8 @@ public class OcenaAuta extends AppCompatActivity {
         intent.putExtra("GrupaProjektu", GrupaProjektu);
         intent.putExtra("NrProjektu", NrProjektu);
         con.startActivity(intent);
+
+         */
     }
 
 }
