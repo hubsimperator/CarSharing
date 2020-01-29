@@ -34,8 +34,7 @@ public class RozpoczecieJazdy extends AppCompatActivity {
     public static String PoczatekRezerwacji;
     public static String KoniecRezerwacji;
     public static String BookingId;
-
-
+    public static String Status;
     public static String GrupaProjektu;
     public static String NazwaProjektu;
 
@@ -57,13 +56,13 @@ public class RozpoczecieJazdy extends AppCompatActivity {
         BookingId=extras.getString("BookingId");
         GrupaProjektu=extras.getString("GrupaProjektu");
         NazwaProjektu=extras.getString("NrProjektu");
-
+        Status=extras.getString("Status");
         rozpocznij_bt=(ImageView) findViewById(R.id.potwierdz_bt);
         rozpocznij_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 JSON_start_trip json_start_trip=new JSON_start_trip();
-                json_start_trip.StartUpdate(BookingId,GrupaProjektu,NazwaProjektu,RozpoczecieJazdy.this);
+                json_start_trip.StartUpdate(BookingId,GrupaProjektu,NazwaProjektu,Status,RozpoczecieJazdy.this);
             }
         });
 
