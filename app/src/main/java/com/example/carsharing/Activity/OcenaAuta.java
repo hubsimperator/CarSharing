@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.Cache;
 
 import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje_new;
@@ -65,7 +66,7 @@ public class OcenaAuta extends AppCompatActivity {
 
     ArrayList<Integer> switch_on;
    public static ArrayList<Integer> switch_off;
-    public static ArrayList<String> note_on=new ArrayList<>();
+    public static ArrayList<String> note_on;
 
     ArrayList<Integer> phote_on;
 
@@ -139,7 +140,6 @@ public class OcenaAuta extends AppCompatActivity {
         NazwaProjektu=extras.getString("NrProjektu");
         NrProjektu=extras.getString("NrProjektu");
 
-
         switch_on=new ArrayList<>();
         switch_off=new ArrayList<>();
       //  note_on=new ArrayList<>();
@@ -155,6 +155,8 @@ public class OcenaAuta extends AppCompatActivity {
         photo1=(TextView) findViewById(R.id.addphoto1);
         note2=(TextView) findViewById(R.id.addnote2);
         photo2=(TextView) findViewById(R.id.addphoto2);
+
+
 
 
         photo0.setOnClickListener(new View.OnClickListener() {
@@ -337,15 +339,15 @@ public class OcenaAuta extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                note_on=new ArrayList<>();
                 if(switch1.isChecked()) switch_on.add(0);
                 else switch_off.add(3);
-
                 if(switch2.isChecked()) switch_on.add(1);
                 else switch_off.add(4);
 
                 note_on.add(notatka);
                 note_on.add(notatka1);
-                note_on.add(notatka2);
+                //note_on.add(notatka2);
 
 
                 if(photo0.getText().equals("Zdjęcie")) phote_on.add(0);
@@ -358,13 +360,20 @@ public class OcenaAuta extends AppCompatActivity {
                 //czy wysyłać
                 if((switch_on.contains(0)) && (switch_on.contains(1))){
                     //w przypadku braku zastrzezen
-                    alertDialog = new AlertDialog.Builder(con)
+                    alertDialog = new AlertDialog.Builder(OcenaAuta.this)
                             .setTitle("Potwierdzenie ")
                             .setMessage("Rozpoczęto jazdę, brak zastrzeżeń do stanu pojazdu")
                             .setIcon(R.drawable.confirm)
                             .setCancelable(true)
+                            .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    finish();
+                                    JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
+                                    json_moje_rezerwacje_new.StartUpdate(OcenaAuta.this);
+                                }
+                            })
                             .show();
-
                 }else{
                     con=OcenaAuta.this;
                     TakePhoto_new tp = new TakePhoto_new();

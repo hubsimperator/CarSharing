@@ -42,7 +42,6 @@
                     android:layout_height="wrap_content"
                     android:text="Samochód sprawny"
                     android:textColor="#1f90cc"
-
                     android:textSize="20dp" />
 
                 <Switch
@@ -219,6 +218,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
+                android:visibility="gone"
                 app:srcCompat="@drawable/back" />
 
         </LinearLayout>
