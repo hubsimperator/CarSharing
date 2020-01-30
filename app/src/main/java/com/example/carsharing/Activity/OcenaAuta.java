@@ -55,7 +55,7 @@ public class OcenaAuta extends AppCompatActivity {
     public static TextView photo1;
     public static TextView photo2;
 
-    long mLastClickTime = 0;
+    ImageView rozpocznij_jazde;
 
     public String notatka="";
     public String notatka1="";
@@ -338,17 +338,13 @@ public class OcenaAuta extends AppCompatActivity {
 
 
 
-        ImageView rozpocznij_jazde=(ImageView) findViewById(R.id.rezerwuj_bt);
+        rozpocznij_jazde=(ImageView) findViewById(R.id.rezerwuj_bt);
         rozpocznij_jazde.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
 
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
-                    return;
-                }
-                mLastClickTime = SystemClock.elapsedRealtime();
-
+               rozpocznij_jazde.setVisibility(View.INVISIBLE);
                 note_on=new ArrayList<>();
                 if(switch1.isChecked()) switch_on.add(0);
                 else switch_off.add(3);
