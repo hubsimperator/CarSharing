@@ -744,7 +744,6 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
             log.inputLog( "Rezerwacja.class 005: "+ne.toString());
             log.close();
         }
-
     }
      timePickerDialog.show();
     }
