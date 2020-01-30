@@ -29,10 +29,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class JSON_ocen_auto {
-
-
     Context con ;
-
     public static String BookingID = null;
     public static ArrayList<Integer> CommentID=new ArrayList<>();
     public static ArrayList<String> Note=new ArrayList<>();
@@ -41,15 +38,12 @@ public class JSON_ocen_auto {
     public static ArrayList<String> PhotoName=new ArrayList<>();
     String Results="";
 
-
     public void StartUpdate(String _BookingID, ArrayList<Integer> _CommentID,ArrayList<String> _Note,ArrayList<String> _Photo,ArrayList<Integer> _PhotoSize,ArrayList<String> _PhotoName, Context context) {
         con = context;
         BookingID=_BookingID;
         CommentID=_CommentID;;
-
         PhotoSize=_PhotoSize;
         PhotoName=_PhotoName;
-
         Note=_Note;
         Photo=_Photo;
 
@@ -85,8 +79,6 @@ public class JSON_ocen_auto {
             jsonObject.accumulate("BlobImage",_Photo);
             jsonObject.accumulate("ByteSize",_ByteSize);
             jsonObject.accumulate("PhotoFileName",_PhotoName);
-
-
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json,"UTF-8");
             httpPost.setEntity(se);
@@ -105,26 +97,15 @@ public class JSON_ocen_auto {
         return result;
     }
 
-
     private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
         AlertDialog alertDialog;
         ProgressDialog progressDialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             progressDialog=new ProgressDialog(con);
             progressDialog.setMessage("Wysyłanie danych.Proszę czekać");
             progressDialog.show();
-            /*
-            alertDialog=new AlertDialog.Builder(con)
-                    .setTitle("Proszę czekać ")
-                    .setMessage("Wysyłanie danych ...")
-                    .setIcon(android.R.drawable.ic_menu_upload)
-                    .setCancelable(false)
-                    .show();\
-
-             */
         }
 
         @Override
@@ -137,59 +118,13 @@ public class JSON_ocen_auto {
             return null ;
         }
 
-
         @Override
         protected void onPostExecute(String result) {
-           // alertDialog.dismiss();
             progressDialog.dismiss();
             OcenaAuta ocenaAuta=new OcenaAuta();
             ocenaAuta.startTrip(Results);
-
-          //  alertDialog.dismiss();
-          /*
-            if (result.contains("False")) {
-                alertDialog = new AlertDialog.Builder(con)
-                        .setTitle("Błąd")
-                        .setMessage("Nie można dokonać zmiany na rezerwacji")
-                        .setIcon(R.drawable.cancel)
-                        .setCancelable(true)
-                        .show();
-            }
-            else if (result.contains("True")) {
-                alertDialog = new AlertDialog.Builder(con)
-                        .setTitle("Potwierdzenie ")
-                        .setMessage("Dokonano zmiany na rezerwacji")
-                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogInterface dialog) {
-                                //alertDialog.dismiss();
-                                MojeRezerwacje mojeRezerwacje=new MojeRezerwacje();
-                                mojeRezerwacje.finish();
-                                ZmienCzasRezerwacji zmienCzasRezerwacji=new ZmienCzasRezerwacji();
-                                zmienCzasRezerwacji.finish();
-                                JSON_moje_rezerwacje json_moje_rezerwacje=new JSON_moje_rezerwacje();
-                                json_moje_rezerwacje.StartUpdate("","",con);
-                            }
-                        })
-                        .setIcon(R.drawable.confirm)
-                        .setCancelable(true)
-                        .show();
-            }
-            else{
-                alertDialog = new AlertDialog.Builder(con)
-                        .setTitle("Błąd")
-                        .setMessage(result)
-                        .setIcon(R.drawable.cancel)
-                        .setCancelable(true)
-                        .show();
-            }
-
-           */
         }
-
-
     }
-
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));

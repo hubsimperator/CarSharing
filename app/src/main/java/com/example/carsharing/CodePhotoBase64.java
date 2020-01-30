@@ -8,13 +8,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-
 import com.example.carsharing.Activity.OcenaAuta;
-
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,14 +36,10 @@ public class CodePhotoBase64 {
             protected void onPreExecute() {
 
                 super.onPreExecute();
-
             }
-
             @Override
             protected ArrayList<String> doInBackground(Void... voids) {
-
                 for(int i=0;i<path_list.size();i++) {
-
                     String [] s=path_list.get(i).split("/");
                     Log.d("aa",s[4]);
                     Log.d("aa",s[s.length-1]);
@@ -83,34 +74,23 @@ public class CodePhotoBase64 {
                     }
                     blob_list.add(strBase64);
                     blob_size_list.add(b.length);
-
                }
                 return blob_list;// strBase64;
             }
-
             @Override
             protected void onPostExecute(ArrayList arrayList) {
-             //   super.onPostExecute(arrayList);
                 OcenaAuta ocenaAuta=new OcenaAuta();
                 ocenaAuta.setBlobImage(arrayList,blob_size_list,photo_name);
             }
         }.execute();
-
     }
-    ProgressDialog pg;
-
     @SuppressLint("StaticFieldLeak")
     public void encode_morethanNandroid(final Context con, final ArrayList<Integer> file) {
-
         con1=con;
-        String filePath ="";
-
         new AsyncTask<Void, Void, ArrayList>() {
             @Override
             protected void onPreExecute() {
-
                 super.onPreExecute();
-              //   pg = new ProgressDialog(con1);
             }
 
             @Override
@@ -161,9 +141,6 @@ public class CodePhotoBase64 {
 
             @Override
             protected void onPostExecute(ArrayList arrayList) {
-
-                //   super.onPostExecute(arrayList);
-        //        pg.dismiss();
                 OcenaAuta ocenaAuta=new OcenaAuta();
                 ocenaAuta.setBlobImage(arrayList,blob_size_list,photo_name);
             }
