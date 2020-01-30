@@ -349,9 +349,11 @@ public class OcenaAuta extends AppCompatActivity {
                             .show();
                 }else{//są zastrzezenia
 
-                    boolean a= (!(switch_on.contains(0))) && (((notatka.length()==0) && (!(photo0.getText().equals("Zdjecie")))));
-                    boolean b=(!(switch_on.contains(1))) &&(((notatka1.length()==0) && (!(photo1.getText().equals("Zdjecie")))));
+                    boolean a= (!(switch_on.contains(0))) && (((notatka.length()==0) && (!(photo0.getText().equals("Zdjęcie")))));
+                    boolean b=(!(switch_on.contains(1))) &&(((notatka1.length()==0) && (!(photo1.getText().equals("Zdjęcie")))));
                     boolean c=(a || b);
+                    Log.d("Tag","Przejdz dalej");
+
                     if(c){
                         rozpocznij_jazde.setClickable(true);
                     alertDialog = new AlertDialog.Builder(OcenaAuta.this)
