@@ -740,9 +740,11 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
             minute=c.get(Calendar.MINUTE);
             timePickerDialog.updateTime(hour,minute);
         }catch (Exception ne){
-            Logs_DataHandler log = new Logs_DataHandler(this);
-            log.inputLog( "Rezerwacja.class 005: "+ne.toString());
-            log.close();
+            if(!godzina_poczatkowa.equals(null)) {
+                Logs_DataHandler log = new Logs_DataHandler(this);
+                log.inputLog("Rezerwacja.class 005: " + ne.toString());
+                log.close();
+            }
         }
 
     }
