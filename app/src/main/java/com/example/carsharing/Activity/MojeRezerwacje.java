@@ -76,7 +76,7 @@ public class MojeRezerwacje extends AppCompatActivity {
        rozpocznij_jazde_bt.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-/*
+
                Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                intent.putExtra("StartDate", PoczatekRezerwacji);
@@ -85,10 +85,10 @@ public class MojeRezerwacje extends AppCompatActivity {
                intent.putExtra("BookingId", BookingId);
                intent.putExtra("GrupaProjektu", GrupaProjektu);
                intent.putExtra("NrProjektu", NrProjektu);
-               startActivity(intent);/*
+               startActivity(intent);
 
 
- */
+/*
                if(Status.equals("0") ){
                    Intent intent = new Intent(getApplicationContext(), OcenaAuta.class);
                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -112,7 +112,7 @@ public class MojeRezerwacje extends AppCompatActivity {
                        JSON_end_trip json_end_trip = new JSON_end_trip();
                        json_end_trip.StartUpdate(BookingId, MojeRezerwacje.this);
                    }
-
+*/
 
                }
 

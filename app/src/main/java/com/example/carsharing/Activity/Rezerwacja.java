@@ -746,7 +746,6 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
                 log.close();
             }
         }
-
     }
      timePickerDialog.show();
     }
