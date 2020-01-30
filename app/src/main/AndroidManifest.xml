@@ -71,7 +71,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TakePhoto"
+            android:name=".TakePhoto_new"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Menu"

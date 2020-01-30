@@ -14,6 +14,7 @@ import com.example.carsharing.JSON.JSON_anuluj_rezerwacje;
 import com.example.carsharing.JSON.JSON_end_trip;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje_new;
+import com.example.carsharing.JSON.JSON_zakoncz_rezerwacje;
 import com.example.carsharing.R;
 
 public class MojeRezerwacje extends AppCompatActivity {
@@ -179,11 +180,13 @@ public class MojeRezerwacje extends AppCompatActivity {
         zakoncz_rezerwacje_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 alertDialog=new AlertDialog.Builder(MojeRezerwacje.this)
                         .setTitle("Rezerwacja")
                         .setMessage("Czy napewno chcesz zakończyć rezerwację?")
                         .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                            /*
                                 Intent intent = new Intent(getApplicationContext(), OcenaAuta_po.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra("StartDate", PoczatekRezerwacji);
@@ -192,6 +195,9 @@ public class MojeRezerwacje extends AppCompatActivity {
                                 intent.putExtra("GrupaProjektu", GrupaProjektu);
                                 intent.putExtra("NrProjektu", NrProjektu);
                                 startActivity(intent);
+                             */
+                                JSON_zakoncz_rezerwacje json_zakoncz_rezerwacje=new JSON_zakoncz_rezerwacje();
+                                json_zakoncz_rezerwacje.StartUpdate("test",BookingId,MojeRezerwacje.this);
                             }
                         })
                         .setNegativeButton("Nie", new DialogInterface.OnClickListener() {

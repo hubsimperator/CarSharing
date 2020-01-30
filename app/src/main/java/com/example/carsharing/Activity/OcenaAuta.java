@@ -1,14 +1,11 @@
 package com.example.carsharing.Activity;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,21 +19,16 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.Cache;
 
-import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje_new;
 import com.example.carsharing.JSON.JSON_ocen_auto;
 import com.example.carsharing.R;
-import com.example.carsharing.TakePhoto;
 import com.example.carsharing.TakePhoto_new;
 
 import java.util.ArrayList;
 
 public class OcenaAuta extends AppCompatActivity {
 
-    public static String PoczatekRezerwacji;
-    public static String KoniecRezerwacji;
     public static String BookingId;
     public static String GrupaProjektu;
     public static String NazwaProjektu;
@@ -73,17 +65,13 @@ public class OcenaAuta extends AppCompatActivity {
 
     ArrayList<Integer> phote_on;
 
-    ArrayList<String> blob_list;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("asdaas","a");
-
         TakePhoto_new tp=new TakePhoto_new();
         tp.activityResult(requestCode, resultCode,  data);
     }
-
     public void setBlobImage(ArrayList<String> _bloblist,ArrayList<Integer> _bloblist_size,ArrayList<String> _bloblist_name){
         JSON_ocen_auto json_ocen_auto=new JSON_ocen_auto();
         json_ocen_auto.StartUpdate(BookingId,switch_off,note_on,_bloblist,_bloblist_size,_bloblist_name,con);
@@ -125,33 +113,24 @@ public class OcenaAuta extends AppCompatActivity {
                 break;
             }
         }
-
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ocen_auto_przed);
 
-
         Bundle extras= getIntent().getExtras();
-       // PoczatekRezerwacji=extras.getString("StartDate");
-        //KoniecRezerwacji=extras.getString("EndDate");
         BookingId=extras.getString("BookingId");
         GrupaProjektu=extras.getString("GrupaProjektu");
         NazwaProjektu=extras.getString("NrProjektu");
         NrProjektu=extras.getString("NrProjektu");
 
-        switch_on=new ArrayList<>();
         switch_off=new ArrayList<>();
-      //  note_on=new ArrayList<>();
-
         phote_on=new ArrayList<>();
         switch1=(Switch) findViewById(R.id.switch1);
         switch2=(Switch) findViewById(R.id.switch2);
         switch3=(Switch) findViewById(R.id.switch3);
-
         note0=(TextView) findViewById(R.id.addnote0);
         photo0=(TextView) findViewById(R.id.addphoto0);
         note1=(TextView) findViewById(R.id.addnote1);
@@ -160,14 +139,11 @@ public class OcenaAuta extends AppCompatActivity {
         photo2=(TextView) findViewById(R.id.addphoto2);
 
 
-
-
         photo0.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 TakePhoto_new tp = new TakePhoto_new();
-
                 if(photo0.getText().equals("Zdjęcie")){
                     tp.showPicOrTakeNew(0,OcenaAuta.this);
                 }else {
@@ -202,7 +178,6 @@ public class OcenaAuta extends AppCompatActivity {
             }
         });
 
-
         note0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,7 +186,6 @@ public class OcenaAuta extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 alertDialog.dismiss();
-
                             }
                         })
                         .setNegativeButton("Wybierz", new DialogInterface.OnClickListener() {
@@ -224,7 +198,6 @@ public class OcenaAuta extends AppCompatActivity {
 
                 LayoutInflater inflater = (LayoutInflater)   OcenaAuta.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.notatka,null);
-
 
                 note01=view.findViewById(R.id.notatka);
                 if(notatka!=null) {
@@ -246,7 +219,6 @@ public class OcenaAuta extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 alertDialog.dismiss();
-
                             }
                         })
                         .setNegativeButton("Wybierz", new DialogInterface.OnClickListener() {
@@ -259,7 +231,6 @@ public class OcenaAuta extends AppCompatActivity {
 
                 LayoutInflater inflater = (LayoutInflater)   OcenaAuta.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.notatka,null);
-
 
                 note01=view.findViewById(R.id.notatka);
                 if(notatka1!=null) {
@@ -343,7 +314,7 @@ public class OcenaAuta extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-
+                switch_on=new ArrayList<>();
                 rozpocznij_jazde.setClickable(false);
                 note_on=new ArrayList<>();
                 if(switch1.isChecked()) switch_on.add(0);
@@ -355,13 +326,9 @@ public class OcenaAuta extends AppCompatActivity {
                 note_on.add(notatka1);
                 //note_on.add(notatka2);
 
-
                 if(photo0.getText().equals("Zdjęcie")) phote_on.add(0);
                 if(photo1.getText().equals("Zdjęcie")) phote_on.add(1);
                 if(photo2.getText().equals("Zdjęcie")) phote_on.add(2);
-
-
-
 
                 //czy wysyłać
                 if((switch_on.contains(0)) && (switch_on.contains(1))){
@@ -380,15 +347,32 @@ public class OcenaAuta extends AppCompatActivity {
                                 }
                             })
                             .show();
-                }else{
-                    con=OcenaAuta.this;
-                    TakePhoto_new tp = new TakePhoto_new();
-                    tp.sendToEncode(phote_on);
+                }else{//są zastrzezenia
+
+                    boolean a= (!(switch_on.contains(0))) && (((notatka.length()==0) && (!(photo0.getText().equals("Zdjecie")))));
+                    boolean b=(!(switch_on.contains(1))) &&(((notatka1.length()==0) && (!(photo1.getText().equals("Zdjecie")))));
+                    boolean c=(a || b);
+                    if(c){
+                        rozpocznij_jazde.setClickable(true);
+                    alertDialog = new AlertDialog.Builder(OcenaAuta.this)
+                                .setTitle("Błąd ")
+                                .setMessage("Stan samochodu został oceniony negatywnie. Opisz usterkę/stan pojazdu lub zrób zdjęcie")
+                                .setIcon(R.drawable.cancel)
+                                .setCancelable(true)
+                                .show();
+                    rozpocznij_jazde.setClickable(true);
+                    }else {//pola wypelnione
+
+                        Log.d("Tag","Przejdz dalej");
+                        con=OcenaAuta.this;
+                        TakePhoto_new tp = new TakePhoto_new();
+                        tp.sendToEncode(phote_on);
+                    }
+
+
                 }
             }
         });
-
-
 
         ImageView back_bt = (ImageView) findViewById(R.id.back_bt);
         back_bt.setOnClickListener(new View.OnClickListener() {
@@ -397,8 +381,6 @@ public class OcenaAuta extends AppCompatActivity {
                   finish();
             }
         });
-
-
     }
 
     public void startTrip(String result){
@@ -406,18 +388,6 @@ public class OcenaAuta extends AppCompatActivity {
         finish();
         JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
         json_moje_rezerwacje_new.StartUpdate(con);
-        /*
-        Intent intent = new Intent(con, RozpoczecieJazdy.class);
-        Toast.makeText(con,result,Toast.LENGTH_LONG).show();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("StartDate", PoczatekRezerwacji);
-        intent.putExtra("EndDate", KoniecRezerwacji);
-        intent.putExtra("BookingId", BookingId);
-        intent.putExtra("GrupaProjektu", GrupaProjektu);
-        intent.putExtra("NrProjektu", NrProjektu);
-        con.startActivity(intent);
-
-         */
     }
 
 }
