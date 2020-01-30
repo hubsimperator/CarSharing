@@ -2,6 +2,7 @@ package com.example.carsharing;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -288,8 +289,8 @@ public class TakePhoto_new extends AppCompatActivity {
     }
 
 
-    public void sendToEncode(ArrayList<Integer> _param){
-
+    public void sendToEncode(ArrayList<Integer> _param, ProgressDialog pg){
+        pg.dismiss();
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) { // dla wersji ponizej N
 
             path_list=new ArrayList<>();

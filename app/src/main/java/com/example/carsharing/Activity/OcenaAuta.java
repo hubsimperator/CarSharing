@@ -1,6 +1,7 @@
 package com.example.carsharing.Activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -375,9 +376,10 @@ public class OcenaAuta extends AppCompatActivity {
                             })
                             .show();
                 }else{
+                    ProgressDialog pg=new ProgressDialog(OcenaAuta.this);
                     con=OcenaAuta.this;
                     TakePhoto_new tp = new TakePhoto_new();
-                    tp.sendToEncode(phote_on);
+                    tp.sendToEncode(phote_on,pg);
                 }
             }
         });

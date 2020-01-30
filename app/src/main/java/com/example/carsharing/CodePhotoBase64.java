@@ -84,7 +84,7 @@ public class CodePhotoBase64 {
                     blob_list.add(strBase64);
                     blob_size_list.add(b.length);
 
-                }
+               }
                 return blob_list;// strBase64;
             }
 
