@@ -117,7 +117,7 @@ cv.StartUpdate(WersjaAplikacji,te,this);
 
         try {
             JSON_SendLog sendLog = new JSON_SendLog();
-            sendLog.Send(this);
+            sendLog.Send(this,WersjaAplikacji);
         } catch (Exception e) {
             Logs_DataHandler log = new Logs_DataHandler(this);
             log.inputLog("Login.class 001: " + e.toString());

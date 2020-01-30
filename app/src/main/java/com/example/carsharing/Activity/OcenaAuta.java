@@ -307,8 +307,6 @@ public class OcenaAuta extends AppCompatActivity {
             }
         });
 
-
-
         rozpocznij_jazde=(ImageView) findViewById(R.id.rezerwuj_bt);
         rozpocznij_jazde.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -321,7 +319,6 @@ public class OcenaAuta extends AppCompatActivity {
                 else switch_off.add(3);
                 if(switch2.isChecked()) switch_on.add(1);
                 else switch_off.add(4);
-
                 note_on.add(notatka);
                 note_on.add(notatka1);
                 //note_on.add(notatka2);
@@ -370,8 +367,6 @@ public class OcenaAuta extends AppCompatActivity {
                         TakePhoto_new tp = new TakePhoto_new();
                         tp.sendToEncode(phote_on);
                     }
-
-
                 }
             }
         });
@@ -391,6 +386,4 @@ public class OcenaAuta extends AppCompatActivity {
         JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
         json_moje_rezerwacje_new.StartUpdate(con);
     }
-
 }
-

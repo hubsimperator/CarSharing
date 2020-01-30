@@ -25,10 +25,11 @@ public class JSON_SendLog {
     Context context;
     String Exception="";
     String USER="";
+    String WersjaAplikacji="";
 
-
-    public void Send(Context con) {
+    public void Send(Context con,String _WersjaAplikacji) {
         context = con;
+        WersjaAplikacji=_WersjaAplikacji;
         LoginDataHandler lo = new LoginDataHandler(con);
         Cursor login = lo.getData();
         while (login.moveToNext()){
@@ -64,7 +65,7 @@ public class JSON_SendLog {
             JSONObject jsonObject = new JSONObject();
             //tutaj wrzucasz elementy json
             jsonObject.accumulate("UserId",USER);
-            jsonObject.accumulate("Device", Build.DEVICE);
+            jsonObject.accumulate("Device", (Build.DEVICE)+" | "+WersjaAplikacji);
             jsonObject.accumulate("SysVersion", "SDK: "+String.valueOf( Build.VERSION.SDK_INT));
             jsonObject.accumulate("Logvalue",Exception);
 
@@ -95,7 +96,7 @@ public class JSON_SendLog {
         protected void onPostExecute(String result) {
 //tutaj piszesz obsługę odbioru json
             if(result.equals("\"true\"")) {
-                Send(context);
+                Send(context,WersjaAplikacji);
                 Toast.makeText(context, result.toString(), Toast.LENGTH_LONG).show();
 
             }
