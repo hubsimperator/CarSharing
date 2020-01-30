@@ -77,16 +77,20 @@ public class MojeRezerwacje extends AppCompatActivity {
            @Override
            public void onClick(View v) {
 
-               Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
-               intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-               intent.putExtra("StartDate", PoczatekRezerwacji);
-               intent.putExtra("EndDate", KoniecRezerwacji);
-               intent.putExtra("Status",Status);
-               intent.putExtra("BookingId", BookingId);
-               intent.putExtra("GrupaProjektu", GrupaProjektu);
-               intent.putExtra("NrProjektu", NrProjektu);
-               startActivity(intent);
-
+               if (Status.equals("1")) {
+                   JSON_end_trip json_end_trip = new JSON_end_trip();
+                   json_end_trip.StartUpdate(BookingId, MojeRezerwacje.this);
+               }else {
+                   Intent intent = new Intent(getApplicationContext(), RozpoczecieJazdy.class);
+                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                   intent.putExtra("StartDate", PoczatekRezerwacji);
+                   intent.putExtra("EndDate", KoniecRezerwacji);
+                   intent.putExtra("Status", Status);
+                   intent.putExtra("BookingId", BookingId);
+                   intent.putExtra("GrupaProjektu", GrupaProjektu);
+                   intent.putExtra("NrProjektu", NrProjektu);
+                   startActivity(intent);
+               }
 
 /*
                if(Status.equals("0") ){
