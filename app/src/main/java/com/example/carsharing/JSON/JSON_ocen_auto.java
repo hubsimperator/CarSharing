@@ -88,7 +88,7 @@ public class JSON_ocen_auto {
 
 
             json = jsonObject.toString();
-            StringEntity se = new StringEntity(json);
+            StringEntity se = new StringEntity(json,"UTF-8");
             httpPost.setEntity(se);
             httpPost.setHeader("Content-type", "application/json");
             httpPost.setHeader("Accept", "application/json");
