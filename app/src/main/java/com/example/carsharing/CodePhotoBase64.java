@@ -47,9 +47,9 @@ public class CodePhotoBase64 {
             @Override
             protected ArrayList<String> doInBackground(Void... voids) {
 
-                for(int i=0;i<path_list.size();i++) {
+       //         for(int i=0;i<path_list.size();i++) {
 
-                    String [] s=path_list.get(i).split("/");
+                    String [] s=path_list.get(0).split("/");
                     Log.d("aa",s[4]);
                     Log.d("aa",s[s.length-1]);
                      photo_name.add(s[s.length-1]);
@@ -57,7 +57,7 @@ public class CodePhotoBase64 {
                    if(selectedImage != null) {
                        selectedImage.recycle();
                    }
-                    selectedImage = BitmapFactory.decodeFile(path_list.get(i));
+                    selectedImage = BitmapFactory.decodeFile(path_list.get(0));
                     int width = selectedImage.getWidth();
                     int height = selectedImage.getHeight();
 //800 600
@@ -71,7 +71,7 @@ public class CodePhotoBase64 {
                     }
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream);
                     byte[] byteArray = stream.toByteArray();
                     String strBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
                     byte[] b = new byte[0];
@@ -84,7 +84,7 @@ public class CodePhotoBase64 {
                     blob_list.add(strBase64);
                     blob_size_list.add(b.length);
 
-                }
+             //   }
                 return blob_list;// strBase64;
             }
 
