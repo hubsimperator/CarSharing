@@ -344,7 +344,7 @@ public class OcenaAuta extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-               rozpocznij_jazde.setVisibility(View.INVISIBLE);
+                rozpocznij_jazde.setClickable(false);
                 note_on=new ArrayList<>();
                 if(switch1.isChecked()) switch_on.add(0);
                 else switch_off.add(3);
