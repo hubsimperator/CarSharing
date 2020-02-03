@@ -101,7 +101,7 @@ public class Rezerwacja extends AppCompatActivity implements DatePickerDialog.On
     public static ArrayList<String> numer_proj;
 
 
-    Integer position=null;
+    Integer position=0;
 
 
     boolean start_date=false;
@@ -511,8 +511,36 @@ public boolean sprawdz_czy_data_poprawna(){
     }
     }
 
+    public void wyswietl_komunikat(String message){
+        alertDialog = new AlertDialog.Builder(Rezerwacja.this)
+                .setTitle("Uwaga")
+                .setMessage("Pole: '"+message+"' nie może być puste")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
 public boolean sprawdz_czy_dane_niepuste(int param) {
     if (param == 0) {
+        if(!(subject_et.length() > 1 || subject_et.getHint().length()>1)){
+            wyswietl_komunikat("Temat");
+            return false;
+        }else if( poczatek_et.length() < 1){
+            wyswietl_komunikat("Rozpoczęcie rezerwacji");
+            return false;
+        }else if(koniec_et.length() < 1){
+            wyswietl_komunikat("Koniec rezerwacji");
+            return false;
+        }else if(projekt_et.length() < 1){
+            wyswietl_komunikat("Projekt");
+            return false;
+        }else if( wybrany_samochod_tv.getText().length()<2){
+            wyswietl_komunikat("Wybrany samochód");
+            return false;
+        }else{
+            return true;
+        }
+/*
+
         if ((subject_et.length() > 1 || subject_et.getHint().length()>1) && poczatek_et.length() > 1 && koniec_et.length() > 1 && projekt_et.length() > 1 && wybrany_samochod_tv.getText().length()>2) {
             return true;
         } else {
@@ -523,6 +551,7 @@ public boolean sprawdz_czy_dane_niepuste(int param) {
                     .show();
             return false;
         }
+       */
     }
     else{
             if (poczatek_et.length() > 1 && koniec_et.length() > 1) {
@@ -533,10 +562,8 @@ public boolean sprawdz_czy_dane_niepuste(int param) {
                         .setMessage("Pola : 'Początek'i'Koniec' nie mogą być puste !")
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
-
                 return false;
             }
-
     }
 }
 
