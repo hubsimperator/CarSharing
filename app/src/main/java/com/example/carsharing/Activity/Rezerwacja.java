@@ -281,34 +281,38 @@ numer_proj=new ArrayList<>();
         poczatek_et.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!(data_poczatkowa==null)){
+                if (!(data_poczatkowa == null)) {
                     poczatek_et.setText(data_poczatkowa);
                 }
-                start_date=true;
-                end_date=false;
+                start_date = true;
+                end_date = false;
 
-                Calendar c= Calendar.getInstance();
+                Calendar c = Calendar.getInstance();
              /*
                 year=c.get(Calendar.YEAR);
                 month=c.get(Calendar.MONTH);
                 day=c.get(Calendar.DAY_OF_MONTH);
 
               */
-                String ss[]=data_poczatkowa.split(" ");
-                String s[]=ss[0].split("-");
-                year=Integer.valueOf(s[0]);
-                month=Integer.valueOf(s[1])-1;
-                day=Integer.valueOf(s[2]);
-                Log.d("a","f");
+                String ss[] = data_poczatkowa.split(" ");
+                String s[] = ss[0].split("-");
+                year = Integer.valueOf(s[0]);
+                month = Integer.valueOf(s[1]) - 1;
+                day = Integer.valueOf(s[2]);
+                Log.d("a", "f");
 
-                c.set(Calendar.YEAR,year);
-                c.set(Calendar.MONTH,month);
-                c.set(Calendar.DAY_OF_MONTH,day);
+                c.set(Calendar.YEAR, year);
+                c.set(Calendar.MONTH, month);
+                c.set(Calendar.DAY_OF_MONTH, day);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(Rezerwacja.this,Rezerwacja.this,year,month,day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Rezerwacja.this, Rezerwacja.this, year, month, day);
 
-                Calendar c2= Calendar.getInstance();
-                datePickerDialog.getDatePicker().setMinDate(c2.getTimeInMillis());
+                Calendar c2 = Calendar.getInstance();
+                try {
+                    datePickerDialog.getDatePicker().setMinDate(c2.getTimeInMillis());
+                } catch (IllegalArgumentException e) {
+
+                }
                 datePickerDialog.show();
             }
         });
@@ -740,11 +744,7 @@ public void wyswietl_projekt(Context con,String _proj,String _grupa_projektu){
             minute=c.get(Calendar.MINUTE);
             timePickerDialog.updateTime(hour,minute);
         }catch (Exception ne){
-            if(!godzina_poczatkowa.equals(null)) {
-                Logs_DataHandler log = new Logs_DataHandler(this);
-                log.inputLog("Rezerwacja.class 005: " + ne.toString());
-                log.close();
-            }
+
         }
     }
      timePickerDialog.show();

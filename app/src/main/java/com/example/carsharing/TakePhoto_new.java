@@ -31,6 +31,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.carsharing.Activity.OcenaAuta;
+import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.Other.Update;
 
 import java.io.File;
@@ -369,7 +370,6 @@ public class TakePhoto_new extends AppCompatActivity {
                     b.getHeight());
             return b;
         } catch ( IOException e) {
-            Log.e("", e.getMessage(), e);
             return null;
         }
     }

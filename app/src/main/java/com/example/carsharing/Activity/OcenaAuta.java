@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.carsharing.DataHandler.Logs_DataHandler;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje_new;
 import com.example.carsharing.JSON.JSON_ocen_auto;
 import com.example.carsharing.R;
@@ -68,13 +69,25 @@ public class OcenaAuta extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        TakePhoto_new tp=new TakePhoto_new();
-        tp.activityResult(requestCode, resultCode,  data);
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            TakePhoto_new tp = new TakePhoto_new();
+            tp.activityResult(requestCode, resultCode, data);
+        } catch (Exception e) {
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog("OcenaAuta.class 001: " + e.toString());
+            log.close();
+        }
     }
     public void setBlobImage(ArrayList<String> _bloblist,ArrayList<Integer> _bloblist_size,ArrayList<String> _bloblist_name){
-        JSON_ocen_auto json_ocen_auto=new JSON_ocen_auto();
-        json_ocen_auto.StartUpdate(BookingId,switch_off,note_on,_bloblist,_bloblist_size,_bloblist_name,con);
+        try {
+            JSON_ocen_auto json_ocen_auto = new JSON_ocen_auto();
+            json_ocen_auto.StartUpdate(BookingId, switch_off, note_on, _bloblist, _bloblist_size, _bloblist_name, con);
+        } catch (Exception e) {
+            Logs_DataHandler log = new Logs_DataHandler(this);
+            log.inputLog("OcenaAuta.class 002: " + e.toString());
+            log.close();
+        }
     }
 
     public void setphoto(Integer _param,Integer _podparam){
