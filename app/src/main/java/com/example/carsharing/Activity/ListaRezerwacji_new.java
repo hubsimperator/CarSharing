@@ -81,7 +81,7 @@ public class ListaRezerwacji_new extends AppCompatActivity implements Serializab
                 intent.putExtra("Status",lista_rezerwacji.get(_position).getStatus());
                 intent.putExtra("GrupaProjektu",lista_rezerwacji.get(_position).getGrupaProjektu());
                 intent.putExtra("NrProjektu",lista_rezerwacji.get(_position).getNrProjektu());
-
+                intent.putExtra("EitResource",lista_rezerwacji.get(_position).getEit_Resource());
                 startActivity(intent);
             }
         });
