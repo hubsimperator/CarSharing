@@ -51,12 +51,20 @@ public class RozpoczecieJazdy extends AppCompatActivity {
         setContentView(R.layout.rozpoczeciejazdy);
 
         Bundle extras= getIntent().getExtras();
-        PoczatekRezerwacji=extras.getString("StartDate");
-        KoniecRezerwacji=extras.getString("EndDate");
-        BookingId=extras.getString("BookingId");
-        GrupaProjektu=extras.getString("GrupaProjektu");
-        NazwaProjektu=extras.getString("NrProjektu");
-        Status=extras.getString("Status");
+        try {
+            PoczatekRezerwacji = extras.getString("StartDate");
+            KoniecRezerwacji = extras.getString("EndDate");
+            Status = extras.getString("Status");
+        }catch (NullPointerException ne){
+
+        }
+
+
+        BookingId = extras.getString("BookingId");
+        GrupaProjektu = extras.getString("GrupaProjektu");
+        NazwaProjektu = extras.getString("NrProjektu");
+
+
         rozpocznij_bt=(ImageView) findViewById(R.id.potwierdz_bt);
         rozpocznij_bt.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="20sp"
         android:layout_marginRight="20sp"
-        android:weightSum="3"
+        android:weightSum="4"
         android:orientation="vertical">
 
         <ImageView
@@ -43,6 +43,15 @@
             android:layout_marginTop="30sp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/koszty" />
+
+        <ImageView
+            android:id="@+id/qrscanner_bt"
+            android:layout_width="match_parent"
+            android:layout_height="90sp"
+            android:layout_marginTop="30sp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/anuluj" />
 
         <ImageView
             android:id="@+id/telefon_bt"

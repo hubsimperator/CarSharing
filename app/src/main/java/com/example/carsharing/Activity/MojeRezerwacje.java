@@ -14,6 +14,7 @@ import com.example.carsharing.JSON.JSON_anuluj_rezerwacje;
 import com.example.carsharing.JSON.JSON_end_trip;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje_new;
+import com.example.carsharing.JSON.JSON_open_car;
 import com.example.carsharing.JSON.JSON_zakoncz_rezerwacje;
 import com.example.carsharing.R;
 
@@ -24,11 +25,14 @@ public class MojeRezerwacje extends AppCompatActivity {
     public static String Status;
     public static String GrupaProjektu;
     public static String NrProjektu;
+    public static String EitResource;
 
     ImageView anuluj_rezerwacje_bt;
     ImageView zakoncz_rezerwacje_bt;
 
     ImageView lokalizacja_bt;
+
+    ImageView openCar_bt;
 
     AlertDialog alertDialog;
     @Override
@@ -43,6 +47,7 @@ public class MojeRezerwacje extends AppCompatActivity {
        Status=extras.getString("Status");
        GrupaProjektu=extras.getString("GrupaProjektu");
        NrProjektu=extras.getString("NrProjektu");
+       EitResource=extras.getString("EitResource");
 
 
        lokalizacja_bt=(ImageView) findViewById(R.id.lokalizuj_bt);
@@ -56,6 +61,14 @@ public class MojeRezerwacje extends AppCompatActivity {
            }
        });
 
+       openCar_bt=(ImageView) findViewById(R.id.openCar_bt);
+       openCar_bt.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               JSON_open_car json_open_car=new JSON_open_car();
+               json_open_car.StartUpdate(EitResource,MojeRezerwacje.this);
+           }
+       });
 
        zakoncz_rezerwacje_bt=(ImageView) findViewById(R.id.zakoncz_bt);
 

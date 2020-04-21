@@ -9,6 +9,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -108,6 +109,14 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), QRScanner.class));
+            }
+        });
+
+        ImageView qrscanner_bt=(ImageView) findViewById(R.id.qrscanner_bt);
+        qrscanner_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),QRScanner.class));
             }
         });
 

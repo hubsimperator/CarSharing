@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.carsharing.JSON.JSON_qrscanner;
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -49,7 +50,10 @@ public class QRScanner extends AppCompatActivity implements ZXingScannerView.Res
     public void handleResult(Result result) {
         Log.d("QRCODe",result.toString());
         Toast.makeText(QRScanner.this,result.toString(),Toast.LENGTH_LONG).show();
-        onBackPressed();
+        JSON_qrscanner json_qrscanner=new JSON_qrscanner();
+        json_qrscanner.StartUpdate(QRScanner.this,result.toString());
+
+        //  onBackPressed();
     }
 
     @Override
