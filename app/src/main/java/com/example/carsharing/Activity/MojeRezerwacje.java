@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carsharing.JSON.JSON_anuluj_rezerwacje;
+import com.example.carsharing.JSON.JSON_close_car;
 import com.example.carsharing.JSON.JSON_end_trip;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje_new;
@@ -33,6 +34,7 @@ public class MojeRezerwacje extends AppCompatActivity {
     ImageView lokalizacja_bt;
 
     ImageView openCar_bt;
+    ImageView closeCar_bt;
 
     AlertDialog alertDialog;
     @Override
@@ -61,14 +63,23 @@ public class MojeRezerwacje extends AppCompatActivity {
            }
        });
 
-       openCar_bt=(ImageView) findViewById(R.id.openCar_bt);
-       openCar_bt.setOnClickListener(new View.OnClickListener() {
+       closeCar_bt=(ImageView) findViewById(R.id.closeCar_bt);
+       closeCar_bt.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               JSON_open_car json_open_car=new JSON_open_car();
-               json_open_car.StartUpdate(EitResource,MojeRezerwacje.this);
+               JSON_close_car json_close_car=new JSON_close_car();
+               json_close_car.StartUpdate(EitResource,MojeRezerwacje.this);
            }
        });
+
+        openCar_bt=(ImageView) findViewById(R.id.openCar_bt);
+        openCar_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSON_open_car json_open_car=new JSON_open_car();
+                json_open_car.StartUpdate(EitResource,MojeRezerwacje.this);
+            }
+        });
 
        zakoncz_rezerwacje_bt=(ImageView) findViewById(R.id.zakoncz_bt);
 
