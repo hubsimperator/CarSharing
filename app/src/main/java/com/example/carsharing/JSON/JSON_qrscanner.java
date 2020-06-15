@@ -134,6 +134,7 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, Obiekt_QRgetstart> 
                     })
                     .show();
         }else{
+            /*
             Intent intent = new Intent(con, RozpoczecieJazdy.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("BookingId", result.getBookingId());
@@ -141,6 +142,12 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, Obiekt_QRgetstart> 
             intent.putExtra("NrProjektu", result.getNrProjektu());
             intent.putExtra("Status",result.getStatus());
             con.startActivity(intent);
+            */
+
+            JSON_lista_rezerwacjiQR json_lista_rezerwacjiQR=new JSON_lista_rezerwacjiQR();
+            json_lista_rezerwacjiQR.StartUpdate(con);
+
+
         }
 
     }

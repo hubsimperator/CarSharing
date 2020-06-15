@@ -8,7 +8,7 @@
     tools:context=".Other.MainActivity">
 
     <LinearLayout
-        android:layout_marginTop="50sp"
+        android:layout_marginTop="20sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginRight="20dp"
@@ -33,6 +33,7 @@
             android:layout_gravity="center"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:visibility="gone"
             app:srcCompat="@drawable/icon_open" />
 
         <ImageView
@@ -41,8 +42,33 @@
             android:layout_gravity="center"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:visibility="gone"
             app:srcCompat="@drawable/icon_close" />
     </LinearLayout>
+        <Button
+            android:id="@+id/qrscanner_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Otworz auto QR kodem" />
+        <TextView
+            android:id="@+id/infoAboutDistance_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ff0000"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="Jesteś za daleko samochodu, żeby go otworzyć !" />
+
+        <TextView
+            android:id="@+id/infoAboutGPS_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#0000ff"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="Oczekiwanie na sygnał GPS..." />
 
         <ImageView
             android:id="@+id/potwierdz_bt"
