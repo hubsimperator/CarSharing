@@ -23,15 +23,17 @@ import java.io.InputStreamReader;
 public class JSON_close_car {
     Context con ;
     public static String EitResource = null;
+    public static String BookingId = null;
     String Results="";
 
-    public void StartUpdate(String _EitResource, Context context) {
+    public void StartUpdate(String _EitResource,String _BookingId, Context context) {
         con = context;
         EitResource=_EitResource;
+        BookingId=_BookingId;
         new JSON_close_car.HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppOpenClose");
     }
 
-    public String POST(String url,String _EitResource) {
+    public String POST(String url,String _EitResource,String _BookingId) {
         InputStream inputStream = null;
         String result = "";
         try {
@@ -41,6 +43,7 @@ public class JSON_close_car {
             JSONObject jsonObject = new JSONObject();
             jsonObject.accumulate("ID","1");
             jsonObject.accumulate("ResourceName",_EitResource);
+            jsonObject.accumulate("BookingId",_BookingId);
             json = jsonObject.toString();
             StringEntity se = new StringEntity(json,"UTF-8");
             httpPost.setEntity(se);
@@ -71,7 +74,7 @@ public class JSON_close_car {
 
         @Override
         protected String doInBackground(String... urls) {
-            return POST(urls[0],EitResource);
+            return POST(urls[0],EitResource,BookingId);
         }
 
         @Override

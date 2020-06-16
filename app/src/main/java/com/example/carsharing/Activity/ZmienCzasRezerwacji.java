@@ -3,6 +3,7 @@ package com.example.carsharing.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -16,7 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.carsharing.JSON.JSON_zmien_czas_rezerwacji;
 import com.example.carsharing.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -64,8 +68,12 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
                 data_poczatkowa=poczatek_et.getText().toString();
                 data_koncowa=koniec_et.getText().toString();
 
-                JSON_zmien_czas_rezerwacji json_zmien_czas_rezerwacji=new JSON_zmien_czas_rezerwacji();
-                json_zmien_czas_rezerwacji.StartUpdate(data_poczatkowa,data_koncowa,BookingId,ZmienCzasRezerwacji.this);
+                ZmienCzasRezerwacji zmienCzasRezerwacji=new ZmienCzasRezerwacji();
+
+                if(zmienCzasRezerwacji.sprawdz_czy_data_poprawna(ZmienCzasRezerwacji.this)) {
+                    JSON_zmien_czas_rezerwacji json_zmien_czas_rezerwacji = new JSON_zmien_czas_rezerwacji();
+                    json_zmien_czas_rezerwacji.StartUpdate(data_poczatkowa, data_koncowa, BookingId, ZmienCzasRezerwacji.this);
+                }
             }
         });
 
@@ -113,9 +121,28 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
                 datePickerDialog.show();
             }
         });
-
 }
 
+    public boolean sprawdz_czy_data_poprawna(Context con){
+        String s1= poczatek_et.getText().toString();
+        String s2= koniec_et.getText().toString();
+        try {
+            Date date1=new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(s1);
+            Date date2=new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(s2);
+            if(date1.compareTo(date2)>0){
+                alertDialog = new AlertDialog.Builder(con)
+                        .setTitle("Uwaga")
+                        .setMessage("Data końcowa musi być większa niż data początkowa !")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+                return false;
+            }else return true;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -173,12 +200,10 @@ public class ZmienCzasRezerwacji extends AppCompatActivity implements DatePicker
         String data=(dayFinal)+"-"+(monthFinal)+"-"+(yearFinal);
         String godzina=(hourFinal)+":"+(minuteFinal);
        if(start_date) {
-           data_poczatkowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minuteFinal)+":00";
+           data_poczatkowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minuteFinal);
            poczatek_et.setText(data_poczatkowa);
-
        }else{
-
-           data_koncowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minuteFinal)+":00";
+           data_koncowa=yearFinal+"-"+monthFinal+"-"+dayFinal+" "+(hourFinal)+":"+(minuteFinal);
            koniec_et.setText(data_koncowa);
        }
 
