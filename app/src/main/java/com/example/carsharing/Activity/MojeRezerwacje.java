@@ -134,7 +134,7 @@ public class MojeRezerwacje extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 JSON_close_car json_close_car = new JSON_close_car();
-                json_close_car.StartUpdate(EitResource, MojeRezerwacje.this);
+                json_close_car.StartUpdate(EitResource,BookingId, MojeRezerwacje.this);
             }
         });
 
@@ -143,7 +143,7 @@ public class MojeRezerwacje extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 JSON_open_car json_open_car = new JSON_open_car();
-                json_open_car.StartUpdate(EitResource, MojeRezerwacje.this);
+                json_open_car.StartUpdate(EitResource,BookingId, MojeRezerwacje.this);
             }
         });
 

@@ -45,11 +45,13 @@
             android:visibility="gone"
             app:srcCompat="@drawable/icon_close" />
     </LinearLayout>
+
         <Button
             android:id="@+id/qrscanner_bt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Otworz auto QR kodem" />
+            android:text="Otworz auto QR kodem"
+            android:visibility="gone" />
         <TextView
             android:id="@+id/infoAboutDistance_tv"
             android:layout_width="match_parent"
