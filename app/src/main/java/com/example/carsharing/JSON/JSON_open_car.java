@@ -15,6 +15,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -29,10 +31,13 @@ public class JSON_open_car {
     public static String EitResource = null;
     public static String BookingId = null;
     String Results="";
+    String Response;
+
 
     public void StartUpdate(String _EitResource,String _BookingId, Context context) {
         con = context;
         EitResource=_EitResource;
+        BookingId=_BookingId;
         new JSON_open_car.HttpAsyncTask2().execute("https://notif2.sng.com.pl/api/CsAppOpenClose");
     }
 
@@ -61,7 +66,7 @@ public class JSON_open_car {
             log.inputLog( "JSON_ocen_car.class 001: "+e.toString());
             log.close();
         }
-        return result;
+        return deserialize_json(result);
     }
 
     private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
@@ -90,6 +95,38 @@ public class JSON_open_car {
                     .setCancelable(true)
                     .show();
         }
+    }
+
+
+    public String deserialize_json(String input)
+    {
+        Response="blank";
+        JSONArray array = null;
+
+        try {
+            array = new JSONArray(input);
+
+        } catch (JSONException e) {
+
+        }
+
+        try {
+
+            for (int i = 0; i <array.length(); i++) {
+                JSONObject row = array.getJSONObject(i);
+                Response=row.getString("response");
+            }
+
+            Log.d("a","aa");
+        }
+        catch (JSONException e) {
+        }
+
+        if(Response.contains("$OK:OUTS")) Response="Samochód otwarty";
+        else{
+            Response="Wystąpił problem z połączeniem. Spróbuj za chwilę";
+        }
+        return Response;
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
