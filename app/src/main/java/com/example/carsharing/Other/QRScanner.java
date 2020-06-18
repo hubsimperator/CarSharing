@@ -53,7 +53,7 @@ public class QRScanner extends AppCompatActivity implements ZXingScannerView.Res
         Toast.makeText(QRScanner.this,result.toString(),Toast.LENGTH_LONG).show();
         JSON_qrscanner json_qrscanner=new JSON_qrscanner();
         json_qrscanner.StartUpdate(QRScanner.this,result.toString());
-
+        finish();
         //  onBackPressed();
     }
 
