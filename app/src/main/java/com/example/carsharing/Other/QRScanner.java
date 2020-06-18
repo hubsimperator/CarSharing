@@ -21,9 +21,12 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class QRScanner extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     ZXingScannerView ScannerView;
+    String SelectedEit_Resource;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        SelectedEit_Resource = extras.getString("SelectedEit_Resource");
         Dexter.withActivity(this)
                 .withPermission(Manifest.permission.CAMERA)
                 .withListener(new PermissionListener(){
@@ -51,8 +54,13 @@ public class QRScanner extends AppCompatActivity implements ZXingScannerView.Res
     public void handleResult(Result result) {
         Log.d("QRCODe",result.toString());
         Toast.makeText(QRScanner.this,result.toString(),Toast.LENGTH_LONG).show();
-        JSON_qrscanner json_qrscanner=new JSON_qrscanner();
-        json_qrscanner.StartUpdate(QRScanner.this,result.toString());
+       if(result.toString().equals(SelectedEit_Resource)){
+
+           JSON_qrscanner json_qrscanner=new JSON_qrscanner();
+           json_qrscanner.StartUpdate(QRScanner.this,result.toString());
+       }
+
+
         finish();
         //  onBackPressed();
     }

@@ -257,7 +257,11 @@ public class MojeRezerwacje extends AppCompatActivity {
         QRScanner_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), QRScanner.class));
+
+                Intent intent = new Intent(getApplicationContext(), QRScanner.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("SelectedEit_Resource", EitResource);
+                startActivity(intent);
             }
         });
 
