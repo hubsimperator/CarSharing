@@ -123,9 +123,7 @@ public class JSON_open_car {
         }
 
         if(Response.contains("$OK:OUTS")) Response="Samochód otwarty";
-        else{
-            Response="Wystąpił problem z połączeniem. Spróbuj za chwilę";
-        }
+
         return Response;
     }
 

@@ -25,6 +25,7 @@ import com.example.carsharing.JSON.JSON_end_trip;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje;
 import com.example.carsharing.JSON.JSON_moje_rezerwacje_new;
 import com.example.carsharing.JSON.JSON_open_car;
+import com.example.carsharing.JSON.JSON_qrscanner;
 import com.example.carsharing.JSON.JSON_zakoncz_rezerwacje;
 import com.example.carsharing.Other.QRScanner;
 import com.example.carsharing.R;
@@ -45,6 +46,8 @@ public class MojeRezerwacje extends AppCompatActivity {
     public static String GrupaProjektu;
     public static String NrProjektu;
     public static String EitResource;
+    public static Integer RemoteControlStatus;
+
 
     public static Integer CZAS_DO_ROZPOCZECIA=15;
 
@@ -111,6 +114,13 @@ public class MojeRezerwacje extends AppCompatActivity {
         GrupaProjektu = extras.getString("GrupaProjektu");
         NrProjektu = extras.getString("NrProjektu");
         EitResource = extras.getString("EitResource");
+
+        try{
+            RemoteControlStatus = extras.getInt("RemoteControlStatus");
+        }catch (Exception e){
+            RemoteControlStatus=0;
+        }
+
 
         long minutes=9999;
 
@@ -248,7 +258,6 @@ public class MojeRezerwacje extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), QRScanner.class));
-
             }
         });
 
@@ -297,6 +306,8 @@ public class MojeRezerwacje extends AppCompatActivity {
 
         infoAboutGPS_tv=(TextView) findViewById(R.id.infoAboutGPS_tv);
 
+
+        /*
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
         try {
@@ -311,9 +322,11 @@ public class MojeRezerwacje extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        */
 
-        openCar_bt.setVisibility(View.VISIBLE);
-        closeCar_bt.setVisibility(View.VISIBLE);
+
+        openCar_bt.setVisibility(View.GONE);
+        closeCar_bt.setVisibility(View.GONE);
         //komentuje
         /*
         //Sprawdza warunek zdefiniowanego czasu do rozpoczecia  rezerwacji
@@ -332,8 +345,28 @@ public class MojeRezerwacje extends AppCompatActivity {
 
          */
 
+        TurnOnRemoteControlIcons(RemoteControlStatus);
+
     }
 
+    public void TurnOnRemoteControlIcons(int status){
+Log.d("RemoteControl",Integer.toString(status));
+        switch(status){
+            case 0: {
+                openCar_bt.setVisibility(View.GONE);
+                closeCar_bt.setVisibility(View.GONE);
+                QRScanner_bt.setVisibility(View.VISIBLE);
+            };
+            break;
+            case 1:{
+                openCar_bt.setVisibility(View.VISIBLE);
+                closeCar_bt.setVisibility(View.VISIBLE);
+                QRScanner_bt.setVisibility(View.GONE);
+            };
+            break;
+        }
+
+    }
 
 
 

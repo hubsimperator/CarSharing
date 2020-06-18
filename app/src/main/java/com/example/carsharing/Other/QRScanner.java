@@ -44,6 +44,7 @@ public class QRScanner extends AppCompatActivity implements ZXingScannerView.Res
                 .check();
         ScannerView = new ZXingScannerView(this);
         setContentView(ScannerView);
+
     }
 
     @Override

@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.util.Log;
 
+import com.example.carsharing.Activity.MojeRezerwacje;
 import com.example.carsharing.Activity.RozpoczecieJazdy;
 import com.example.carsharing.DataHandler.LoginDataHandler;
 import com.example.carsharing.DataHandler.Logs_DataHandler;
@@ -119,7 +121,7 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, Obiekt_QRgetstart> 
     AlertDialog alertDialog;
     @Override
     protected void onPostExecute(Obiekt_QRgetstart result) {
-
+        Log.d("Remot","test1");
         if(result.getError().length()>2) {
             alertDialog = new AlertDialog.Builder(con)
                     .setTitle("Błąd")
@@ -144,8 +146,20 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, Obiekt_QRgetstart> 
             con.startActivity(intent);
             */
 
-            JSON_lista_rezerwacjiQR json_lista_rezerwacjiQR=new JSON_lista_rezerwacjiQR();
-            json_lista_rezerwacjiQR.StartUpdate(con);
+
+         //   JSON_lista_rezerwacjiQR json_lista_rezerwacjiQR=new JSON_lista_rezerwacjiQR();
+           // json_lista_rezerwacjiQR.StartUpdate(con);
+
+            Log.d("Remot","test");
+            Intent intent = new Intent(con, MojeRezerwacje.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("BookingId",result.getBookingId());
+            intent.putExtra("Status",result.getStatus());
+            intent.putExtra("GrupaProjektu",result.getGrProjektu());
+            intent.putExtra("NrProjektu",result.getNrProjektu());
+            intent.putExtra("EitResource",EitResource);
+            intent.putExtra("RemoteControlStatus",1);
+            con.startActivity(intent);
 
 
         }

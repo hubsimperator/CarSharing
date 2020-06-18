@@ -112,15 +112,11 @@ public class JSON_close_car {
                 JSONObject row = array.getJSONObject(i);
                 Response=row.getString("response");
             }
-
-            Log.d("a","aa");
         }
         catch (JSONException e) {
         }
         if(Response.contains("$OK:OUTS")) Response="Samochód zamknięty";
-        else{
-            Response="Wystąpił problem z połączeniem. Spróbuj za chwilę";
-        }
+
         return Response;
     }
 
