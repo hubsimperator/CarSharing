@@ -3,11 +3,14 @@ package com.example.carsharing.Other;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.carsharing.JSON.JSON_qrscanner;
+import com.example.carsharing.R;
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -55,13 +58,29 @@ public class QRScanner extends AppCompatActivity implements ZXingScannerView.Res
         Log.d("QRCODe",result.toString());
         Toast.makeText(QRScanner.this,result.toString(),Toast.LENGTH_LONG).show();
        if(result.toString().equals(SelectedEit_Resource)){
-
            JSON_qrscanner json_qrscanner=new JSON_qrscanner();
            json_qrscanner.StartUpdate(QRScanner.this,result.toString());
+           finish();
+
+       }else{
+           AlertDialog alertDialog;
+           alertDialog= new AlertDialog.Builder(QRScanner.this)
+                   .setTitle("Informacja")
+                   .setMessage("Twoja rezerwacja nie dotyczy wskazanego auta")
+                   .setIcon(R.drawable.confirm)
+                   .setCancelable(true)
+                   .show();
+
+           alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+               @Override
+               public void onCancel(DialogInterface dialog) {
+                   finish();
+               }
+           });
+
        }
 
 
-        finish();
         //  onBackPressed();
     }
 

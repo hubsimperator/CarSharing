@@ -87,7 +87,10 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, Obiekt_QRgetstart> 
                     String NrProjektu=jsonobject.getString("NrProjektu");
                     String Status=jsonobject.getString("Status");
                     String Error=jsonobject.getString("Error");
-                    obiekt_qRgetstart=new Obiekt_QRgetstart(BookingId,GrProjektu,NrProjektu,Error,Status);
+                    String StartDate=jsonobject.getString("StartDate");
+                    String EndDate=jsonobject.getString("EndDate");
+
+                    obiekt_qRgetstart=new Obiekt_QRgetstart(BookingId,GrProjektu,NrProjektu,Error,Status,StartDate,EndDate);
                 }
 
             } catch (Exception e) {
@@ -157,6 +160,8 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, Obiekt_QRgetstart> 
             intent.putExtra("Status",result.getStatus());
             intent.putExtra("GrupaProjektu",result.getGrProjektu());
             intent.putExtra("NrProjektu",result.getNrProjektu());
+            intent.putExtra("StartDate",result.getStartDate());
+            intent.putExtra("EndDate",result.getEndDate());
             intent.putExtra("EitResource",EitResource);
             intent.putExtra("RemoteControlStatus",1);
             con.startActivity(intent);
