@@ -56,7 +56,7 @@ public class QRScanner extends AppCompatActivity implements ZXingScannerView.Res
     @Override
     public void handleResult(Result result) {
         Log.d("QRCODe",result.toString());
-        Toast.makeText(QRScanner.this,result.toString(),Toast.LENGTH_LONG).show();
+    //    Toast.makeText(QRScanner.this,result.toString(),Toast.LENGTH_LONG).show();
        if(result.toString().equals(SelectedEit_Resource)){
            JSON_qrscanner json_qrscanner=new JSON_qrscanner();
            json_qrscanner.StartUpdate(QRScanner.this,result.toString());
