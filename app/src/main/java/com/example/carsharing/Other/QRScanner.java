@@ -60,7 +60,7 @@ public class QRScanner extends AppCompatActivity implements ZXingScannerView.Res
        if(result.toString().equals(SelectedEit_Resource)){
            JSON_qrscanner json_qrscanner=new JSON_qrscanner();
            json_qrscanner.StartUpdate(QRScanner.this,result.toString());
-           finish();
+           //finish();
 
        }else{
            AlertDialog alertDialog;

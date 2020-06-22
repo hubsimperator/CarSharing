@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.carsharing.Activity.Mapa;
 import com.example.carsharing.Activity.MojeRezerwacje;
 import com.example.carsharing.Activity.RozpoczecieJazdy;
 import com.example.carsharing.DataHandler.LoginDataHandler;
@@ -35,6 +36,7 @@ public class JSON_qrscanner {
     String EitResource;
     String user_name;
     Obiekt_QRgetstart obiekt_qRgetstart;
+    AlertDialog alertDialog;
 
 public void StartUpdate(Context context,String _EitResource) {
         con = context;
@@ -121,7 +123,6 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, Obiekt_QRgetstart> 
             log.close();
         }
     }
-    AlertDialog alertDialog;
     @Override
     protected void onPostExecute(Obiekt_QRgetstart result) {
         Log.d("Remot","test1");
@@ -135,6 +136,8 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, Obiekt_QRgetstart> 
                         @Override
                         public void onCancel(DialogInterface dialog) {
                             alertDialog.dismiss();
+                            JSON_moje_rezerwacje_new json_moje_rezerwacje_new=new JSON_moje_rezerwacje_new();
+                            json_moje_rezerwacje_new.StartUpdate(con);
                         }
                     })
                     .show();
@@ -165,9 +168,7 @@ private class HttpAsyncTask2 extends AsyncTask<String, Void, Obiekt_QRgetstart> 
             intent.putExtra("EitResource",EitResource);
             intent.putExtra("RemoteControlStatus",1);
             con.startActivity(intent);
-
-
-        }
+       }
 
     }
 }
