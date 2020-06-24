@@ -35,6 +35,7 @@ String BookingId;
     public static TextView typPaliwa_tv;
     public static Button maptypes_bt;
     public static TextView czasodczytu_tv;
+    String Uzytkownik;
 
     int rodzaj_mapy=0;
 
@@ -86,6 +87,7 @@ String BookingId;
             samochod_tv.setText(obiekt_lokalizacjaSamochodu.getResourceName());
             wartoscPaliwa_tv.setText(obiekt_lokalizacjaSamochodu.getWartoscPaliwa());
             typPaliwa_tv.setText(obiekt_lokalizacjaSamochodu.getTypPaliwa());
+            Uzytkownik=obiekt_lokalizacjaSamochodu.getUzytkownik();
 
             czasodczytu_tv.setText(obiekt_lokalizacjaSamochodu.getCzasOdczytu());
             try{
@@ -93,7 +95,7 @@ String BookingId;
                 double Lat = Double.valueOf(obiekt_lokalizacjaSamochodu.getLatitude());
                 double Lon = Double.valueOf(obiekt_lokalizacjaSamochodu.getLongitude());
                 LatLng auto = new LatLng(Lat, Lon);
-                mMap.addMarker(new MarkerOptions().position(auto).title("auto").icon(BitmapDescriptorFactory.fromResource(R.drawable.znacznik)));
+                mMap.addMarker(new MarkerOptions().position(auto).icon(BitmapDescriptorFactory.fromResource(R.drawable.znacznik)).title(Uzytkownik)).showInfoWindow();
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(auto, 18.0f));
             }catch (NumberFormatException ne){
 

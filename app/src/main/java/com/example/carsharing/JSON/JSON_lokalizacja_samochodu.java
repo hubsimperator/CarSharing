@@ -117,7 +117,8 @@ public class JSON_lokalizacja_samochodu {
                     String TypPaliwa=row.getString("Typ");
                     String WartoscPaliwa=row.getString("Value");
                     String Czas=row.getString("CzasOdczytu");
-                    obiekt_lokalizacjaSamochodu=new Obiekt_LokalizacjaSamochodu(ResourceName,Latitude,Longitude,Czas,TypPaliwa,WartoscPaliwa);
+                    String Uzytkownik=row.getString("Uzytkownik");
+                    obiekt_lokalizacjaSamochodu=new Obiekt_LokalizacjaSamochodu(ResourceName,Latitude,Longitude,Czas,TypPaliwa,WartoscPaliwa,Uzytkownik);
 
                 }
             }
@@ -133,8 +134,6 @@ public class JSON_lokalizacja_samochodu {
         }catch (NullPointerException ne){
             Log.d("a","Blad");
         }
-
-
 
         return obiekt_lokalizacjaSamochodu;
 

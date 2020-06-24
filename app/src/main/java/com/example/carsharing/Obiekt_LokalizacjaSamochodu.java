@@ -50,13 +50,14 @@ public class Obiekt_LokalizacjaSamochodu {
         WartoscPaliwa = wartoscPaliwa;
     }
 
-    public Obiekt_LokalizacjaSamochodu(String resourceName, String latitude, String longitude, String czasOdczytu, String typPaliwa, String wartoscPaliwa) {
+    public Obiekt_LokalizacjaSamochodu(String resourceName, String latitude, String longitude, String czasOdczytu, String typPaliwa, String wartoscPaliwa, String uzytkownik) {
         ResourceName = resourceName;
         Latitude = latitude;
         Longitude = longitude;
         CzasOdczytu = czasOdczytu;
         TypPaliwa = typPaliwa;
         WartoscPaliwa = wartoscPaliwa;
+        Uzytkownik = uzytkownik;
     }
 
     private String ResourceName;
@@ -65,5 +66,13 @@ public class Obiekt_LokalizacjaSamochodu {
     private String CzasOdczytu;
     private String TypPaliwa;
     private String WartoscPaliwa;
+    private String Uzytkownik;
 
+    public String getUzytkownik() {
+        return Uzytkownik;
+    }
+
+    public void setUzytkownik(String uzytkownik) {
+        Uzytkownik = uzytkownik;
+    }
 }
